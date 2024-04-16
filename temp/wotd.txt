@@ -1,0 +1,3 @@
+//wotd_start
+{module: 'MMM-MWWordOfTheDay',position: 'bottom_left',config: {updateInterval: 4320,headerText: "Today's word is..."}},
+//wotd_end

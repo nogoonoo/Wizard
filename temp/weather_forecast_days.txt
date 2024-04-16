@@ -1,0 +1,3 @@
+//weather_forecast_days_start
+	maxNumberOfDays:5,
+//weather_forecast_days_end

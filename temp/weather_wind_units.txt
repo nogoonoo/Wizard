@@ -1,0 +1,3 @@
+//weather_wind_units_start
+	windUnits:"imperial",
+//weather_wind_units_end

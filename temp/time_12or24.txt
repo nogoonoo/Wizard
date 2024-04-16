@@ -1,0 +1,3 @@
+//time_12or24_start
+	timeFormat:12,
+//time_12or24_end

@@ -1,0 +1,3 @@
+//news_start
+{module:"newsfeed",position: "bottom_bar",config:{feeds:[{title:"Gizmodo",url:"https://gizmodo.com/rss"}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},
+//news_end

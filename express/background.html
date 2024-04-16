@@ -1,0 +1,382 @@
+
+<title>Background Settings</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<style type="text/css">
+ul#sourceoptions li {
+    border: 1px solid black;
+    width: 200px;
+    list-style-type: none;
+    padding: 10px 5px 5px 10px;
+}
+ul#sourceoptions li:hover {
+    background:#ddd;
+}
+ul#sourceoptions {
+    padding: 0px;
+    margin-top: 0px;
+    position: absolute;
+    z-index: 1000;
+    background: white;
+}
+/*
+input#selectedSource {
+    height: 40px;
+    width: 200px;
+}*/
+div#selectedSource{
+    border: 1px solid black;
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    padding: 7px;
+}
+.arrow {
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 2px;
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+/*i.arrow.down {
+    left: -20px !important;
+    position: relative;
+}*/
+i.arrow.down{
+    position: absolute;
+    left: 400px;
+    top: 120px;
+    z-index: -10;
+}
+.source-detail{
+    display: inline-block;
+    padding: 10px 10px 10px 0px;
+    width:250px;
+}
+
+span#loader {
+    display: inline-block;
+    padding-left: 20px;
+}
+
+input#fileupload {
+    width: 100px;
+}
+@media (max-width:700px) {
+	i.arrow.down{
+
+position: absolute;
+    left: 210px;
+    top: 230px;
+    z-index: -10;
+}
+}
+button#fileUploadBtn {
+    position: relative;
+    display: inline;
+    float: right;
+}
+#filemessage{
+    padding-left:10px;
+}
+input[type="text"] {
+    width: 400px;
+}
+div#existingFiles a{
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M5.615 20q-.69 0-1.152-.462T4 18.385V5.615q0-.69.463-1.152T5.615 4h8.387l-1 1H5.615q-.23 0-.423.192T5 5.615v12.77q0 .23.192.423t.423.192h12.77q.23 0 .423-.192t.192-.423v-7.489l1-1v8.489q0 .69-.462 1.152T18.385 20zM10 14v-2.615l8.944-8.945q.166-.165.348-.228t.385-.064q.188 0 .368.064q.18.063.326.21L21.483 3.5q.16.165.242.364t.083.401t-.06.382t-.227.345L12.52 14zm10.813-9.715l-1.111-1.17zM11 13h1.092l6.666-6.665l-.546-.547l-.61-.584L11 11.806zm7.212-7.212l-.61-.584zl.546.547z'/%3E%3C/svg%3E") no-repeat;
+    padding:0px 10px 0px 8px;
+    margin:5px;
+    vertical-align:middle;
+}
+#editFrame{
+    width:730px;
+    height:500px;
+    border:none;
+}
+@media (max-width:800px) {
+.modal__container {
+  max-width: 400px;
+  width: 350px;
+}
+#editFrame{
+    width:300px;
+}
+}
+
+
+</style>
+<body>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+	
+<h2>Background</h2>
+
+
+<form action="/background" method="post" onsubmit="return validateForm()">
+    <label class="fieldName">Background Image Source</label>
+    
+    <span id="dateoptions">
+		<div class="formField">
+           <!-- <input type="text" id="selectedSource" placeholder="Select a source" onfocus="toggleoptions(true)" onblur="setoption(null)"><i class="arrow down"></i></div>
+           --> <div id="selectedSource" placeholder="Select a source" onclick="toggleoptions(true)" onblur="setoption(null)"></div><i class="arrow down"></i>
+
+            <ul id="sourceoptions">
+                <li onclick="setoption(this)" id="stock">Stock Images</li>
+                <li onclick="setoption(this)" id="icloud" data-span="icloud-options">iCloud Shared Album</li>
+                <li onclick="setoption(this)" id="bing">Bing Wallpapers</li>
+                <li onclick="setoption(this)" id="local" data-span="local-options">Uploaded Images</li>
+                <li onclick="setoption(this)" id="color" data-span="color-options">Solid Color</li>
+                <li onclick="setoption(this)" id="none">None</li>
+            </ul>
+            <input type="hidden" id="sourceKey" value=""></input>
+            <span id="icloud-options" class="source-detail hidden">
+                <input type="text" placeholder="enter album url" id="icloudURL"></input>
+            </span>
+            <span id="local-options" class="source-detail hidden">
+                <form method="POST" action="/image-upload" enctype="multipart/form-data">
+                    <input type="file" name="my-files" id="fileupload" class="" required multiple accept="image/png, image/jpeg, image/gif, image/webp" onchange="checkFiles()"/>
+                   <!-- <label for="fileupload">Select Files</label>-->
+                    <span id="loader" class="hidden">Uploading<div class="loader"></div></span>
+                    <span id="filemessage"></span>
+                    <button type="button" onclick="submitFiles()" id="fileUploadBtn" class="hidden">Upload</button>
+                    <div id="existingFiles"></div>
+                </form>
+            </span>
+           
+            <span id="color-options" class="source-detail hidden">
+                <input type="color" id="selectedcolor">
+            </span>
+		</div>
+	</span>
+    <label class="fieldName">Rotate Images</label>
+    <div class="formField">
+        <select id="interval" name="interval">
+            <option value="60000">Every 1 minute</option>
+            <option value="300000">Every 5 minutes</option>
+            <option value="900000">Every 15 minutes</option>
+            <option value="1800000">Every 30 minutes</option>
+            <option value="3600000">Every hour</option>
+            <option value="7200000">Every 2 hours</option>
+            <option value="14400000">Every 4 hours</option>
+            <option value="28800000">Every 8 hours</option>
+            <option value="43200000">Every 12 hours</option>
+        </select>
+    </div>
+
+    <label class="fieldName">Background Position</label>
+    <div class="formField">
+        
+        Entire BG?  Or just left? I'll have to figure out CSS for calendar
+    </div>
+    <div class="formField">
+        <button type="button" onclick="submitWallpaper()" id="savebutton" class="">Save Changes to Mirror</button>
+    </div>
+
+
+   
+
+	</form>
+	<div id="status"></div>
+  
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+
+      <div class="modal micromodal-slide" id="modal-1" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="modal-1-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="modal-1-content">
+              <iframe src="/imageedit.html" id="editFrame"></iframe>
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+
+    <script>
+	
+        async function submitWallpaper(){
+           const body = new Object(); 
+
+           let source = document.getElementById('sourceKey').value;
+           let icloudURL = document.getElementById('icloudURL').value;
+           let color = document.getElementById('selectedcolor').value;
+           let interval = document.getElementById('interval').value;
+  
+           body.source = source;
+           body.icloudURL = icloudURL;
+           body.color = color;
+           body.interval = interval;
+           //console.log(body);
+           const resp = await fetch("/background", {
+               method: "POST",
+               headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+               },
+               body: JSON.stringify(body)
+           }).then((blah)=>{
+
+               window.location = "/background?result=success";
+           });
+       }
+       async function getImageCount(){
+           const response = await fetch('/image-count');
+           const names = await response.json();
+           document.getElementById('existingFiles').innerHTML = names.count+ " existing image"+(names.count!=1?"s":"")+`<a href="javascript:return false;" onclick="MicroModal.show('modal-1');"></a>`;
+       }
+       function submitFiles(){
+           let fileUploadBtn = document.getElementById('fileUploadBtn');
+           let loader = document.getElementById('loader');
+           //fileUploadBtn.disabled = true;
+           fileUploadBtn.classList.add("hidden");
+           fileUploadBtn.innerText = "Uploading...";
+           loader.classList.remove("hidden");
+           uploadFiles().then((response)=>{
+               console.log('all done');
+               document.getElementById('fileupload').value = "";
+               fileUploadBtn.classList.add("hidden");
+               loader.classList.add("hidden");
+               fileUploadBtn.innerText = "Upload";
+               fileUploadBtn.disabled = false;
+           });
+       }
+       async function uploadFiles() {
+           let formData = new FormData(); 
+           //formData.append("files", fileupload.files);
+           for (let i = 0; i < fileupload.files.length; i++) {
+               formData.append("my-files", fileupload.files[i]);
+           }
+           const response = await fetch('/image-upload', {
+               method: "POST", 
+               body: formData
+           }).then((res)=>
+           {
+           document.getElementById('filemessage').innerText = "Upload complete";
+
+           setTimeout(function(){document.getElementById('filemessage').innerText = "";            getImageCount();
+},3000)
+         });            
+       }
+       function checkFiles(){
+           let fileUpload = document.getElementById('fileupload');
+           let fileUploadBtn = document.getElementById('fileUploadBtn');
+           let files = document.getElementById('fileupload').files.length;
+           if(fileUpload.value!=null){
+               let buttonText = "Upload "+files+" file"+(files>1?"s":"");
+               fileUploadBtn.innerText = buttonText;
+               fileUploadBtn.classList.remove("hidden");
+           }
+           else
+               fileUploadBtn.classList.add("hidden");
+
+       }
+   
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+	
+    function validateForm(){
+        if(document.getElementById('savedLocationName').innerText.length<1 && document.getElementById('addresslookup').value.length<1){
+            document.getElementById('locationerror').style.display='block';
+            return false;
+        }
+        else
+            return true;
+    }
+    function setoption(obj){
+        if(obj!=null){
+            let item = document.getElementById(obj.id);
+            //document.getElementById('selectedSource').value = item.innerText;
+            document.getElementById('selectedSource').innerText = item.innerText;
+            document.getElementById('sourceKey').value = obj.id;
+            let dataoptions = item.getAttribute('data-span');
+            let hiddenSpans = document.getElementsByClassName("source-detail");
+            for(var i=0; i<hiddenSpans.length;i++){
+                hiddenSpans[i].classList.add("hidden");
+            }
+            toggleoptions(false);
+            if(dataoptions)
+                document.getElementById(dataoptions).classList.remove("hidden");
+            if(item.id=="local")
+                getImageCount();
+        }
+        //else
+        //this is causing problems if I select something then try clicking again
+            //setTimeout(function(){toggleoptions(false);},1000);
+    }
+    function toggleoptions(setting){
+		let countdownoptions = document.getElementById('sourceoptions');
+		if(setting)
+            countdownoptions.style.display = "block";
+		else
+            countdownoptions.style.display = "none";
+	}
+    async function loadData(){
+        const response = await fetch("/fetchwallpaper");
+		const myData = await response.json();
+        //console.log(myData);
+        if(myData.source.length>0){
+            setoption(document.getElementById(myData.source));
+        }
+        if(myData.icloudURL.trim().length>0){
+            document.getElementById('icloudURL').value = myData.icloudURL;
+        }
+        if(myData.color.length>0){
+            document.getElementById('selectedcolor').value = myData.color;
+        }
+        if(myData.interval){
+            document.getElementById('interval').value = myData.interval;
+        }
+
+    }
+
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+    function hideSave(){
+        saveButton.style.display = "none";
+    }
+    function timezoneChanged(){
+        showHideSave();
+    }
+
+    MicroModal.init();
+    loadNav();
+    init();
+    loadData();
+   
+	</script>
+    
+    </body>
+</html>

@@ -1,0 +1,244 @@
+
+<title>Calendar Configuration</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<style type="text/css">
+input[data-type="name"] {
+    width: 8%;
+    margin: 10px;
+}
+input[data-type="ics"] {
+    width: 30%;
+    margin: 10px;
+    margin-left: 0px;
+}
+
+input[type="color"] {
+    margin: 10px;
+    margin-left: 0px;
+    vertical-align: middle;
+    width: 5%;
+}
+input[data-type="delete"] {
+    color: red;
+    border: red 2px solid;
+    background: white;
+    border-radius: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+	cursor: pointer;
+}
+button.addLine {
+    margin: 10px;
+    padding: 0 20px 0 20px;
+}
+.nameHeader {
+    display: inline-block;
+    width: 7.8%;
+    margin: 10px;
+}
+
+.urlHeader {
+    display: inline-block;
+    width: 30%;
+    margin:10px;
+    margin-left:0px;
+}
+
+
+.colorHeader {
+    display: inline-block;
+    width: 3%;
+    margin: 10px;
+    margin-left: 0px;
+}
+
+</style>
+<body>
+	<div class="sidebar" id="sidebar">
+	</div>
+	<div class="content">
+	
+<h2>Calendar Settings</h2>
+<form action="/calendar" method="post">
+	<div class="headers">
+		<div class="nameHeader">Name</div>
+		<div class="urlHeader">Calendar URL</div>
+		<div class="colorHeader">Color</div>
+	</div>
+	<div class="calendars">
+	<!--<div class="calendarLine">
+		<input type="text" placeholder="Name (Optional)" data-type="name" data-internalname=""/>
+		<input type="text" placeholder="Enter ics url" data-type="ics" size="60" data-internalname=""/>
+		<input type="color" name="favcolor" value="#ff0000" data-type="color" data-internalname=""/>
+	</div>-->
+	</div>
+	<button type="button" onclick="javascript:addCalLine()" class="addLine" id="addLineBtn">Add Calendar URL</button>
+	<button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+	</div>
+	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+	
+<!--
+
+FORM VALIDATION!!!!
+
+
+-->
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+	
+	dialogBoxId=document.getElementById("dialogBox")
+
+	function showDialog(id){
+		console.log('should I show dialg?')
+		console.log(id);
+		if(document.getElementById('ics-'+id).value != ""){
+
+			clickedRemove = document.getElementById('ics-'+id).parentElement.id;
+			dialogBoxId.addEventListener("keydown", (e) => {
+				if (e.key === "Escape") {
+					e.preventDefault();
+				}
+			});
+			dialogBoxId.showModal();
+		}
+		else{
+			clickedRemove =  document.getElementById('ics-'+id).parentElement.id;
+			removeCalendarLine();
+		}
+	
+	}
+
+	function closeDialog(){
+	dialogBoxId.close(); 
+	}
+
+	function toggleadd(){
+		let addLineBtn = document.getElementById('addLineBtn');
+
+		if(cnt>=maxLines)
+			addLineBtn.style.display = "none";
+		else
+			addLineBtn.style.display = "block";
+	}
+	async function loadData(){
+		const response = await fetch("/fetchcalendar");
+		const myData = await response.json();
+		console.log(myData);
+
+		myData.forEach((element,index) => {
+			console.log(element.name);
+			addCalLine(element.internalName,element.ics,element.color)
+		});
+		
+	}
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+
+	  let cnt = 0;
+	  let clickedRemove = "";
+	  const maxLines = 7;
+      function addCalLine(name,url,color){
+		if(cnt<maxLines){
+			let r = (Math.random() + 1).toString(36).substring(7);
+			if(name=="*DEFAULT*")
+				r = "DEFAULT"
+			var calDiv = document.createElement('div');
+			calDiv.className = "calendarLine";
+			calDiv.id = "calendarLine-"+r;
+
+			var calName = document.createElement('input');
+			calName.name = "name-"+cnt;
+			calName.type = "text";
+			calName.placeholder = "Name";
+			calName.value = name?name:"";
+			calName.setAttribute("data-type","name");
+			calName.setAttribute("data-internalname",r);
+			calName.setAttribute("minlength","1");
+			calName.setAttribute("required","");
+			calName.onkeydown = function(){showHideSave();}
+
+
+			var calUrl = document.createElement('input');
+			calUrl.name = "ics-"+cnt;
+			calUrl.id = "ics-"+cnt;
+			calUrl.type = "text";
+			calUrl.placeholder = "Enter calendar url";
+			calUrl.value = url?url:"";
+			calUrl.setAttribute("size","60");
+			calUrl.setAttribute("data-type","ics");
+			calUrl.setAttribute("data-internalname",r);
+			calUrl.setAttribute("minlength","1");
+			calUrl.setAttribute("required","");
+			calUrl.onkeydown = function(){showHideSave();}
+
+			var calColor = document.createElement('input');
+			calColor.name = "color-"+cnt;
+			calColor.type = "color";
+			calColor.setAttribute("size","60");
+			calColor.setAttribute("data-type","color");
+			calColor.setAttribute("data-internalname",r);
+			calColor.value = color;
+			calColor.onchange = function(){showHideSave();}
+
+			var deleteButton = document.createElement('input');
+			deleteButton.name = "delete-"+cnt;
+			deleteButton.type = "button";
+			deleteButton.value = "X"
+			deleteButton.setAttribute("data-type","delete");
+			deleteButton.textContent = "delete"
+			let idToPass = cnt;
+			deleteButton.onclick = function(){showDialog(idToPass);}
+			
+			calDiv.append(calName);
+			calDiv.append(calUrl);
+			calDiv.append(calColor);
+			calDiv.append(deleteButton);
+			
+			document.querySelector(".calendars").append(calDiv);
+			cnt++;
+		}
+		toggleadd();
+      }
+	  function removeCalendarLine(){
+		console.log(clickedRemove);
+		//document.getElementById("calendarLine-"+clickedRemove).remove();
+		document.getElementById(clickedRemove).remove();
+		showHideSave();
+		closeDialog();
+		cnt--;
+		toggleadd();
+	  }
+
+	loadNav();
+	loadData();
+	init();
+	</script>
+
+    </body>
+</html>

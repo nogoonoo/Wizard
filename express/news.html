@@ -1,0 +1,213 @@
+
+<title>News</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<style>
+	#noSources {
+    color: red;
+    display:none;
+}
+
+</style>
+<body>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+
+<h2>News</h2>
+<form action="/news" method="post" onsubmit="return validateForm()">
+
+    <label class="headerName">Newsfeed</label>
+    <label class="fieldName">Show Newsfeed</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="newsfeed" name="newsfeed" onchange="togglenews(this);showHideSave()" value="true">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <span id="noSources">You must add at least one news source, or hide the newsfeed</span>
+    <span id="newsoptions">
+        <label class="fieldName">Preconfigured Sources</label>
+        <div class="formField">
+            <input type="checkbox" id="NYT-HARDCODE" name="NYT-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="NYT-HARDCODE">
+            <label id="opt1" for="NYT-HARDCODE" class="selector-item_label vertical">The New York Times</label><br/>
+            <input type="checkbox" id="WSJ-HARDCODE" name="WSJ-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="WSJ-HARDCODE">
+            <label id="opt2" for="WSJ-HARDCODE" class="selector-item_label vertical">The Wall Street Journal</label><br/>
+            <input type="checkbox" id="CNN-HARDCODE" name="CNN-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="CNN-HARDCODE">
+            <label id="opt3" for="CNN-HARDCODE" class="selector-item_label vertical">CNN</label><br/>
+            <input type="checkbox" id="AP-HARDCODE" name="AP-HARDCODE" class="selector-item_radio staticNewsSource"  onchange="showHideSave()" value="AP-HARDCODE">
+            <label id="opt4" for="AP-HARDCODE" class="selector-item_label vertical">AP</label><br/>
+        </div>
+        <label class="fieldName">Custom Feeds (Up to 3)</label>
+        <div class="formField">
+            <div class="newsLine" id="calendarLine-1">
+                <input name="name-1" id="name-1" type="text" placeholder="Name" data-type="name" minlength="1" >
+                <input name="url-1" id="url-1" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-1" onkeyup="showHideSave()">
+                <span id="error-1" class="urlError"></span>
+            </div>
+            <div class="newsLine" id="calendarLine-2">
+                <input name="name-2" id="name-2" type="text" placeholder="Name" data-type="name" minlength="1" >
+                <input name="url-2" id="url-2" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-2" onkeyup="showHideSave()">
+                <span id="error-2" class="urlError"></span>
+            </div>
+            <div class="newsLine" id="calendarLine-3">
+                <input name="name-3" id="name-3" type="text" placeholder="Name" data-type="name" minlength="1" >
+                <input name="url-3" id="url-3" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-3" onkeyup="showHideSave()">
+                <span id="error-3" class="urlError"></span>
+            </div>
+        </div>
+    </span>
+    Transition speed: 10sec - 60 sec
+    View article in window
+    <div class="formField">
+        <button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+    </div>
+
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+    </div>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+	
+    function validateForm(){
+        let newsReturnValue = true;
+        
+        let newsUrls = document.getElementsByClassName('newsurl');
+        let newsSourceCount = 0;
+        // if shownewsfeed is true
+        if(document.getElementById('newsfeed').checked){
+             //if a new item has a name but no URL, return false and highlight the URL
+            Array.prototype.forEach.call(newsUrls, function(el) {
+                let nameString = el.getAttribute("data-namefield");
+                let nameField = document.getElementById(nameString);
+                let errId = nameString.substring(nameString.indexOf("-")+1);
+                if(nameField.value.trim().length>0 && el.value.trim().length==0){
+                    document.getElementById("error-"+errId).innerText = "No URL added";
+                    el.classList.add("urlError");
+                    newsReturnValue = false;
+                }
+                else if(nameField.value.trim().length>0 && !isValidUrl(el.value)){
+                    document.getElementById("error-"+errId).innerText = "Please check that your URL is formatted correctly";
+                    el.classList.add("urlError");
+                    newsReturnValue = false;
+                }
+                else{
+                    document.getElementById("error-"+errId).innerText = "";
+                    el.classList.remove("urlError");
+                    if(isValidUrl(el.value))
+                        newsSourceCount++;
+                }
+            });
+            //if there are no sources selected (preconfigured or custom) and 'Show Newsfeed is true', return false
+            let staticNewsOptions = document.getElementsByClassName('staticNewsSource');
+            Array.prototype.forEach.call(staticNewsOptions, function(el) {
+                if(el.checked)
+                    newsSourceCount++;
+            });
+            if(newsSourceCount==0){
+                document.getElementById('noSources').style.display = "block";
+                newsReturnValue = false;
+            }
+            else{
+                document.getElementById('noSources').style.display = "none";
+
+            }
+
+        }
+
+        console.log("newsSourceCount: "+newsSourceCount);
+
+
+        return newsReturnValue;
+    }
+    function isValidUrl(str) {
+  const pattern = new RegExp(
+    '^([a-zA-Z]+:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR IP (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', // fragment locator
+    'i'
+  );
+  return pattern.test(str);
+}
+    function togglenews(obj){
+		let newsoptions = document.getElementById('newsoptions');
+		if(obj.checked)
+            newsoptions.style.display = "block";
+		else
+            newsoptions.style.display = "none";
+	}
+
+   
+    async function loadData(){
+        const response = await fetch("/fetchnews");
+		const myData = await response.json();
+        console.log(myData.showNewsfeed);
+        
+        let showNews = myData.showNewsfeed;
+        checkbox = document.getElementById("newsfeed");
+        if(!showNews){
+            checkbox.checked = false;
+        }
+        else{
+            checkbox.checked = true;
+        }
+        togglenews(checkbox);
+    
+        if(myData.feeds){
+            let customCount = 0;
+            Array.prototype.forEach.call(myData.feeds, function(feed) {
+                if(feed.internalName){ //if it's one of our hardcoded feeds
+                    document.getElementById(feed.internalName).checked = true;
+                }
+                else
+                {
+                    customCount++;
+                    document.getElementById("name-"+customCount).value = feed.title;
+                    document.getElementById("url-"+customCount).value = feed.url;
+                }
+            });
+        }
+
+
+    }
+    
+
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+    function hideSave(){
+        saveButton.style.display = "none";
+    }
+    
+    loadNav()
+    init();
+    loadData();		
+
+	</script>
+    </body>
+</html>

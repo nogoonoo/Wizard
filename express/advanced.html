@@ -1,0 +1,169 @@
+
+<title>Advanced Settings</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<style type="text/css">
+    div.time span {
+    display: inline-block;
+    width: 140px;
+}
+div.time {
+    padding: 5px;
+}
+input[type="time"]{
+    width:110px
+}
+
+
+</style>
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<body>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+
+<h2>Advanced Settings</h2>
+<form action="/advanced" method="post" >
+    <label class="fieldName">Power Options</label>
+    <div class="formField">
+        <div class="time start"><span>Turn screen on every day at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
+        <div class="time end"><span>Turn screen off every day at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
+    </div>
+    <label class="fieldName">Reset Options</label>
+    <div class="formField">
+        reset mirror
+        
+    </div>
+    <label class="fieldName">Updates</label>
+    <div class="formField">
+        
+        check for updates
+    </div>
+    <label class="fieldName">Hardware</label>
+    <div class="formField">
+        <button type="button" onclick="powerDialog('reboot')">Reboot Greenscreen</button>
+        <button type="button" onclick="powerDialog('shutdown')">Power Off Greenscreen</button>
+    </div>
+
+
+
+    <div class="formField">
+        <button type="submit" style="display:none;" id="savebutton">Update Greenscreen</button>
+    </div>
+
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p id="dialogMsg">Are you sure you want to reboot your Greenscreen?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Cancel</button>
+		  <button onclick="powerFunction()" id="deleteButton">Reboot</button>
+		</footer>
+	  </dialog>
+    </div>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+
+	
+    function validateForm(){
+        if(document.getElementById('savedLocationName').innerText.length<1 && document.getElementById('addresslookup').value.length<1){
+            document.getElementById('locationerror').style.display='block';
+            return false;
+        }
+        else
+            return true;
+    }
+ 
+    async function loadData(){
+        const response = await fetch("/fetchadvanced");
+		const myData = await response.json();
+        console.log(myData);
+ 
+        if(myData.onTime.trim().length>0){
+            document.getElementById('startTime').value = myData.onTime;
+        }
+        if(myData.offTime.length>0){
+            document.getElementById('endTime').value = myData.offTime;
+        }
+     
+    }
+
+ 
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+    function hideSave(){
+        saveButton.style.display = "none";
+    }
+    dialogBoxId=document.getElementById("dialogBox")
+    let pwrFunc = "reboot";
+
+    function powerDialog(option){
+        let dialogMsg = document.getElementById('dialogMsg');
+        let actionButton = document.getElementById('deleteButton');
+        if(option == 'reboot'){
+            dialogMsg.innerText = "Are you sure you want to reboot Greenscreen?"
+            actionButton.innerText = "Yes, Reboot";
+            pwrFunc = "reboot";
+        }
+        if(option == 'shutdown'){
+            dialogMsg.innerText = "Are you sure you want to shutdown Greenscreen?"
+            actionButton.innerText = "Yes, Shutdown";
+            pwrFunc = "shutdown";
+        }
+        dialogBoxId.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                e.preventDefault();
+            }
+        });
+        dialogBoxId.showModal();
+    }
+
+    function powerFunction(){
+        if(pwrFunc == "reboot")
+            reboot();
+        if(pwrFunc == "shutdown")
+            shutdown();
+    }
+
+    async function shutdown(){
+        const response = await fetch('/screen-shutdown', {
+                method: "POST", 
+            }).then((res)=>
+            {
+                //document.getElementById('filemessage').innerText = "Upload complete";
+            });
+    }
+
+    async function reboot(){
+        const response = await fetch('/screen-reboot', {
+                method: "POST", 
+            }).then((res)=>
+            {
+                //document.getElementById('filemessage').innerText = "Upload complete";
+            });
+    }
+
+	loadNav();
+    init();
+    loadData();
+
+	</script>
+
+
+    </body>
+</html>

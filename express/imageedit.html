@@ -1,0 +1,204 @@
+
+<title>Background Settings</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<style type="text/css">
+
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 0px;
+  margin-bottom: 100px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+.responsive {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+[type=checkbox], [type=radio] {
+    padding: 0;
+    position: relative;
+    top: -10%;
+    left: 40%;
+}
+
+.parentGrid {
+    position: relative;
+}
+
+.buttons {
+    position: fixed;
+    bottom: 0;
+    height: 50px;
+    background: #FFFFFF;
+    width: 100%;
+    text-align: center;
+}
+
+button {
+    margin: 10px;
+}
+@keyframes getSmaller {
+  0%{
+    transform: scale(1);
+  }
+  50%{
+    transform: scale(0.8);
+  }
+  100%{
+    transform: scale(1);
+  }
+}
+
+.clicked {
+  transform-origin: center;
+  animation: scale 100ms ease-in-out forwards;
+}
+@keyframes scale {
+  to {
+    transform: scale(0.95);
+  }
+}
+</style>
+<body>
+	
+
+    <div class="parentGrid">
+      <div class="grid-container" id="img-container">
+      </div>
+      <div class="buttons">
+        <button type="button" id="removeSelected" onclick="showDialog()" disabled>Remove Selected Images</button>
+      </div>
+    </div>
+    <dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeImages()" id="deleteButton">Yes, remove them</button>
+		</footer>
+    </dialog>
+<script>
+    let selected = [];
+
+    init();
+	
+    function init(){
+        loadData();
+	}
+    async function removeImages(){
+        const body = new Object(); 
+        body.names = selected;
+        const resp = await fetch("/remove-images", {
+            method: "POST",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        }).then((blah)=>{
+            console.log(blah);
+            window.location = "/imageedit.html?result=success";
+            });
+    }
+    async function getImageCount(){
+        const response = await fetch('/thumbnails');
+        const names = await response.json();
+        document.getElementById('existingFiles').innerHTML = names.count+ " existing image"+(names.count!=1?"s":"")+`<a href="#">EDIT</a>`;
+    }
+    function toggleCheckbox(obj){
+        if(obj.checked)
+            obj.checked = false;
+        else
+            obj.checked = true;
+    }
+   function toggleCheckboxDiv(obj){
+    console.log("Checkd"+obj.innerHTML);
+        let id = obj.querySelector('[type=checkbox]').id;
+        console.log(obj.querySelector('[type=checkbox]'))
+        /*obj.style.animation = "getSmaller 150ms";
+        setTimeout(()=>{
+        obj.style.animation = "";
+        }, 150);*/
+        
+        if(obj.querySelector('[type=checkbox]').checked){
+            obj.querySelector('[type=checkbox]').checked = false;
+            let index = selected.indexOf(id);
+            selected.splice(index, 1);
+            obj.classList.remove("clicked");
+        }
+        else{
+            obj.querySelector('[type=checkbox]').checked = true;
+            selected.push(id)
+            obj.classList.add("clicked");
+        }
+        if(selected.length>0)
+            document.getElementById('removeSelected').disabled = false;
+        else
+            document.getElementById('removeSelected').disabled = true;
+
+    }
+    async function loadData(){
+        console.log("Loading...");
+        const response = await fetch("/images");
+		const myData = await response.json();
+        Array.prototype.forEach.call(myData, function(el) {
+            let div = document.createElement('div');
+            div.classList.add("grid-item");
+            div.onclick = function(){toggleCheckboxDiv(this)};
+            let img = document.createElement('img');
+            img.setAttribute("src","static/thumbnails/"+el);
+            img.classList.add("responsive");
+            div.append(img);
+            let checkbox = document.createElement('input');
+            checkbox.classList.add("cbox");
+            checkbox.setAttribute("type","checkbox");
+            checkbox.setAttribute("name","boxes");
+            checkbox.setAttribute("value",el);
+            checkbox.setAttribute("id",el)
+            checkbox.onclick = function(){toggleCheckbox(checkbox);};
+            div.append(checkbox);
+            document.getElementById('img-container').append(div);
+        })
+        console.log(myData);
+    }
+
+	let dialogBoxId=document.getElementById("dialogBox")
+
+	function showDialog(){
+	dialogBoxId.addEventListener("keydown", (e) => {
+		if (e.key === "Escape") {
+		    e.preventDefault();
+		}
+        });
+        dialogBoxId.showModal();
+	}
+
+	function closeDialog(){
+	dialogBoxId.close(); 
+	}
+
+
+	</script>
+    </body>
+</html>

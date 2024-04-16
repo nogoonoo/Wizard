@@ -1,0 +1,232 @@
+
+<title>Clock</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<style>
+	#timeoptions{
+		display:block;
+	}
+	#dateoptions{
+		display:block;
+	}
+</style>
+<body>
+	<div class="sidebar" id="sidebar">
+	</div>
+	<div class="content">
+<h2>Date & Time Settings</h2>
+<form action="/clock" method="post">
+	<label class="fieldName">Time Zone</label>
+    <div class="formField">
+		<div class="timeZone">
+			<select id="timezone" name="timezone" class="custom-select" onchange="timezoneChanged()">
+				<option value="US/Alaska">US/Alaska GMT-9:00</option>
+				<option value="US/Aleutian">US/Aleutian GMT-10:00</option>
+				<option value="US/Arizona">US/Arizona GMT-7:00</option>
+				<option value="US/Central">US/Central GMT-6:00</option>
+				<option value="US/East-Indiana">US/East-Indiana GMT-5:00</option>
+				<option value="US/Eastern">US/Eastern GMT-5:00</option>
+				<option value="US/Hawaii">US/Hawaii GMT-10:00</option>
+				<option value="US/Indiana-Starke">US/Indiana-Starke GMT-6:00</option>
+				<option value="US/Michigan">US/Michigan GMT-5:00</option>
+				<option value="US/Mountain">US/Mountain GMT-7:00</option>
+				<option value="US/Pacific" selected="selected">US/Pacific GMT-8:00</option>
+				<option value="US/Pacific-New">US/Pacific-New GMT-8:00</option>
+				<option value="US/Samoa">US/Samoa GMT-11:00</option>
+				<option value="UTC">UTC GMT+0:00</option>
+			</select>
+		</div>
+	</div>
+
+	<label class="fieldName">Show Time</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="showtime" name="showtime" checked onchange="toggletime(this);showHideSave()" value="true">
+            <span class="slider round"></span>
+        </label>
+    </div>
+	<span id="timeoptions">
+		<label class="fieldName">Time Format</label>
+		<div class="formField">
+			<div class="container">
+				<div class="selector">
+					<div class="selector-item">
+						<input type="radio" id="12h" name="timeformat" class="selector-item_radio" checked onchange="showHideSave()" value="12">
+						<label for="12h" class="selector-item_label">12 Hour</label>
+					</div>
+					<div class="selector-item">
+						<input type="radio" id="24h" name="timeformat" class="selector-item_radio" onchange="showHideSave()" value="24">
+						<label for="24h" class="selector-item_label">24 Hour</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<label class="fieldName">Show Seconds</label>
+		<div class="formField">
+			<label class="switch">
+				<input type="checkbox" id="showseconds" name="showseconds" onchange="showHideSave()" value="true">
+				<span class="slider round"></span>
+			</label>
+		</div>
+	</span>
+	<label class="fieldName">Show Date</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="showdate" name="showdate" checked onchange="toggledate(this);showHideSave()" value="true">
+            <span class="slider round"></span>
+        </label>
+    </div>
+	<span id="dateoptions">
+		<label class="fieldName">Date Format</label>
+		<div class="formField">
+			<input type="radio" id="dddd, MMMM Do YYYY" name="dateformat" class="selector-item_radio" onchange="showHideSave()" value="dddd, MMMM Do YYYY">
+			<label id="opt1" for="dddd, MMMM Do YYYY" class="selector-item_label vertical">Sunday, February 14th 2024</label><br/>
+			<input type="radio" id="dddd, MMMM Do" name="dateformat" class="selector-item_radio" onchange="showHideSave()" value="dddd, MMMM Do">
+			<label id="opt2" for="dddd, MMMM Do" class="selector-item_label vertical">Sunday, February 14th</label><br/>
+			<input type="radio" id="dddd, MMM Do" name="dateformat" class="selector-item_radio" checked onchange="showHideSave()" value="dddd, MMM Do">
+			<label id="opt3" for="dddd, MMM Do" class="selector-item_label vertical">Sunday, Feb 14th</label><br/>
+			<input type="radio" id="MMMM Do" name="dateformat" class="selector-item_radio"  onchange="showHideSave()" value="MMMM Do">
+			<label id="opt4" for="MMMM Do" class="selector-item_label vertical">February 14th</label><br/>
+		</div>
+	</span>
+	<button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+	</div>
+	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+	
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+	
+	async function loadData(){
+		const response = await fetch("/fetchclock");
+		const myData = await response.json();
+		//console.log(myData);
+		console.log(myData.timezone);
+		if(myData.timezone.length>0){
+			document.getElementById('timezone').value = myData.timezone;
+		}
+		if(myData.showtime.trim().length>0){
+            let showtime = myData.showtime;
+            checkbox = document.getElementById("showtime");
+            if(showtime == "false")
+                checkbox.checked = false;
+            else
+                checkbox.checked = true;
+			toggletime(checkbox);
+        }
+		if(myData.showseconds.trim().length>0){
+            let showseconds = myData.showseconds;
+            checkbox = document.getElementById("showseconds");
+            if(showseconds == "false")
+                checkbox.checked = false;
+            else
+                checkbox.checked = true;
+        }
+
+		if(myData.showdate.trim().length>0){
+            let showdate = myData.showdate;
+            checkbox = document.getElementById("showdate");
+            if(showdate == "false")
+                checkbox.checked = false;
+            else
+                checkbox.checked = true;
+			toggledate(checkbox);
+        }
+		if(myData.timeformat.trim().length>0){
+            let timeformat = myData.timeformat;
+            radiobtn = document.getElementById(timeformat+'h');
+            radiobtn.checked = true;
+        }
+		if(myData.dateformat.trim().length>0){
+            let dateformat = myData.dateformat;
+            radiobtn = document.getElementById(dateformat);
+            radiobtn.checked = true;
+        }
+       
+		
+		
+	}
+	function toggletime(obj){
+		let timeoptions = document.getElementById('timeoptions');
+		if(obj.checked)
+			timeoptions.style.display = "block";
+		else
+			timeoptions.style.display = "none";
+	}
+	function toggledate(obj){
+		let dateoptions = document.getElementById('dateoptions');
+		if(obj.checked)
+			dateoptions.style.display = "block";
+		else
+			dateoptions.style.display = "none";
+	}
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+    function timezoneChanged(){
+        showHideSave();
+    }      
+
+	function formatDateOptions(){
+		const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+		const d = new Date();
+		let day = weekday[d.getDay()];
+		const longMonth = d.toLocaleString('default', { month: 'long' });
+		const shortMonth = d.toLocaleString('default', { month: 'short' });
+		const nthNumber = (number) => {
+		if (number > 3 && number < 21) return "th";
+		switch (number % 10) {
+			case 1:
+			return "st";
+			case 2:
+			return "nd";
+			case 3:
+			return "rd";
+			default:
+			return "th";
+		}
+		};
+		let dayOfMonth = d.getDate()+nthNumber(d.getDate());
+		let year = d.getFullYear();
+
+
+		/*<input type="radio" id="dddd, MMMM Do YYYY" name="dateformat" class="selector-item_radio" onchange="showHideSave()" value="dddd, MMMM Do YYYY">
+			<input type="radio" id="dddd, MMMM Do" name="dateformat" class="selector-item_radio" onchange="showHideSave()" value="dddd, MMMM Do">
+			<input type="radio" id="dddd, MMM Do" name="dateformat" class="selector-item_radio" checked onchange="showHideSave()" value="dddd, MMM Do">
+			<input type="radio" id="MMMM Do" name="dateformat" class="selector-item_radio"  onchange="showHideSave()" value="MMMM Do">*/arguments
+		document.getElementById('opt1').innerHTML = day+", "+longMonth+" "+dayOfMonth+" "+year;
+		document.getElementById('opt2').innerHTML = day+", "+longMonth+" "+dayOfMonth;	
+		document.getElementById('opt3').innerHTML = day+", "+shortMonth+" "+dayOfMonth;	
+		document.getElementById('opt4').innerHTML = longMonth+" "+dayOfMonth;	
+	}
+	formatDateOptions();
+	loadNav();
+	loadData();
+	init();
+	</script>
+
+    </body>
+</html>

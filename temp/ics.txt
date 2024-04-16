@@ -1,0 +1,15 @@
+//cal_ics_start
+calendars : [
+{
+	name:"name-0",
+	url:"http://www.calendarlabs.com/ical-calendar/ics/76/US_Holidays.ics",
+	internalName:"*DEFAULT*",
+	color:"#000000",
+},
+{
+	name:"name-1",
+	url:"blahbalhbalbh",
+	internalName:"Nate",
+	color:"#000000",
+},
+],//cal_ics_end

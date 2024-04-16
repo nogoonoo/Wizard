@@ -1,0 +1,161 @@
+
+<title>Other Widgets</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<style>
+	#countdownoptions{
+		display:none;
+	}
+
+</style>
+<body>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+<h2>Other Widgets</h2>
+<form action="/extras" method="post" onsubmit="return validateForm()">
+    <label class="headerName">Word of the Day</label>
+    <label class="fieldName">Show Word of the Day</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="wotd" name="wotd" onchange="showHideSave()" value="true">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <label class="headerName">Countdown Clock</label>
+    <label class="fieldName">Show Countdown Clock</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="countdown" name="countdown" onchange="togglecountdown(this);showHideSave()" value="true">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <span id="countdownoptions">
+        <label class="fieldName">Countdown To Date</label>
+        <div class="formField">
+            <input type="datetime-local" id="countdowndate" name="countdowndate" onchange="showHideSave()">
+            <span id="dateTimeError" class="dateTimeError"></span>
+        </div>
+        <label class="fieldName">Countdown Message</label>
+        <div class="formField">
+            <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()">
+        </div>
+        <label class="fieldName">Show message after countdown</label>
+        <div class="formField">
+            <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()">
+        </div>
+    </span>
+    
+    <div class="formField">
+        <button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+    </div>
+
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+    </div>
+	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+  
+	
+    function validateForm(){
+        let dateReturnValue = true;
+        //if show countdown clock and date is blank, return false
+        if(document.getElementById('countdowndate').value == '' && document.getElementById('countdown').checked){
+            document.getElementById('countdowndate').classList.add("dateError");
+            document.getElementById('dateTimeError').innerText = 'Date cannot be left blank';
+            dateReturnValue = false;
+        }
+        else{
+            document.getElementById('countdowndate').classList.remove("dateError");
+            document.getElementById('dateTimeError').innerText = '';
+            dateReturnValue = true;
+        }
+
+        return dateReturnValue;
+    }
+    
+
+    function togglecountdown(obj){
+		let countdownoptions = document.getElementById('countdownoptions');
+		if(obj.checked)
+            countdownoptions.style.display = "block";
+		else
+            countdownoptions.style.display = "none";
+	}
+    async function loadData(){
+        const response = await fetch("/fetchextras");
+		const myData = await response.json();
+        console.log(myData);
+    
+        if(myData.showWOTD){
+            let wotd = myData.showWOTD;
+            checkbox = document.getElementById("wotd");
+            console.log(wotd);
+            if(!wotd)
+                checkbox.checked = false;
+            else
+                checkbox.checked = true;
+        }
+        if(myData.showCountdown){
+            let countDown = myData.showCountdown;
+            checkbox = document.getElementById("countdown");
+            console.log(countdown);
+            if(!countdown)
+                checkbox.checked = false;
+            else{
+                checkbox.checked = true;
+                togglecountdown(checkbox);
+            }
+        }
+        if(myData.countdownEvent){
+            let countdownmsg = document.getElementById("countdownmsg");
+            countdownmsg.value = myData.countdownEvent;
+        }
+        if(myData.countdownCompleteText){
+            let completemsg = document.getElementById("completemsg");
+            completemsg.value = myData.countdownCompleteText;
+        }
+        if(myData.countdownDate){
+            let countdownDate = document.getElementById("countdowndate");
+            countdownDate.value = myData.countdownDate;
+        }
+
+    }
+    
+
+	function showHideSave(){
+		saveButton.style.display = "";
+	}
+    function hideSave(){
+        saveButton.style.display = "none";
+    }
+    
+	loadNav();
+    init();
+    loadData();
+
+	</script>
+    </body>
+</html>

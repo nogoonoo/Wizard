@@ -1,0 +1,23 @@
+{
+    "name": "node-ex-website",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.18.3",
+        "image-thumbnail": "^1.0.15",
+        "is-internet-available": "^3.1.0",
+        "is-online": "^10.0.0",
+        "multer": "*",
+        "node-geocoder": "^4.3.0",
+        "node-wifi": "^2.0.16",
+        "nodemon": "^3.1.0",
+        "qr-image": "^3.2.0",
+        "qrcode": "^1.5.3",
+        "sharp": "^0.30.7"
+    }
+}
