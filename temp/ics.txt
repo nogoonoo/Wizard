@@ -9,7 +9,13 @@ calendars : [
 {
 	name:"name-1",
 	url:"blahbalhbalbh",
-	internalName:"Nate",
+	internalName:"Nate23",
+	color:"#dd2c2c",
+},
+{
+	name:"name-2",
+	url:"2",
+	internalName:"444",
 	color:"#000000",
 },
 ],//cal_ics_end

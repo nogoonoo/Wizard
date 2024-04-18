@@ -8,7 +8,14 @@
 <link rel="stylesheet" href="/css/style.css">
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
 
+<link rel="stylesheet" href="/css/keyboard.css">
+</head>
+
+
+  
+  
 <style>
 	#noSources {
     color: red;
@@ -47,18 +54,18 @@
         <label class="fieldName">Custom Feeds (Up to 3)</label>
         <div class="formField">
             <div class="newsLine" id="calendarLine-1">
-                <input name="name-1" id="name-1" type="text" placeholder="Name" data-type="name" minlength="1" >
-                <input name="url-1" id="url-1" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-1" onkeyup="showHideSave()">
+                <input name="name-1" id="name-1" type="text" placeholder="Name" data-type="name" minlength="1" class="input" >
+                <input name="url-1" id="url-1" type="url" class="newsurl input" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-1" onkeyup="showHideSave()">
                 <span id="error-1" class="urlError"></span>
             </div>
             <div class="newsLine" id="calendarLine-2">
-                <input name="name-2" id="name-2" type="text" placeholder="Name" data-type="name" minlength="1" >
-                <input name="url-2" id="url-2" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-2" onkeyup="showHideSave()">
+                <input name="name-2" id="name-2" type="text" placeholder="Name" data-type="name" minlength="1" class="input">
+                <input name="url-2" id="url-2" type="url" class="newsurl input" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-2" onkeyup="showHideSave()">
                 <span id="error-2" class="urlError"></span>
             </div>
             <div class="newsLine" id="calendarLine-3">
-                <input name="name-3" id="name-3" type="text" placeholder="Name" data-type="name" minlength="1" >
-                <input name="url-3" id="url-3" type="url" class="newsurl" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-3" onkeyup="showHideSave()">
+                <input name="name-3" id="name-3" type="text" placeholder="Name" data-type="name" minlength="1" class="input">
+                <input name="url-3" id="url-3" type="url" class="newsurl input" placeholder="Enter newsfeed url" size="60" data-type="ics" minlength="1" data-namefield="name-3" onkeyup="showHideSave()">
                 <span id="error-3" class="urlError"></span>
             </div>
         </div>
@@ -85,8 +92,14 @@
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+
+    <div class="simple-keyboard"></div>
+
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+
+  
+
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
@@ -209,5 +222,6 @@
     loadData();		
 
 	</script>
+      <script src="/js/keyboard.js"></script>
     </body>
 </html>

@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
+
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
 
 <style>
 	#countdownoptions{
@@ -44,11 +47,11 @@
         </div>
         <label class="fieldName">Countdown Message</label>
         <div class="formField">
-            <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()">
+            <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()" class="input" >
         </div>
         <label class="fieldName">Show message after countdown</label>
         <div class="formField">
-            <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()">
+            <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()"  class="input" >
         </div>
     </span>
     
@@ -72,13 +75,15 @@
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+      <div class="simple-keyboard"></div>
+
     </div>
 	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
   
-	
     function validateForm(){
         let dateReturnValue = true;
         //if show countdown clock and date is blank, return false
@@ -157,5 +162,7 @@
     loadData();
 
 	</script>
+          <script src="/js/keyboard.js"></script>
+
     </body>
 </html>

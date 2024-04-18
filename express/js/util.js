@@ -1,4 +1,5 @@
-let dialogBoxId=document.getElementById("dialogBox")
+let dialogBoxId=document.getElementById("dialogBox");
+let isLocalHost =  window.location.href.indexOf('localhost:3000')>-1;
 
 function showDialog(id){
     clickedRemove = id;

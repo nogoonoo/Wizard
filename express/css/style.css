@@ -499,3 +499,13 @@ span#qrParent {
   top: 0px;
   left: 800px;
 }
+
+.simple-keyboard {
+  max-width: 850px;
+  display: none;
+}
+
+.show-keyboard {
+  display: block;
+  position: fixed;
+}

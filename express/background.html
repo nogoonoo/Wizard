@@ -6,9 +6,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<script src="/js/simple-keyboard.js"></script>
+
 <style type="text/css">
 ul#sourceoptions li {
     border: 1px solid black;
@@ -141,7 +144,7 @@ div#existingFiles a{
             </ul>
             <input type="hidden" id="sourceKey" value=""></input>
             <span id="icloud-options" class="source-detail hidden">
-                <input type="text" placeholder="enter album url" id="icloudURL"></input>
+                <input type="text" placeholder="enter album url" id="icloudURL" class="input"></input>
             </span>
             <span id="local-options" class="source-detail hidden">
                 <form method="POST" action="/image-upload" enctype="multipart/form-data">
@@ -221,6 +224,8 @@ div#existingFiles a{
           </div>
         </div>
       </div>
+      <div class="simple-keyboard"></div>
+
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
 
@@ -377,6 +382,7 @@ div#existingFiles a{
     loadData();
    
 	</script>
-    
+          <script src="/js/keyboard.js"></script>
+
     </body>
 </html>

@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
+
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
 
 <style type="text/css">
 input[data-type="name"] {
@@ -98,6 +101,8 @@ button.addLine {
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+	  <div class="simple-keyboard"></div>
+
 	</div>
 	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
 	
@@ -155,6 +160,8 @@ FORM VALIDATION!!!!
 			addCalLine(element.internalName,element.ics,element.color)
 		});
 		
+
+		
 	}
 	function showHideSave(){
 		saveButton.style.display = "";
@@ -174,6 +181,7 @@ FORM VALIDATION!!!!
 
 			var calName = document.createElement('input');
 			calName.name = "name-"+cnt;
+			calName.id ="name-"+cnt;
 			calName.type = "text";
 			calName.placeholder = "Name";
 			calName.value = name?name:"";
@@ -181,6 +189,7 @@ FORM VALIDATION!!!!
 			calName.setAttribute("data-internalname",r);
 			calName.setAttribute("minlength","1");
 			calName.setAttribute("required","");
+			calName.classList.add("input");
 			calName.onkeydown = function(){showHideSave();}
 
 
@@ -195,6 +204,7 @@ FORM VALIDATION!!!!
 			calUrl.setAttribute("data-internalname",r);
 			calUrl.setAttribute("minlength","1");
 			calUrl.setAttribute("required","");
+			calUrl.classList.add("input");
 			calUrl.onkeydown = function(){showHideSave();}
 
 			var calColor = document.createElement('input');
@@ -222,6 +232,8 @@ FORM VALIDATION!!!!
 			
 			document.querySelector(".calendars").append(calDiv);
 			cnt++;
+			if(isLocalHost)
+				setKeyboardListeners(keyboard);
 		}
 		toggleadd();
       }
@@ -239,6 +251,8 @@ FORM VALIDATION!!!!
 	loadData();
 	init();
 	</script>
+	
+	<script src="/js/keyboard.js"></script>
 
     </body>
 </html>

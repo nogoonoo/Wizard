@@ -6,8 +6,11 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
+
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
 
 
 <body>
@@ -20,7 +23,8 @@
     <label class="fieldName">Location</label>
     <div class="formField">
         <div id="savedLocation"></div>
-        <input type="text" id="addresslookup" name="addresslookup" placeholder="Type a location..." onkeyup="geoQuery(event)" size="41" onblur="clearLocations()"></input>
+        <input type="text" id="addresslookup" name="addresslookup" placeholder="Type a location..."  onkeyup="geoQuery(event)" size="41" onblur="clearLocations()"></input>
+        <span id="kioskaddresslookup">        </span>
         <span id="locationerror">Please add a location before saving</span>
         <button type="button" id="clearLocation" onclick="clearInput()">Clear</button>
         <input type="hidden" id="hiddenLocation" name="hiddenLocation"></input>
@@ -109,9 +113,14 @@
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+      <div class="simple-keyboard"></div>
+
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
 <script>
+
+
+
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
     let keypressed = true;
@@ -252,5 +261,55 @@ showFeelsLike:
     loadData();
 
 	</script>
+    <script>
+        /*if we're on device, we have to replace the address lookup, start the keyboard code, then change the 'onChange' to allow for kiosk input*/
+          if(isLocalHost){
+            //remove 'addresslookup'
+            //create new one and append it to kioskaddresslookup
+            document.getElementById('addresslookup').remove();
+            let newAddrLookup = document.createElement('input');
+            newAddrLookup.setAttribute("type","text");
+            newAddrLookup.id="addresslookup";
+            newAddrLookup.name = "addresslookup";
+            newAddrLookup.placeholder = "Type a location...";
+            newAddrLookup.size = "41";
+            newAddrLookup.classList.add("input");
+            document.getElementById("kioskaddresslookup").append(newAddrLookup);
+            //<input type="text" id="addresslookup" name="addresslookup" placeholder="Type a location..."  size="41" class="input"></input>
+
+        }
+    </script>
+    <script src="/js/keyboard.js"></script>
+    <script>
+      
+    function onChange(input,event) {
+        console.log("Input changed", input);
+        document.querySelector(selectedInput || ".input").value = input;
+        let timeout = 750;
+        let query = document.getElementById('addresslookup').value.trim();
+        //do some keystroke checking...ignore some keystrokes
+        if(query.length<=minQueryLength){
+            clearInterval(_queryInterval);
+            hideSave();
+        }
+        if(input != " " && input != "." && input != ","){
+            console.log('checking to see if I should query...')
+            clearInterval(_queryInterval);
+            _queryInterval = setInterval(function(){
+                console.log("I'm in the setInterval");
+                
+                if(keypressed && query.length>minQueryLength){
+                    keypressed = false;
+                    console.log('running query');
+                    queryLocation(query).then((res)=>{
+                        clearInterval(_queryInterval);
+                    });
+                }
+
+            },timeout);
+        }      
+    }
+    </script>
+
     </body>
 </html>

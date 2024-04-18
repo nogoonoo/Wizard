@@ -48,6 +48,9 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
  extended: true})); 
 app.use(cors());
 
+app.get('/start', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/home.html'));
+});
 
 /*------------------------- Advanced ----------------------------*/
 
