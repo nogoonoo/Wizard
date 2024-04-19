@@ -69,22 +69,26 @@
 <h2>Welcome</h2>
 
 <div class="">
-    <span id="connectionStatus"></span>
+    <span id="connectionStatus"></span>   
 </div>
 <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
 
 <div class="lds-ripple" id="loader"><div></div><div></div></div>
 	
-    
+<iframe src="http://localhost:80" width="1200px" height="800px"></iframe>
+
 <script>
 
     const intervalCheck = setInterval(checkWIFI,3000);
+    let keyboard =  fetch('/keyboard-show');
+
     async function checkWIFI(){
         const response = await fetch('/wificheck');
          const result = await response.json();
          if(result.isConnected == "1"){
             document.getElementById("connectionStatus").innerText = "Connected!";
-       
+            const keyboard = await fetch('/keyboard-hide');
+         const keys = await keyboard.json();
             document.getElementById('qr-code').setAttribute("src","http://localhost:3000/qrcode?path="+window.location.pathname);
             document.getElementById('qrParent').classList.remove("hidden");
             IP().then((res)=>{

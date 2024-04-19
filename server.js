@@ -213,8 +213,16 @@ app.post('/screen-shutdown', (req, res) =>{
 });
 
 /*------------------------- Welcome ----------------------------*/
-app.get('/welcome', function(req,res){
-  res.sendFile(path.join(__dirname+'/express/welcome.html'));
+app.get('/wifi', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/wifi.html'));
+});
+app.get('/keyboard-show', function(req,res){
+  exec('./scripts/show-keyboard.sh', console.log);
+  res.send('done'); 
+});
+app.get('/keyboard-hide', function(req,res){
+  exec('./scripts/hide-keyboard.sh', console.log);
+  res.send('done');
 });
 app.get('/wificheck', function(req,res){
   let connection = new Object();
