@@ -273,6 +273,7 @@ app.post('/background', (req, res) =>{
   let icloudURL = "";
   let color = "";
   let interval = 1800000;
+  let brightness = 50
 
   let source_snippet = "";
   let color_CSS_snippet = "";
@@ -281,7 +282,6 @@ app.post('/background', (req, res) =>{
 
   try{
     for(var key in req.body) {
-  
       if(key.toLowerCase()=='source'){
         let tmpSrc = req.body[key];
         switch(tmpSrc){
@@ -314,16 +314,21 @@ app.post('/background', (req, res) =>{
       if(key.toLowerCase()=='interval'){
         interval = req.body[key];
       }
+      if(key.toLowerCase()=='brightness'){
+
+        brightness = req.body[key]/100;
+      }
     }
    if(source=="icloud")
       source += ":"+icloudURL.substring(icloudURL.indexOf('#')+1);
 
     if(source.indexOf("/modules/media/blank")){ //transparent gif so we can show color
-      color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;filter: none !important;}`;
+      //color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;filter: none !important;}`;
+      color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;}`;
       writeToCSS(color_CSS_snippet,wallpaper_css);
     }
     //{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"icloud:https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",color:"#123456",crossfade:false,icloudURL:"https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",shuffle:true,slideInterval:3600000}},
-    background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,caption:false,slideInterval:${interval}}},\n`
+    background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,filter:"brightness(${brightness})",caption:false,slideInterval:${interval}}},\n`
     
     writeToTemplate('background.txt','background',background_snippet);
     
@@ -384,6 +389,11 @@ async function readWallpaperConfig(){
       let icloudURLSuffix = `",shuffle:`;
       let icloudURL = wallPaper.substring(wallPaper.indexOf(icloudURLPrefix)+icloudURLPrefix.length,wallPaper.indexOf(icloudURLSuffix));
       
+      //shuffle:true,filter:"brightness(0.5)",caption:false
+      let brightnessPrefix = `:"brightness(`;
+      let brightnessSrefix = `)",caption:`;
+      let brightness = wallPaper.substring(wallPaper.indexOf(brightnessPrefix)+brightnessPrefix.length,wallPaper.indexOf(brightnessSrefix));
+
       console.log(source);
       console.log(interval);
     
@@ -411,7 +421,8 @@ async function readWallpaperConfig(){
       wallPaperData.icloudURL = icloudURL;
       wallPaperData.color = color;
       wallPaperData.interval = parseInt(interval);
-      ;
+      wallPaperData.brightness = parseFloat(brightness)*100;
+      
     
   }
     /*

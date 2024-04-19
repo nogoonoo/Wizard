@@ -15,7 +15,8 @@
     '{tab}': 'tab',
     }
     });
-    setKeyboardListeners(keyboard);
+    if(isLocalHost)
+        setKeyboardListeners(keyboard);
 
     function setKeyboardListeners(keyboard){
         document.querySelectorAll(".input").forEach(input => {
@@ -70,6 +71,7 @@
             console.log("Input changed", input);
             //console.log("Existing input: " +document.querySelector(selectedInput || ".input").value)
             document.querySelector(selectedInput || ".input").value = input;
+            showHideSave();
 
     }
 

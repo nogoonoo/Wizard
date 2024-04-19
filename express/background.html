@@ -132,7 +132,7 @@ div#existingFiles a{
     <span id="dateoptions">
 		<div class="formField">
            <!-- <input type="text" id="selectedSource" placeholder="Select a source" onfocus="toggleoptions(true)" onblur="setoption(null)"><i class="arrow down"></i></div>
-           --> <div id="selectedSource" placeholder="Select a source" onclick="toggleoptions(true)" onblur="setoption(null)"></div><i class="arrow down"></i>
+           --> <div id="selectedSource" placeholder="Select a source" onclick="toggleoptions(true);showHideSave()" onblur="setoption(null)"></div><i class="arrow down"></i>
 
             <ul id="sourceoptions">
                 <li onclick="setoption(this)" id="stock">Stock Images</li>
@@ -147,6 +147,7 @@ div#existingFiles a{
                 <input type="text" placeholder="enter album url" id="icloudURL" class="input"></input>
             </span>
             <span id="local-options" class="source-detail hidden">
+                <span id="cantupload"></span>
                 <form method="POST" action="/image-upload" enctype="multipart/form-data">
                     <input type="file" name="my-files" id="fileupload" class="" required multiple accept="image/png, image/jpeg, image/gif, image/webp" onchange="checkFiles()"/>
                    <!-- <label for="fileupload">Select Files</label>-->
@@ -158,13 +159,13 @@ div#existingFiles a{
             </span>
            
             <span id="color-options" class="source-detail hidden">
-                <input type="color" id="selectedcolor">
+                <input type="color" id="selectedcolor" onchange="showHideSave()">
             </span>
 		</div>
 	</span>
     <label class="fieldName">Rotate Images</label>
     <div class="formField">
-        <select id="interval" name="interval">
+        <select id="interval" name="interval" onchange="showHideSave()">
             <option value="60000">Every 1 minute</option>
             <option value="300000">Every 5 minutes</option>
             <option value="900000">Every 15 minutes</option>
@@ -176,14 +177,21 @@ div#existingFiles a{
             <option value="43200000">Every 12 hours</option>
         </select>
     </div>
-
+    <label class="fieldName">Background Brightness</label>
+    <label class="fieldDescription">Lower brightness makes text easier to read</label>
+    <div class="formField">
+        <div class="rangecontainer">
+            <input type="range" min="0" max="100" value="50" class="range" id="brightness" name="brightness" onchange="showHideSave()">
+            
+        </div>
+    </div>
     <label class="fieldName">Background Position</label>
     <div class="formField">
         
         Entire BG?  Or just left? I'll have to figure out CSS for calendar
     </div>
     <div class="formField">
-        <button type="button" onclick="submitWallpaper()" id="savebutton" class="">Save Changes to Mirror</button>
+        <button type="button" onclick="submitWallpaper()" id="savebutton" style="display:none;">Save Changes to Mirror</button>
     </div>
 
 
@@ -230,7 +238,10 @@ div#existingFiles a{
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
 
     <script>
-	
+	if(isLocalHost){
+        document.getElementById('fileupload').disabled = true;
+        document.getElementById('cantupload').innerText = "Scan the QR code and use your personal device to add photos";
+    }
         async function submitWallpaper(){
            const body = new Object(); 
 
@@ -238,11 +249,13 @@ div#existingFiles a{
            let icloudURL = document.getElementById('icloudURL').value;
            let color = document.getElementById('selectedcolor').value;
            let interval = document.getElementById('interval').value;
+           let brightness = document.getElementById('brightness').value;
   
            body.source = source;
            body.icloudURL = icloudURL;
            body.color = color;
            body.interval = interval;
+           body.brightness = brightness;
            //console.log(body);
            const resp = await fetch("/background", {
                method: "POST",
@@ -308,8 +321,7 @@ div#existingFiles a{
 
        }
    
-	let showSave = false;
-	let saveButton = document.getElementById("savebutton");
+	
 	
     function validateForm(){
         if(document.getElementById('savedLocationName').innerText.length<1 && document.getElementById('addresslookup').value.length<1){
@@ -350,7 +362,7 @@ div#existingFiles a{
     async function loadData(){
         const response = await fetch("/fetchwallpaper");
 		const myData = await response.json();
-        //console.log(myData);
+        console.log(myData);
         if(myData.source.length>0){
             setoption(document.getElementById(myData.source));
         }
@@ -363,8 +375,13 @@ div#existingFiles a{
         if(myData.interval){
             document.getElementById('interval').value = myData.interval;
         }
+        if(myData.brightness){
+            document.getElementById('brightness').value = myData.brightness;
+        }
 
     }
+    let showSave = false;
+	let saveButton = document.getElementById("savebutton");
 
 	function showHideSave(){
 		saveButton.style.display = "";
@@ -378,8 +395,9 @@ div#existingFiles a{
 
     MicroModal.init();
     loadNav();
-    init();
     loadData();
+
+    init();
    
 	</script>
           <script src="/js/keyboard.js"></script>
