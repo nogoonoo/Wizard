@@ -12,12 +12,16 @@
 <script src="/js/util.js"></script>
 <script src="/js/simple-keyboard.js"></script>
 
-
 <body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar">
 	</div>
 	<div class="content">
-
+        
 <h2>Weather Settings</h2>
 <form action="/weather" method="post" onsubmit="return validateForm()">
     <label class="fieldName">Location</label>
@@ -94,7 +98,9 @@
         <span class="slider round"></span>
     </label>-->
     <div class="formField">
-        <button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+        <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+        <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+
     </div>
 
 	</form>
@@ -245,10 +251,10 @@ showFeelsLike:
     }
 
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
     function hideSave(){
-        saveButton.style.display = "none";
+        saveButton.disabled = disabled;
     }
     function timezoneChanged(){
         showHideSave();

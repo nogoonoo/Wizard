@@ -48,8 +48,75 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
  extended: true})); 
 app.use(cors());
 
+/*------------------------- Welcome ----------------------------*/
 app.get('/start', function(req,res){
-  res.sendFile(path.join(__dirname+'/express/home.html'));
+  res.sendFile(path.join(__dirname+'/express/start.html'));
+});
+app.get('/step1', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/step1.html'));
+});
+app.get('/step2', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/step2.html'));
+});
+app.get('/step3', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/step3.html'));
+});
+app.get('/lookingfornetworks', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
+});
+app.get('/keyboard-show', function(req,res){
+  exec('./scripts/show-keyboard.sh', console.log);
+  res.send('done'); 
+});
+app.get('/keyboard-hide', function(req,res){
+  exec('./scripts/hide-keyboard.sh', console.log);
+  res.send('done');
+});
+app.get('/wificheck', function(req,res){
+  let connection = new Object();
+  let isConnected = false;
+  isInternetAvailable().then((resp)=>{
+    if (!resp) {
+      console.log("No connection");
+     // isConnected = false;
+   } else {
+     isConnected = true;
+     if(getIPAddr().length==0)
+       setIPAddr();
+     //console.log(getIPAddr());
+     // console.log("Connected");
+   }
+    console.log(resp);
+    connection.isConnected = isConnected?"1":"0";
+  res.send(connection);
+  });
+});
+
+app.post('/step2', (req, res) =>{
+  
+  let response = writeWakeCronJob(req);
+
+  for(var key in req.body) {
+    if(key.toLowerCase().startsWith('timezone')){
+      let timezone = req.body[key];
+     //*****FOR LOCAL MACHINE TESTING, COOMMENT OUT THIS LINE */
+     if(!isDev) 
+      execSync('sudo timedatectl set-timezone '+timezone);
+      //console.log(result);
+      response = "success";
+    }
+    if(key.toLowerCase().startsWith('timeformat')){//time_12or24_start
+      let timeformat = req.body[key];
+      console.log("timeformat: "+ timeformat);
+      time_format_snippet = "\ttimeFormat:"+timeformat+",\n"; //timeFormat:12,
+    }
+  }
+  console.log('writing time to config')
+  writeToTemplate('time_12or24.txt','time_12or24',time_format_snippet); //writes to template file 
+ 
+  res.sendFile(path.join(__dirname+'/express/step3.html'));
+  res.redirect('/step3?result='+response);
+
 });
 
 /*------------------------- Advanced ----------------------------*/
@@ -108,14 +175,13 @@ async function readAdvancedConfig(){
   }
   return advancedData;
 }
-
-app.post('/advanced', (req, res) =>{
+function writeWakeCronJob(req){
   let response = "";
   let start_hour = "";
   let start_minute = "";
   let end_hour = "";
   let end_minute = "";
-   console.log(req.body);
+  console.log(req.body);
   try{
     for(var key in req.body) {
       if(key.toLowerCase().startsWith('starttime')){
@@ -130,15 +196,6 @@ app.post('/advanced', (req, res) =>{
         end_hour = end.substring(0,end.indexOf(":"));
         end_minute = end.substring(end.indexOf(":")+1);
       }
-     
-/*
-#power_on
-00 08 * * * pi vcgencmd display_power 1
-#power_off
-00 21 * * * pi vcgencmd display_power 0
-#end_power
- */     
-
     }
     let full_snippet = `#!/bin/bash 
 
@@ -162,10 +219,14 @@ app.post('/advanced', (req, res) =>{
     response="error";
     console.log(err);
   }
-  finally{
+  return response;
+}
+app.post('/advanced', (req, res) =>{
+  
+    let response = writeWakeCronJob(req);
     res.sendFile(path.join(__dirname+'/express/advanced.html'));
     res.redirect('/advanced?result='+response);
-  }
+  
 });
 async function writeToCron(filename, content){
   let fileContent = content;
@@ -212,39 +273,7 @@ app.post('/screen-shutdown', (req, res) =>{
   }
 });
 
-/*------------------------- Welcome ----------------------------*/
-app.get('/wifi', function(req,res){
-  res.sendFile(path.join(__dirname+'/express/wifi.html'));
-});
-app.get('/keyboard-show', function(req,res){
-  exec('./scripts/show-keyboard.sh', console.log);
-  res.send('done'); 
-});
-app.get('/keyboard-hide', function(req,res){
-  exec('./scripts/hide-keyboard.sh', console.log);
-  res.send('done');
-});
-app.get('/wificheck', function(req,res){
-  let connection = new Object();
-  let isConnected = false;
-  isInternetAvailable().then((resp)=>{
-    if (!resp) {
-      console.log("No connection");
-     // isConnected = false;
-   } else {
-     isConnected = true;
-     if(getIPAddr().length==0)
-       setIPAddr();
-     //console.log(getIPAddr());
-     // console.log("Connected");
-   }
-    console.log(resp);
-    connection.isConnected = isConnected?"1":"0";
-  res.send(connection);
-  });
 
-
-});
 
 
 /*------------------------- QR Code ----------------------------*/

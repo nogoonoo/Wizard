@@ -28,19 +28,28 @@ input[type="color"] {
     margin-left: 0px;
     vertical-align: middle;
     width: 5%;
+    height: 35px;
+}
+input[type="text"] {
+    height: 35px;
+    font-size: 1.2em;
 }
 input[data-type="delete"] {
     color: red;
     border: red 2px solid;
-    background: white;
+    background: var(--midwhite);
     border-radius: 12px;
     padding-left: 10px;
     padding-right: 10px;
 	cursor: pointer;
+	
 }
 button.addLine {
     margin: 10px;
     padding: 0 20px 0 20px;
+	margin-bottom: 40px;
+    color: white;
+    background: var(--dark);
 }
 .nameHeader {
     display: inline-block;
@@ -65,6 +74,11 @@ button.addLine {
 
 </style>
 <body>
+	<div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar">
 	</div>
 	<div class="content">
@@ -84,7 +98,11 @@ button.addLine {
 	</div>-->
 	</div>
 	<button type="button" onclick="javascript:addCalLine()" class="addLine" id="addLineBtn">Add Calendar URL</button>
-	<button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+
+	<div class="formField">
+	<button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+	<button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+</div>
 	</form>
 	<div id="status"></div>
 
@@ -164,8 +182,9 @@ FORM VALIDATION!!!!
 		
 	}
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
+   
 
 	  let cnt = 0;
 	  let clickedRemove = "";

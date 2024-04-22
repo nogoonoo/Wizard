@@ -18,6 +18,8 @@ ul#sourceoptions li {
     width: 200px;
     list-style-type: none;
     padding: 10px 5px 5px 10px;
+    background: var(--smoke-white);
+    color: black;
 }
 ul#sourceoptions li:hover {
     background:#ddd;
@@ -120,6 +122,11 @@ div#existingFiles a{
 
 </style>
 <body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 	
@@ -191,7 +198,9 @@ div#existingFiles a{
         Entire BG?  Or just left? I'll have to figure out CSS for calendar
     </div>
     <div class="formField">
-        <button type="button" onclick="submitWallpaper()" id="savebutton" style="display:none;">Save Changes to Mirror</button>
+        <button type="button" onclick="submitWallpaper()" id="savebutton" disabled>Update Greenscreen</button>
+        <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+
     </div>
 
 
@@ -384,10 +393,10 @@ div#existingFiles a{
 	let saveButton = document.getElementById("savebutton");
 
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
     function hideSave(){
-        saveButton.style.display = "none";
+        saveButton.disabled = disabled;
     }
     function timezoneChanged(){
         showHideSave();

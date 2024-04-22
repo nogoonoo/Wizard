@@ -24,6 +24,11 @@ input[type="time"]{
 <script src="/js/util.js"></script>
 
 <body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
@@ -31,8 +36,8 @@ input[type="time"]{
 <form action="/advanced" method="post" >
     <label class="fieldName">Power Options</label>
     <div class="formField">
-        <div class="time start"><span>Turn screen on every day at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
-        <div class="time end"><span>Turn screen off every day at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
+        <div class="time start"><span>Turn screen on daily at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
+        <div class="time end"><span>Turn screen off daily at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
     </div>
     <label class="fieldName">Reset Options</label>
     <div class="formField">
@@ -53,7 +58,8 @@ input[type="time"]{
 
 
     <div class="formField">
-        <button type="submit" style="display:none;" id="savebutton">Update Greenscreen</button>
+        <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+        <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
     </div>
 
 	</form>
@@ -104,10 +110,10 @@ input[type="time"]{
 
  
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
     function hideSave(){
-        saveButton.style.display = "none";
+        saveButton.disabled = disabled;
     }
     dialogBoxId=document.getElementById("dialogBox")
     let pwrFunc = "reboot";

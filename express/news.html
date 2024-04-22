@@ -24,6 +24,11 @@
 
 </style>
 <body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
@@ -73,7 +78,9 @@
     Transition speed: 10sec - 60 sec
     View article in window
     <div class="formField">
-        <button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+        <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+        <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+
     </div>
 
 	</form>
@@ -211,10 +218,10 @@
     
 
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
     function hideSave(){
-        saveButton.style.display = "none";
+        saveButton.disabled = disabled;
     }
     
     loadNav()

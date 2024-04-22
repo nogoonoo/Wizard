@@ -18,8 +18,12 @@
 	}
 </style>
 <body>
-	<div class="sidebar" id="sidebar">
-	</div>
+	<div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 <h2>Date & Time Settings</h2>
 <form action="/clock" method="post">
@@ -27,18 +31,12 @@
     <div class="formField">
 		<div class="timeZone">
 			<select id="timezone" name="timezone" class="custom-select" onchange="timezoneChanged()">
-				<option value="US/Alaska">US/Alaska GMT-9:00</option>
-				<option value="US/Aleutian">US/Aleutian GMT-10:00</option>
-				<option value="US/Arizona">US/Arizona GMT-7:00</option>
-				<option value="US/Central">US/Central GMT-6:00</option>
-				<option value="US/East-Indiana">US/East-Indiana GMT-5:00</option>
-				<option value="US/Eastern">US/Eastern GMT-5:00</option>
-				<option value="US/Hawaii">US/Hawaii GMT-10:00</option>
-				<option value="US/Indiana-Starke">US/Indiana-Starke GMT-6:00</option>
-				<option value="US/Michigan">US/Michigan GMT-5:00</option>
-				<option value="US/Mountain">US/Mountain GMT-7:00</option>
 				<option value="US/Pacific" selected="selected">US/Pacific GMT-8:00</option>
-				<option value="US/Pacific-New">US/Pacific-New GMT-8:00</option>
+				<option value="US/Mountain">US/Mountain GMT-7:00</option>
+				<option value="US/Central">US/Central GMT-6:00</option>
+				<option value="US/Eastern">US/Eastern GMT-5:00</option>
+				<option value="US/Alaska">US/Alaska GMT-9:00</option>				
+				<option value="US/Hawaii">US/Hawaii GMT-10:00</option>
 				<option value="US/Samoa">US/Samoa GMT-11:00</option>
 				<option value="UTC">UTC GMT+0:00</option>
 			</select>
@@ -96,7 +94,12 @@
 			<label id="opt4" for="MMMM Do" class="selector-item_label vertical">February 14th</label><br/>
 		</div>
 	</span>
-	<button type="submit" style="display:none;" id="savebutton">Save Changes to Mirror</button>
+	<div class="formField">
+
+	<button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+	<button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+
+	</div>
 	</form>
 	<div id="status"></div>
 
@@ -184,7 +187,7 @@
 			dateoptions.style.display = "none";
 	}
 	function showHideSave(){
-		saveButton.style.display = "";
+		saveButton.disabled = false;
 	}
     function timezoneChanged(){
         showHideSave();

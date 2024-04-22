@@ -36,8 +36,26 @@ function init(){
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
     console.log(myParam);
-    if(myParam&&myParam.toLowerCase()=="success")
-        document.getElementById("status").innerHTML = "Your updates were successful"
+    if(myParam&&myParam.toLowerCase()=="success"){
+        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Relaunch Greenscreen to see your changes"
+        document.getElementById("refreshbutton").classList.remove("hidden");
+    }
 
     populateQR();
 }
+
+function openMM(){
+
+}
+function toggleMenu(x) {
+    x.classList.toggle("change");
+    let sideBar = document.getElementById('sidebar');
+    if((sideBar.style.display == '' && window.screen.width<700) || sideBar.classList.contains("hidden")){
+        sideBar.style.display = "block";
+        sideBar.classList.remove("hidden");
+        sideBar.classList.add("show");
+    }
+    else{
+        sideBar.classList.add("hidden");
+    }
+  }
