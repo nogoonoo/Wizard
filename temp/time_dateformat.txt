@@ -1,3 +1,0 @@
-//time_dateformat_start
-	dateFormat:"dddd, MMMM Do YYYY",
-//time_dateformat_end

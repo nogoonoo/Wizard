@@ -1,3 +1,0 @@
-//background_start
-{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"local:/home/pi/MagicMirror/modules/media/uploaded",color:"#ff0000",crossfade:false,icloudURL:"https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",shuffle:true,filter:"brightness(0.95)",caption:false,slideInterval:900000}},
-//background_end

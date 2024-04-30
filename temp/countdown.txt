@@ -1,3 +1,0 @@
-//countdown_start
-{module: "MMM-CountDown",position:"top_left",config:{event:"asdf",date:"2024-04-03 20:04:00",daysLabel:"&nbsp; days &nbsp;&nbsp; ",hoursLabel: "&nbsp;hours &nbsp;&nbsp; ",minutesLabel:"&nbsp;min &nbsp;&nbsp; ",secondsLabel:"&nbsp;sec",completeText:"fdsa"}},
-//countdown_end

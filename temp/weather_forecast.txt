@@ -1,5 +1,0 @@
-//weather_forecast_start
-	lat:40.2337289,
-	lon:-111.6587085,
-	friendlyLocation:"Provo, Utah, United States of America",
-//weather_forecast_end

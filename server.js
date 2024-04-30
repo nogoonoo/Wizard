@@ -1070,8 +1070,8 @@ app.post('/weather', function(req,res){
   let friendlyAddress = "";
   let latitude = "";
   let longitude = "";
-  let feelsLike = false;
-  let weather_feelslike_snippet = "\tshowFeelsLike:"+feelsLike+",\n";
+  let extraInfo = false;
+  let weather_feelslike_snippet = "\tshowFeelsLike:"+extraInfo+",onlyTemp:"+extraInfo+",\n";
   let wind_units_snippet = "";
   let units = "imperial";
   let days = 5;
@@ -1104,9 +1104,10 @@ app.post('/weather', function(req,res){
         //tempUnits: "imperial",
       }
       if(key.toLowerCase().startsWith('feelslike')){//weather_feelslike_start
-        feelsLike = true;//only shows up if it's set to true
-        console.log("Feelslike: "+ feelsLike);
-        weather_feelslike_snippet = "\tshowFeelsLike:true,\n";
+        extraInfo = true;//only shows up if it's set to true
+        console.log("Extra info: "+ extraInfo);
+        weather_feelslike_snippet = "\tshowFeelsLike:true,onlyTemp:true,\n";
+        /* also set onlyTemp:true, */
       }
     }
     if(friendlyAddress.trim()!='' && latitude.trim()!=''){
@@ -1176,7 +1177,7 @@ async function readWeatherConfig(){
       let feelsPrefix = "//weather_feelslike_start";
       let feelsSuffix = "//weather_feelslike_end";
       let feels = configData.substring(configData.indexOf(feelsPrefix)+feelsPrefix.length,configData.indexOf(feelsSuffix));
-      feels = feels.substring(feels.indexOf(":")+1,feels.lastIndexOf(","));
+      feels = feels.substring(feels.indexOf(":")+1,feels.indexOf(","));
       weatherData.showFeelsLike = feels;
 
       let daysPrefix = "//weather_forecast_days_start";

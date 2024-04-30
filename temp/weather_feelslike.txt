@@ -1,3 +1,0 @@
-//weather_feelslike_start
-	showFeelsLike:false,
-//weather_feelslike_end

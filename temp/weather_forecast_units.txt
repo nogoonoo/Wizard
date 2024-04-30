@@ -1,3 +1,0 @@
-//weather_forecast_units_start
-	tempUnits:"imperial",
-//weather_forecast_units_end

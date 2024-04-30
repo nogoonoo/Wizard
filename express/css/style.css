@@ -54,6 +54,7 @@ input[data-type="ics"]{}
         background: white;
         /*border: 1px solid grey;*/
         z-index: 1000;
+        color:black;
       }
 div#locationsDiv span {
     font-size: .8em;
