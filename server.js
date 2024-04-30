@@ -1071,7 +1071,7 @@ app.post('/weather', function(req,res){
   let latitude = "";
   let longitude = "";
   let extraInfo = false;
-  let weather_feelslike_snippet = "\tshowFeelsLike:"+extraInfo+",onlyTemp:"+extraInfo+",\n";
+  let weather_feelslike_snippet = "\tshowFeelsLike:"+extraInfo+",onlyTemp:"+!extraInfo+",\n";
   let wind_units_snippet = "";
   let units = "imperial";
   let days = 5;
@@ -1106,7 +1106,7 @@ app.post('/weather', function(req,res){
       if(key.toLowerCase().startsWith('feelslike')){//weather_feelslike_start
         extraInfo = true;//only shows up if it's set to true
         console.log("Extra info: "+ extraInfo);
-        weather_feelslike_snippet = "\tshowFeelsLike:true,onlyTemp:true,\n";
+        weather_feelslike_snippet = "\tshowFeelsLike:true,onlyTemp:false,\n";
         /* also set onlyTemp:true, */
       }
     }
