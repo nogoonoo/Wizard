@@ -35,13 +35,19 @@ function init(){
 
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
+    const isIframe = urlParams.get('iframed');
     console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
         document.getElementById("status").innerHTML = "Greenscreen settings updated.  Relaunch Greenscreen to see your changes"
         document.getElementById("refreshbutton").classList.remove("hidden");
     }
+    if(isIframe){
+        document.querySelector('h2').classList.add("hidden");
+    }
+    if(!isIframe){
+        populateQR();
+    }
 
-    populateQR();
 }
 
 
