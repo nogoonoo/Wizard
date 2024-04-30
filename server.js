@@ -198,6 +198,8 @@ app.post('/message', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/message.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/message?result='+response);
   }
 });
@@ -347,6 +349,8 @@ app.post('/advanced', (req, res) =>{
   
     let response = writeWakeCronJob(req);
     res.sendFile(path.join(__dirname+'/express/advanced.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/advanced?result='+response);
   
 });
@@ -499,6 +503,8 @@ app.post('/background', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/background.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/background?result='+response);
   }
 });
@@ -811,6 +817,9 @@ app.post('/news', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/news.html'));
+    console.log("NEWS:  "+req.headers.referer)
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/news?result='+response);
   }
 });
@@ -941,6 +950,8 @@ app.post('/extras', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/extras.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/extras?result='+response);
   }
 });
@@ -1116,6 +1127,8 @@ app.post('/weather', function(req,res){
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/weather.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/weather?result='+response);
   }
 });
@@ -1252,6 +1265,8 @@ app.post('/clock', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/clock.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/clock?result='+response);
   }
 });
@@ -1372,6 +1387,8 @@ app.post('/calendar', (req, res) =>{
     //update CSS
     //verify change
     res.sendFile(path.join(__dirname+'/express/calendar.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
     res.redirect('/calendar?result=success');
   }
   catch(err){
