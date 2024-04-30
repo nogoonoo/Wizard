@@ -18,35 +18,31 @@ const { Server } = require('http')
 const { networkInterfaces } = require('os');
 global.IP = ""; //IP object for QR code
 const { isInternetAvailable, InternetAvailabilityService } = require('is-internet-available');
+const {envVars}  = require('./env/config.js')
 
-/*
-const isDev = false;
-const configPath = '/home/pi/MagicMirror/config/config.js';
-const calendar_css = '/home/pi/MagicMirror/css/calendar.css';
-const wallpaper_css = '/home/pi/MagicMirror/css/wallpaper.css';
-const local_image_path = '/home/pi/MagicMirror/modules/media/uploaded';
-const thumbnail_path = '/home/pi/MagicMirror/modules/media/uploaded/thumbnails';
-const cronPath = "scripts/updatecron.sh"
-*/
-const isDev = true;
-const configPath = '/Users/nathangreen/Documents/development/greenscreen/samplefiles/config.js';
-const calendar_css = '/Users/nathangreen/Documents/development/greenscreen/samplefiles/calendar.css';
-const wallpaper_css = '/Users/nathangreen/Documents/development/greenscreen/samplefiles/wallpaper.css';
-const local_image_path = '/Users/nathangreen/Documents/development/greenscreen/samplefiles/wizardimages';
-const thumbnail_path = '/Users/nathangreen/Documents/development/greenscreen/samplefiles/wizardimages/thumbnails';
-const cronPath = "/Users/nathangreen/Documents/development/greenscreen/samplefiles/crontab"
-
+console.log(envVars.age);
 
 setIPAddr();
 
 // We are using our packages here
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(express.static(__dirname + '/express'));
-app.use('/static',express.static(local_image_path));
+app.use('/static',express.static(envVars.local_image_path));
 
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
  extended: true})); 
 app.use(cors());
+
+/*------------------------- Launchers ----------------------------*/
+app.get('/openmm', function(req,res){
+  execSync('pm2 start mm');
+});
+app.get('/openwizard', function(req,res){
+  execSync('pm2 start wizard-client -- calendar');
+});
+app.get('/refreshwizard', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/start.html'));
+});
 
 /*------------------------- Welcome ----------------------------*/
 app.get('/start', function(req,res){
@@ -64,13 +60,30 @@ app.get('/step3', function(req,res){
 app.get('/lookingfornetworks', function(req,res){
   res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
 });
-app.get('/keyboard-show', function(req,res){
+/*app.get('/keyboard-show', function(req,res){
   exec('./scripts/show-keyboard.sh', console.log);
   res.send('done'); 
 });
 app.get('/keyboard-hide', function(req,res){
   exec('./scripts/hide-keyboard.sh', console.log);
   res.send('done');
+});*/
+app.get('/apcheck', function(req,res){
+  let connection = new Object();
+  let isConnected = false;
+  checkConnection("localhost", 80).then(function() {
+    console.log("AP IS RUNNING");
+    isConnected = true;
+    connection.isConnected = isConnected?"1":"0";
+    res.send(connection);
+}, function(err) {
+  console.log("AP IS NOT RUNNING");
+  isConnected = false;
+  connection.isConnected = isConnected?"1":"0";
+    res.send(connection);
+}
+)
+  
 });
 app.get('/wificheck', function(req,res){
   let connection = new Object();
@@ -100,7 +113,7 @@ app.post('/step2', (req, res) =>{
     if(key.toLowerCase().startsWith('timezone')){
       let timezone = req.body[key];
      //*****FOR LOCAL MACHINE TESTING, COOMMENT OUT THIS LINE */
-     if(!isDev) 
+     if(!envVars.isdev) 
       execSync('sudo timedatectl set-timezone '+timezone);
       //console.log(result);
       response = "success";
@@ -119,6 +132,115 @@ app.post('/step2', (req, res) =>{
 
 });
 
+function checkConnection(host, port, timeout) {
+  return new Promise(function(resolve, reject) {
+      timeout = timeout || 5000;     // default of 10 seconds
+      let socket, timer;
+      timer = setTimeout(function() {
+          reject(new Error(`timeout trying to connect to host ${host}, port ${port}`));
+          //socket.end();
+      }, timeout);
+      socket = net.createConnection(port, host, function() {
+          clearTimeout(timer);
+          resolve();
+          //socket.end();
+      });
+      socket.on('error', function(err) {
+          clearTimeout(timer);
+          reject(err);
+      });
+  });
+}
+/*------------------------- Message ----------------------------*/
+
+app.get('/message', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/message.html'));
+});
+
+app.post('/message', (req, res) =>{
+  let response = "";
+  let showmsg = false;
+  let show_msg_snippet = "";
+  let messageText = "";
+  let messagePlacement = "";
+  let css_string = "";
+  try{
+    for(var key in req.body) {
+  
+      if(key.toLowerCase().startsWith('showmsg')){
+        showmsg = true
+      }
+      if(key.toLowerCase()=='msgtxt'){
+        messageText = req.body[key];
+        messageText = messageText.replace(/"/g, "");
+      }
+      if(key.toLowerCase()=='msgplace'){
+        messagePlacement = req.body[key];
+        if(messagePlacement=="center")
+          css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
+        else
+          css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;}`;
+      }
+    }
+    show_msg_snippet = 	`{module: "helloworld",position: "bottom_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
+
+    if(!showmsg){
+      show_msg_snippet = `//`+show_msg_snippet
+    }
+    
+    writeToTemplate('msg.txt','msg',show_msg_snippet);
+    writeToCSS(css_string,envVars.message_css); //write css to either show center or left
+    response = "success";
+  }
+  catch(err){
+    response="error";
+    console.log(err);
+  }
+  finally{
+    res.sendFile(path.join(__dirname+'/express/message.html'));
+    res.redirect('/message?result='+response);
+  }
+});
+app.get('/fetchmsg', (req, res) =>{
+
+  try{
+    readMsgConfig().then((response)=>{
+      res.send(response);
+    })
+  }
+  catch(err){
+    console.log("readMsgConfig error: "+err)
+  }
+  finally{
+  }
+});
+async function readMsgConfig(){
+  let msgData = new Object();
+  try{
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
+   
+    let msgPrefix = "//msg_start";
+    let msgSuffix = "//msg_end";
+    let msg = configData.substring(configData.indexOf(msgPrefix)+msgPrefix.length,configData.indexOf(msgSuffix));
+    msgData.showmsg = !msg.trim().startsWith(`//`);
+
+    let msgTextPrefix = 'config:{text:"';
+    let msgTextSuffix = '",placement:';
+    let msgText = msg.substring(msg.indexOf(msgTextPrefix)+msgTextPrefix.length,msg.indexOf(msgTextSuffix));
+
+    let placementPrefix = ',placement:"';
+    let placementSuffix = '"}';
+    let placement = msg.substring(msg.indexOf(placementPrefix)+placementPrefix.length,msg.indexOf(placementSuffix));
+
+    msgData.placement = placement;
+    msgData.msgText = msgText;
+    
+  }
+  catch(err){
+    console.log("Error reading message config: "+err);
+  }
+  return msgData;
+}
 /*------------------------- Advanced ----------------------------*/
 
 app.get('/advanced', function(req,res){
@@ -153,7 +275,7 @@ async function readAdvancedConfig(){
    console.log("running crontab")
 
     let cronData = stdOut+'';
-    //const cronData = fs.readFileSync(cronPath,'utf8');
+    //const cronData = fs.readFileSync(envVars.cronPath,'utf8');
     let onTimePrefix = "#power_on";
     let onTimeSuffix = "#power_off";
     let onTimeString = cronData.substring(cronData.indexOf(onTimePrefix)+onTimePrefix.length,cronData.indexOf(onTimeSuffix)).trim();
@@ -181,18 +303,18 @@ function writeWakeCronJob(req){
   let start_minute = "";
   let end_hour = "";
   let end_minute = "";
-  console.log(req.body);
+  //console.log(req.body);
   try{
     for(var key in req.body) {
       if(key.toLowerCase().startsWith('starttime')){
         let start = req.body[key];
-        console.log(start);
+       // console.log(start);
         start_hour = start.substring(0,start.indexOf(":"));
         start_minute = start.substring(start.indexOf(":")+1);
       }
       if(key.toLowerCase()=='endtime'){
         let end = req.body[key];
-        console.log(end);
+        //console.log(end);
         end_hour = end.substring(0,end.indexOf(":"));
         end_minute = end.substring(end.indexOf(":")+1);
       }
@@ -211,7 +333,7 @@ function writeWakeCronJob(req){
     echo "$line" | crontab -u pi -
     `;
 
-    writeToCron(cronPath,full_snippet); //writes to template file  //setTimeout(function(){
+    writeToCron(envVars.cronPath,full_snippet); //writes to template file  //setTimeout(function(){
 
     response = "success";
   }
@@ -230,7 +352,7 @@ app.post('/advanced', (req, res) =>{
 });
 async function writeToCron(filename, content){
   let fileContent = content;
-  console.log("----------------------------/n"+fileContent);
+ // console.log("----------------------------/n"+fileContent);
   let retVal = "error"
 
   fs.writeFile(filename, fileContent, err => { /* write to script, then run script */
@@ -362,7 +484,7 @@ app.post('/background', (req, res) =>{
     if(source.indexOf("/modules/media/blank")){ //transparent gif so we can show color
       //color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;filter: none !important;}`;
       color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;}`;
-      writeToCSS(color_CSS_snippet,wallpaper_css);
+      writeToCSS(color_CSS_snippet,envVars.wallpaper_css);
     }
     //{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"icloud:https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",color:"#123456",crossfade:false,icloudURL:"https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",shuffle:true,slideInterval:3600000}},
     background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,filter:"brightness(${brightness})",caption:false,slideInterval:${interval}}},\n`
@@ -400,7 +522,7 @@ async function readWallpaperConfig(){
   let wallPaperData = new Object();
   let hasFeeds = false;
   try{
-    const configData = fs.readFileSync(configPath,'utf8');
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
    
     let wallPaperPrefix = "//background_start";
     let wallPaperSuffix = "//background_end";
@@ -477,7 +599,7 @@ async function readWallpaperConfig(){
 //prep acceptance of image files & thumbnail generation
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-      cb(null, local_image_path);
+      cb(null, envVars.local_image_path);
   },
   filename: (req, file, cb) => {
       let r = generateString(5);
@@ -543,7 +665,7 @@ async function createThumbnail(file){
   let returnValue = false;
   //console.log('resizing...');
   try{
-  sharp(path).resize(200, 200).toFile(local_image_path+'/thumbnails/' + 't-' + fileName, (err, resizeImage) => {
+  sharp(path).resize(200, 200).toFile(envVars.local_image_path+'/thumbnails/' + 't-' + fileName, (err, resizeImage) => {
     if (err) {
       console.log("there was an error");
          console.log(err);
@@ -564,8 +686,8 @@ app.post('/remove-images', function(req,res){
     let thumbnailName = req.body.names[i];
     let parentFileName = thumbnailName.substring(thumbnailName.indexOf("t-")+2);
     try{
-      fs.unlinkSync(thumbnail_path+"/"+thumbnailName);
-      fs.unlinkSync(local_image_path+"/"+parentFileName);
+      fs.unlinkSync(envVars.thumbnail_path+"/"+thumbnailName);
+      fs.unlinkSync(envVars.local_image_path+"/"+parentFileName);
       removed++;
     }
     catch(err){
@@ -577,23 +699,23 @@ app.post('/remove-images', function(req,res){
 });
 app.get('/image-count', function(req,res){
   let imageCount = new Object()
-  imageCount.count =  fs.readdirSync(thumbnail_path).length;
+  imageCount.count =  fs.readdirSync(envVars.thumbnail_path).length;
   res.send(imageCount);
 });
 app.get('/images', function(req,res){
   //let images = new Object();
   console.log("I'm HERE");
   let files = [];
-  /*fs.readdir(thumbnail_path, function (err, files) {
+  /*fs.readdir(envVars.thumbnail_path, function (err, files) {
     if (err) {return console.log('Unable to scan directory: ' + err);} 
     res.send(files);
   });*/
 
-  fs.readdir(thumbnail_path, function(err, files){
+  fs.readdir(envVars.thumbnail_path, function(err, files){
     files = files.map(function (fileName) {
       return {
         name: fileName,
-        time: fs.statSync(thumbnail_path+"/"+fileName).mtime.getTime()
+        time: fs.statSync(envVars.thumbnail_path+"/"+fileName).mtime.getTime()
       };
     })
     .sort(function (a, b) {
@@ -712,7 +834,7 @@ async function readNewsConfig(){
   let newsData = new Object();
   let hasFeeds = false;
   try{
-    const configData = fs.readFileSync(configPath,'utf8');
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
    
     let newsPrefix = "//news_start";
     let newsSuffix = "//news_end";
@@ -842,7 +964,7 @@ app.get('/fetchextras', (req, res) =>{
 async function readExtrasConfig(){
   let extrasData = new Object();
   try{
-    const configData = fs.readFileSync(configPath,'utf8');
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
    
     let wotdPrefix = "//wotd_start";
     let wotdSuffix = "//wotd_end";
@@ -1004,7 +1126,7 @@ async function geocodeWeather(location){
     provider: 'locationiq',
     // Optional depending on the providers
     //fetch: customFetchImplementation,
-    apiKey: 'pk.5c92165fe5f76ead5509d4057d71fedc', // for Mapquest, OpenCage, APlace, Google Premier
+    apiKey: envVars.geoAPIkey, // for Mapquest, OpenCage, APlace, Google Premier
     formatter: null // 'gpx', 'string', ...
   };
   const geocoder = NodeGeocoder(options);
@@ -1019,7 +1141,7 @@ async function geocodeWeather(location){
 async function readWeatherConfig(){
     let weatherData = new Object();
     try{
-      const configData = fs.readFileSync(configPath,'utf8');
+      const configData = fs.readFileSync(envVars.configPath,'utf8');
       let coordsPrefix = "//weather_forecast_start";
       let coordsSuffix = "//weather_forecast_end";
 
@@ -1082,7 +1204,7 @@ app.post('/clock', (req, res) =>{
       if(key.toLowerCase().startsWith('timezone')){
         let timezone = req.body[key];
        //*****FOR LOCAL MACHINE TESTING, COOMMENT OUT THIS LINE */
-       if(!isDev) 
+       if(!envVars.isdev) 
         execSync('sudo timedatectl set-timezone '+timezone);
         //console.log(result);
         response = "success";
@@ -1152,7 +1274,7 @@ app.get('/fetchclock', (req, res) =>{
   
   try{
     //fetch config
-    const configData = fs.readFileSync(configPath,'utf8');
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
 
     let showTimePrefix = "//time_showtime_start";
     let showTimeSuffix = "//time_showtime_end";
@@ -1243,7 +1365,7 @@ app.post('/calendar', (req, res) =>{
 
   writeToTemplate('calname.txt','cal_name',calendar_name_snippet); //writes to template file  //setTimeout(function(){
   writeToTemplate('ics.txt','cal_ics',calendar_ical_snippet); //writes to template file          //},3000);
-  writeToCSS(calendar_css_snippet,calendar_css);
+  writeToCSS(calendar_css_snippet,envVars.calendar_css);
     //write JSON to the text file 'calname.txt', and ics.txt
     //call configmagic.sh
     //done!
@@ -1260,7 +1382,7 @@ app.post('/calendar', (req, res) =>{
 })
 
 app.get('/fetchcalendar', (req, res) =>{
-  console.log('getting data'+req);
+ // console.log('getting data'+req);
   
   res.send(readCalendarConfig());
 })
@@ -1268,7 +1390,7 @@ function readCalendarConfig(){
 //read existing calendar info from config and css and return to client to populate HTML
   let cals = [];
   try{
-    const configData = fs.readFileSync(configPath,'utf8');
+    const configData = fs.readFileSync(envVars.configPath,'utf8');
     let icsData = configData.substring(configData.indexOf("//cal_ics_start")+15,configData.indexOf("//cal_ics_end"));
     let obj = new Object();
 
@@ -1302,7 +1424,7 @@ function readCalendarConfig(){
       
       let colorStart = icsData.indexOf("color:\"");
       var colorTemp = icsData.substring(colorStart+2);
-      console.log(colorTemp);
+     // console.log(colorTemp);
       let colorEnd = colorTemp.indexOf(",")-1;
       colorTemp = colorTemp.substring(colorTemp.indexOf("\"")+1,colorEnd)
 
@@ -1316,7 +1438,7 @@ function readCalendarConfig(){
       icsData = icsData.substring(icsData.indexOf("},")+2);
       continueParsing = icsData.indexOf("name:\"")>-1;
     }
-    console.log(cals);
+    //console.log(cals);
 
   }
   catch(err){
@@ -1341,8 +1463,8 @@ async function writeToTemplate(filename, delimiter, content){
       console.error(err);
     } else {
       //using execSync so it completes before finishing
-      console.log('./configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+configPath);
-      execSync('./scripts/configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+configPath, console.log);
+      console.log('./configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+envVars.configPath);
+      execSync('./scripts/configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+envVars.configPath, console.log);
       //exec('./configmagic.sh '+delimiter+'_start '+delimiter+'_end ics.txt', console.log)
       console.error("success");    
       retVal = "success";

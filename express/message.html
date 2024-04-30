@@ -1,0 +1,141 @@
+
+<title>Custom Message</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
+
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
+
+<style>
+#messageoptions{
+    display:none;
+}
+
+</style>
+<body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+<h2>Custom Message</h2>
+<form action="/message" method="post" onsubmit="return validateForm()">
+    <label class="fieldName">Show a Custom Message</label>
+    <div class="formField">
+        <label class="switch">
+            <input type="checkbox" id="showmsg" name="showmsg" onchange="togglemessage(this);showHideSave()" value="false">
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <span id="messageoptions">
+        <label class="fieldName">Message</label>
+        <div class="formField">
+            <textarea id="msgtxt" name="msgtxt" rows="3" cols="38" onchange="showHideSave()" class="input"></textarea>
+        </div>
+        <label class="fieldName">Message Placement</label>
+        <div class="formField">
+            <select id="msgplace" name="msgplace" onchange="showHideSave()">
+                <option value="side">Sidebar</option>
+                <option value="center">Centered on Screen</option>
+            </select>        
+        </div>
+    </span>
+    
+    <div class="formField">
+        <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
+        <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
+    </div>
+
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p>Are you sure you want to remove this calendar?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		</footer>
+	  </dialog>
+      <div class="simple-keyboard"></div>
+
+    </div>
+	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+  
+    function validateForm(){
+        let dateReturnValue = true;       
+
+        return dateReturnValue;
+    }
+    
+
+    function togglemessage(obj){
+		let messageOptions = document.getElementById('messageoptions');
+        console.log("toggling");
+
+		if(obj.checked)
+            messageOptions.style.display = "block";
+		else
+            messageOptions.style.display = "none";
+	}
+    async function loadData(){
+        const response = await fetch("/fetchmsg");
+		const myData = await response.json();
+        console.log(myData);
+    
+        if(myData.showmsg){
+            let showmsg = myData.showmsg;
+            checkbox = document.getElementById("showmsg");
+            console.log("showmsg:"+showmsg);
+            if(!showmsg)
+                checkbox.checked = false;
+            else{
+                checkbox.checked = true;
+                togglemessage(checkbox);
+            }
+        }
+    
+        if(myData.msgText){
+            let msgtxt = document.getElementById("msgtxt");
+            msgtxt.value = myData.msgText;
+        }
+        if(myData.placement){
+            let msgplace = document.getElementById("msgplace");
+            msgplace.value = myData.placement;
+        }
+    }
+    
+
+	function showHideSave(){
+		saveButton.disabled = false;
+	}
+    function hideSave(){
+        saveButton.disabled = disabled;
+    }
+    
+	loadNav();
+    init();
+    loadData();
+
+	</script>
+          <script src="/js/keyboard.js"></script>
+
+    </body>
+</html>

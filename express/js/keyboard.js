@@ -13,6 +13,7 @@
     '{shift}': 'shift',
     '{lock}': 'caps',
     '{tab}': 'tab',
+    '{space}': 'space',
     }
     });
     if(isLocalHost)

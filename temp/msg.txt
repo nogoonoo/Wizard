@@ -1,0 +1,3 @@
+//msg_start
+{module: "helloworld",position: "bottom_left", config:{text:"gyolss111s//[{}}|||OOOO(<!__",placement:"center"}},
+//msg_end

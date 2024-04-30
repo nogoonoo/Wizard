@@ -44,9 +44,7 @@ function init(){
     populateQR();
 }
 
-function openMM(){
 
-}
 function toggleMenu(x) {
     x.classList.toggle("change");
     let sideBar = document.getElementById('sidebar');
@@ -59,3 +57,13 @@ function toggleMenu(x) {
         sideBar.classList.add("hidden");
     }
   }
+
+function openMM(){
+    fetch('/openmm');
+}
+function launchWizard(page){
+    fetch('/openwizard?page='+page);
+}
+function refreshAndLaunchWizard(page){
+    fetch('/refreshwizard?page='+page);
+}

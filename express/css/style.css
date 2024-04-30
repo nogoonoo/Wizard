@@ -277,14 +277,14 @@ div.sidebar a svg {vertical-align: middle;margin-right: 10px;}
 div.content {
   margin-left: 200px;
   padding: 1px 16px;
-  height: 1000px;
+  height: 100%;
   background-color: var(--middark);
   color:var(--midwhite);
 }
 div.full {
   margin-left: 0px;
   padding: 1px 16px;
-  height: 1000px;
+  height: 100%;
   background-color: var(--middark);
   color:var(--midwhite);
 }
@@ -724,7 +724,7 @@ ol.stepper li.active::after {
 
 ol.stepper svg {
     position: relative;
-    top: -100px;
+    top: -103px;
     z-index: 10;
     color: white;
 }
