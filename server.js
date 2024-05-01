@@ -1071,7 +1071,7 @@ app.post('/weather', function(req,res){
   let latitude = "";
   let longitude = "";
   let extraInfo = false;
-  let weather_feelslike_snippet = "\tshowFeelsLike:"+extraInfo+",onlyTemp:"+!extraInfo+",\n";
+  let weather_feelslike_snippet = "showFeelsLike:"+extraInfo+",onlyTemp:"+!extraInfo+",\n";
   let wind_units_snippet = "";
   let units = "imperial";
   let days = 5;
@@ -1087,26 +1087,26 @@ app.post('/weather', function(req,res){
         longitude = location.split(',')[1];
        // console.log("lat: "+latitude);
        // console.log("long: "+longitude);
-        weather_coordinates_snippet += "\tlat:"+latitude+",\n\tlon:"+longitude+",\n\tfriendlyLocation:\""+friendlyAddress+"\",\n";
+        weather_coordinates_snippet += "lat:"+latitude+",\nlon:"+longitude+",\nfriendlyLocation:\""+friendlyAddress+"\",\n";
       }
       if(key.toLowerCase().startsWith('days')){//weather_forecast_days_start
         days = req.body[key];
         console.log("Days: "+ days);
-        weather_forecast_days_snippet = "\tmaxNumberOfDays:"+days+",\n";
+        weather_forecast_days_snippet = "maxNumberOfDays:"+days+",\n";
         //maxNumberOfDays:5,
       }
       if(key.toLowerCase().startsWith('units')){//weather_forecast_units_start //weather_current_units_start
         //imperial//metric
         units = req.body[key];
         console.log("Units: "+ units);
-        weather_units_snippet = "\ttempUnits:\""+units+"\",\n";
-        wind_units_snippet = "\twindUnits:\""+units+"\",\n"; //set wind units to whatever temp is
+        weather_units_snippet = "tempUnits:\""+units+"\",\n";
+        wind_units_snippet = "windUnits:\""+units+"\",\n"; //set wind units to whatever temp is
         //tempUnits: "imperial",
       }
       if(key.toLowerCase().startsWith('feelslike')){//weather_feelslike_start
         extraInfo = true;//only shows up if it's set to true
         console.log("Extra info: "+ extraInfo);
-        weather_feelslike_snippet = "\tshowFeelsLike:true,onlyTemp:false,\n";
+        weather_feelslike_snippet = "showFeelsLike:true,onlyTemp:false,\n";
         /* also set onlyTemp:true, */
       }
     }
@@ -1226,27 +1226,27 @@ app.post('/clock', (req, res) =>{
       if(key.toLowerCase().startsWith('showtime')){//time_showtime_start
         showtime = req.body[key];
         console.log("Showtime: "+ showtime);
-        time_showtime_snippet = "\tshowTime:"+showtime+",\n"; //showTime:true,
+        time_showtime_snippet = "showTime:"+showtime+",\n"; //showTime:true,
       }
       if(key.toLowerCase().startsWith('timeformat')){//time_12or24_start
         let timeformat = req.body[key];
         console.log("timeformat: "+ timeformat);
-        time_format_snippet = "\ttimeFormat:"+timeformat+",\n"; //timeFormat:12,
+        time_format_snippet = "timeFormat:"+timeformat+",\n"; //timeFormat:12,
       }
       if(key.toLowerCase().startsWith('showseconds')){//time_seconds_start
         showseconds = req.body[key];
         console.log("showseconds: "+ showseconds);
-        time_showseconds_snippet = "\tdisplaySeconds:"+showseconds+",\n"; //tdisplaySeconds:false,
+        time_showseconds_snippet = "displaySeconds:"+showseconds+",\n"; //tdisplaySeconds:false,
       }
       if(key.toLowerCase().startsWith('showdate')){//time_showdate_start
         showdate = req.body[key];
         console.log("showdate: "+ showdate);
-        time_showdate_snippet = "\tshowDate:"+showdate+",\n"; //	showDate:true,
+        time_showdate_snippet = "showDate:"+showdate+",\n"; //	showDate:true,
       }
       if(key.toLowerCase().startsWith('dateformat')){//time_dateformat_start
         let dateformat = req.body[key];
         console.log("dateformat: "+ dateformat);
-        time_dateformat_snippet = "\tdateFormat:\""+dateformat+"\",\n"; //dateFormat:"dddd, MMM Do",
+        time_dateformat_snippet = "dateFormat:\""+dateformat+"\",\n"; //dateFormat:"dddd, MMM Do",
       }
     }
     console.log('writing time to config')
