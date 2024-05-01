@@ -907,7 +907,7 @@ app.post('/extras', (req, res) =>{
   
       if(key.toLowerCase().startsWith('wotd')){
         showwotd = true
-        show_wotd_snippet = "{module: 'MMM-MWWordOfTheDay',position: 'bottom_left',config: {updateInterval: 4320,headerText: \"Today's word is...\"}},\n";
+        show_wotd_snippet = "{module: 'MMM-MWWordOfTheDay',position: 'bottom_left',config: {updateInterval: 12000000,headerText: \"Today's word is...\"}},\n";
       }
       if(key.toLowerCase()=='countdown'){
         showcountdown = true
