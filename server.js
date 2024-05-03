@@ -183,7 +183,7 @@ app.post('/message', (req, res) =>{
           css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;}`;
       }
     }
-    show_msg_snippet = 	`{module: "helloworld",position: "bottom_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
+    show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
     if(!showmsg){
       show_msg_snippet = `//`+show_msg_snippet
