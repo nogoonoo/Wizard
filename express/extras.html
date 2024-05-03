@@ -29,20 +29,20 @@
 <h2>Other Widgets</h2>
 <form action="/extras" method="post" onsubmit="return validateForm()">
     <label class="headerName">Word of the Day</label>
-    <label class="fieldName">Show Word of the Day</label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="wotd" name="wotd" onchange="showHideSave()" value="true">
             <span class="slider round"></span>
         </label>
+        <label class="fieldName inline">Show Word of the Day</label>
     </div>
     <label class="headerName">Countdown Clock</label>
-    <label class="fieldName">Show Countdown Clock</label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="countdown" name="countdown" onchange="togglecountdown(this);showHideSave()" value="true">
             <span class="slider round"></span>
         </label>
+        <label class="fieldName inline">Show Countdown Clock</label>
     </div>
     <span id="countdownoptions">
         <label class="fieldName">Countdown To Date</label>
@@ -59,7 +59,19 @@
             <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()"  class="input" >
         </div>
     </span>
-    
+
+    <label class="headerName">Rotate Widgets</label>
+    <div class="formField">
+        <select id="interval" name="interval" onchange="showHideSave()">
+            <option value="-1">Don't rotate</option>
+            <option value="5000">Every 5 seconds</option>
+            <option value="10000">Every 10 seconds</option>
+            <option value="20000">Every 20 seconds</option>
+            <option value="30000">Every 30 seconds</option>
+            <option value="60000">Every minute</option>
+        </select>
+    </div>
+
     <div class="formField">
         <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
         <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
@@ -151,6 +163,10 @@
         if(myData.countdownDate){
             let countdownDate = document.getElementById("countdowndate");
             countdownDate.value = myData.countdownDate;
+        }
+        if(myData.interval){
+            let interval = document.getElementById("interval");
+            interval.value = myData.interval;
         }
 
     }

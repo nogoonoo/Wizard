@@ -901,6 +901,8 @@ app.post('/extras', (req, res) =>{
   let wotd_event = "";
   let wotd_completeText = "";
   let show_countdown_snippet = "";
+  let carousel_snippet = "";
+  let interval = 10000;
    
   try{
     for(var key in req.body) {
@@ -925,21 +927,32 @@ app.post('/extras', (req, res) =>{
         wotd_completeText = req.body[key];
         wotd_completeText = wotd_completeText.replace(/"/g, "");
       }
+      if(key.toLowerCase()=='interval'){
+        interval = req.body[key];
+      }
       //news
       //{module:"newsfeed",position: "bottom_bar",config:{feeds:[{title:"New York Times",url:"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},
      
 
     
     }
-    if(showcountdown){
-      show_countdown_snippet = `{module: "MMM-CountDown",position:"top_left",config:{event:"${wotd_event}",date:"${wotd_date}",daysLabel:"&nbsp; days &nbsp;&nbsp; ",hoursLabel: "&nbsp;hours &nbsp;&nbsp; ",minutesLabel:"&nbsp;min &nbsp;&nbsp; ",secondsLabel:"&nbsp;sec",completeText:"${wotd_completeText}"}},\n`
+    show_countdown_snippet = `{module: "MMM-CountDown",position:"bottom_left",config:{event:"${wotd_event}",date:"${wotd_date}",daysLabel:"&nbsp; days &nbsp;&nbsp; ",hoursLabel: "&nbsp;hours &nbsp;&nbsp; ",minutesLabel:"&nbsp;min &nbsp;&nbsp; ",secondsLabel:"&nbsp;sec",completeText:"${wotd_completeText}"}},\n`
+
+    if(!showcountdown){
+      show_countdown_snippet = `//`+ show_countdown_snippet;
     }
-    else{
-      show_countdown_snippet = `//{module: "MMM-CountDown",position:"top_left",config:{event:"${wotd_event}",date:"${wotd_date}",daysLabel:"&nbsp; days &nbsp;&nbsp; ",hoursLabel: "&nbsp;hours &nbsp;&nbsp; ",minutesLabel:"&nbsp;min &nbsp;&nbsp; ",secondsLabel:"&nbsp;sec",completeText:"${wotd_completeText}"}},\n`
+
+    carousel_snippet = `{module: 'MMM-Carousel',config: {transitionInterval:${interval},ignoreModules: ['weather','weather'],mode: 'positional',bottom_left: {enabled: true, ignoreModules: ['weather','weather']},}},\n`;
+
+    if(interval==-1){
+      carousel_snippet = `//`+carousel_snippet;
     }
+  
     
     writeToTemplate('wotd.txt','wotd',show_wotd_snippet);
     writeToTemplate('countdown.txt','countdown',show_countdown_snippet);
+    writeToTemplate('carousel.txt','carousel',carousel_snippet);
+
     //write news
 
     response = "success";
@@ -1002,9 +1015,16 @@ async function readExtrasConfig(){
     extrasData.countdownEvent = event;
     extrasData.countdownDate = date;
     extrasData.countdownCompleteText = completeText;
-    /*
-    ////run my backup script to see if everything is saved...it didn't look like it saved all my module changes, just media
-    */
+
+    let rotatePrefix = "//carousel_start";
+    let rotateSuffix = "//carousel_end";
+    let carousel = configData.substring(configData.indexOf(rotatePrefix)+rotatePrefix.length,configData.indexOf(rotateSuffix));
+
+    let intervalPrefix = "{transitionInterval:";
+    let intervalSuffix = ",ignoreModules:";
+    let interval = carousel.substring(carousel.indexOf(intervalPrefix)+intervalPrefix.length,carousel.indexOf(intervalSuffix));
+
+    extrasData.interval = (carousel.trim().startsWith(`//`)?"-1":interval);//if it starts with a comment, it's hidden.  Else, show it.
     
   }
   catch(err){
