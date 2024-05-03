@@ -2,7 +2,7 @@
     const defaultTheme = "hg-theme-default";
     let selectedInput;
     let Keyboard = window.SimpleKeyboard.default;
-
+    let shifted = false;
     let keyboard = new Keyboard({
     theme: defaultTheme,
     onChange: input => onChange(input),
@@ -79,21 +79,30 @@
     function onKeyPress(button) {
     //console.log("Button pressed", button);
     let inputId = selectedInput.replace('#','');
-            let val = document.getElementById(inputId).value;
+    let val = document.getElementById(inputId).value;
 
-            keyboard.setInput(val,inputId);
+    keyboard.setInput(val,inputId);
+    if(shifted){
+        keyboard.setOptions({
+            layoutName: "default"
+        });
+        shifted = false;
+    }
     /**
      * Shift functionality
      */
-    if (button === "{lock}" || button === "{shift}") handleShiftButton();
+    if (button === "{lock}" || button === "{shift}") handleShiftButton(button);
     }
 
-    function handleShiftButton() {
+    function handleShiftButton(button) {
     let currentLayout = keyboard.options.layoutName;
     let shiftToggle = currentLayout === "default" ? "shift" : "default";
 
     keyboard.setOptions({
         layoutName: shiftToggle
     });
+    if(button === "{shift}")
+        shifted = true;
+ 
     }
 //}
