@@ -35,7 +35,8 @@ app.use(cors());
 
 /*------------------------- Launchers ----------------------------*/
 app.get('/openmm', function(req,res){
-  execSync('pm2 start mm');
+  execSync('pm2 stop wizard-client');
+  execSync('pm2 restart mm');
 });
 app.get('/openwizard', function(req,res){
   execSync('pm2 start wizard-client -- calendar');
