@@ -124,7 +124,7 @@ input#addresslookup {
 button#clearLocation {
     height: 40px;
 }
-#locationerror{
+#locationerror,.error{
     font-size: .7em;
     color:red;
     display:none;
@@ -363,6 +363,9 @@ div.full {
   .sidebar a {
     text-align: center;
     float: none;
+  }
+  a#Help\/Support-link {
+    position: relative;
   }
 }
 button#savebutton:disabled {

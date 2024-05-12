@@ -1,5 +1,5 @@
 
-<title>Advanced Settings</title>
+<title>Help / Contact Us</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -25,7 +25,7 @@
 	<div class="content">
 
 <h2>Help / About</h2>
-<form action="/advanced" method="post" >
+<form action="/contact" method="post" onsubmit="return validateForm()">
     <label class="fieldName">About Greenscreen</label>
     <div class="formField">
      </div>
@@ -36,10 +36,14 @@
     <div class="formField">
         <input type="email" placeholder="Enter your email (Optional)" id="email" name="email" class="input">
     </div>
-    <div class="formField">
-        <textarea id="submittxt" name="submittxt" rows="3" cols="38" onchange="validateForm()" class="input"></textarea>
-    </div>
+    <span id="blankerror" class="error">Please add some text before sending</span>
 
+    <div class="formField">
+        <textarea id="submittxt" name="submittxt" rows="3" cols="38" oninput="showHideSave()" class="input"></textarea>
+    </div>
+    <div class="formField">
+        <button type="submit" id="savebutton" disabled>Submit Help Message</button>
+    </div>
 
 	</form>
 	<div id="status"></div>
@@ -69,34 +73,29 @@
 
 	
     function validateForm(){
-        if(document.getElementById('submittxt').innerText.length<1 && document.getElementById('submittxt').value.length<1){
-            document.getElementById('locationerror').style.display='block';
+        if(document.getElementById('submittxt').value.length<1){
+            document.getElementById('blankerror').style.display='block';
             return false;
         }
-        else
+        else{
+            showHideSave();
             return true;
+        }
     }
  
     async function loadData(){
-        const response = await fetch("/fetchadvanced");
-		const myData = await response.json();
-        console.log(myData);
- 
-        if(myData.onTime.trim().length>0){
-            document.getElementById('startTime').value = myData.onTime;
-        }
-        if(myData.offTime.length>0){
-            document.getElementById('endTime').value = myData.offTime;
-        }
+        
      
     }
 
     dialogBoxId=document.getElementById("dialogBox")
-
+    function showHideSave(){
+		saveButton.disabled = false;
+	}
 
 	loadNav();
     init();
-    loadData();
+    //loadData();
 
 	</script>
 

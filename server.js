@@ -154,7 +154,41 @@ function checkConnection(host, port, timeout) {
 app.get('/help', function(req,res){
   res.sendFile(path.join(__dirname+'/express/help.html'));
 });
-app.get('/contact', function(req,res){
+app.post('/contact', function(req,res){
+
+  let email = "not specified";
+  let body = "";
+  try{
+    for(var key in req.body) {
+
+      if(key.toLowerCase()=='email'){
+        email = req.body[key];
+      }
+      if(key.toLowerCase()=='submittxt'){
+        body = req.body[key];
+      }
+    }
+    const sn = execSync("cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2");
+    console.log('sn: ' + sn);
+    body += body +"<br/><br/>SN: "+sn;
+    response = "sent";
+  }
+  catch(err){
+    response="error";
+    console.log(err);
+  }
+  finally{
+    sendEmail("Greenscreen Support",body,"n8green@gmail.com")
+    res.sendFile(path.join(__dirname+'/express/help.html'));
+    if(req.headers.referer.indexOf('iframed')>-1)
+      response += "&iframed=1";
+    res.redirect('/help?result='+response);
+  }
+
+  
+});
+
+function sendEmail(subject, body, toEmail){
   var SibApiV3Sdk = require('sib-api-v3-sdk');
   var defaultClient = SibApiV3Sdk.ApiClient.instance;
   var apiKey = defaultClient.authentications['api-key'];
@@ -162,15 +196,15 @@ app.get('/contact', function(req,res){
 
   var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
   var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
-  sendSmtpEmail.subject = "Greenscreen Contact Us Submission";
-  sendSmtpEmail.htmlContent = "<html><body><h1>Common: This is my first transactional email </h1></body></html>";
+  sendSmtpEmail.subject = subject;
+  sendSmtpEmail.htmlContent = "<html><body>"+body+"</body></html>";
   sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "n8green@gmail.com" };
   sendSmtpEmail.to = [
-    { "email": "nate@n5interactive.com", "name": "sample-name" }
+    { "email": toEmail, "name": "sample-name" }
   ];
-  sendSmtpEmail.replyTo = { "email": "n8green@gmail.com", "name": "sample-name" };
+  sendSmtpEmail.replyTo = { "email": toEmail, "name": "sample-name" };
   sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
-  sendSmtpEmail.params = { "parameter": "My param value", "subject": "common subject" };
+  sendSmtpEmail.params = { "parameter": "My param value", "subject": subject };
   
   
   apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
@@ -178,7 +212,7 @@ app.get('/contact', function(req,res){
   }, function (error) {
     console.error(error);
   });
-});
+}
 /*------------------------- Message ----------------------------*/
 
 app.get('/message', function(req,res){

@@ -44,6 +44,9 @@ function init(){
         document.getElementById("status").innerHTML = "Greenscreen settings updated.  Relaunch Greenscreen to see your changes"
         document.getElementById("refreshbutton").classList.remove("hidden");
     }
+    if(myParam&&myParam.toLowerCase()=="sent"){
+        document.getElementById("status").innerHTML = "Thank you for submitting a message.  If you've included your email address, we'll respond as quickly as possible."
+    }
     if(isIframe){
         document.querySelector('h2').classList.add("hidden");
     }
