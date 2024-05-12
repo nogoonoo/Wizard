@@ -1,0 +1,106 @@
+
+<title>Advanced Settings</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/keyboard.css">
+
+<style type="text/css">
+
+
+
+</style>
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+<script src="/js/simple-keyboard.js"></script>
+
+<body>
+    <div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
+	<div class="sidebar" id="sidebar"></div>
+	<div class="content">
+
+<h2>Help / About</h2>
+<form action="/advanced" method="post" >
+    <label class="fieldName">About Greenscreen</label>
+    <div class="formField">
+     </div>
+
+    <label class="fieldName">Contact</label>
+    <div class="formField">Need help?  Have feedback?  Shoot us a message below</div>
+
+    <div class="formField">
+        <input type="email" placeholder="Enter your email (Optional)" id="email" name="email" class="input">
+    </div>
+    <div class="formField">
+        <textarea id="submittxt" name="submittxt" rows="3" cols="38" onchange="validateForm()" class="input"></textarea>
+    </div>
+
+
+	</form>
+	<div id="status"></div>
+
+	<dialog id="dialogBox">
+		<header>
+		  <h2 class="header">Confirmation</h2>
+		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
+		</header>
+		<section>
+		  <p id="dialogMsg">Are you sure you want to reboot your Greenscreen?</p>
+		</section>
+		<footer>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Cancel</button>
+		  <button onclick="powerFunction()" id="deleteButton">Reboot</button>
+		</footer>
+	  </dialog>
+      <div class="simple-keyboard"></div>
+
+      <div class="gs-logo-white"></div>
+
+    </div>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
+<script>
+	let showSave = false;
+	let saveButton = document.getElementById("savebutton");
+
+	
+    function validateForm(){
+        if(document.getElementById('submittxt').innerText.length<1 && document.getElementById('submittxt').value.length<1){
+            document.getElementById('locationerror').style.display='block';
+            return false;
+        }
+        else
+            return true;
+    }
+ 
+    async function loadData(){
+        const response = await fetch("/fetchadvanced");
+		const myData = await response.json();
+        console.log(myData);
+ 
+        if(myData.onTime.trim().length>0){
+            document.getElementById('startTime').value = myData.onTime;
+        }
+        if(myData.offTime.length>0){
+            document.getElementById('endTime').value = myData.offTime;
+        }
+     
+    }
+
+    dialogBoxId=document.getElementById("dialogBox")
+
+
+	loadNav();
+    init();
+    loadData();
+
+	</script>
+
+<script src="/js/keyboard.js"></script>
+
+    </body>
+</html>

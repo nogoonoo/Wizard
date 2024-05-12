@@ -2,14 +2,12 @@
 <title>Advanced Settings</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <style type="text/css">
     div.time span {
     display: inline-block;
-    width: 140px;
+    width: 160px;
 }
 div.time {
     padding: 5px;
@@ -33,26 +31,25 @@ input[type="time"]{
 	<div class="content">
 
 <h2>Advanced Settings</h2>
-<form action="/advanced" method="post" >
+<form action="/advanced" method="post" onsubmit="disableSave();">
     <label class="fieldName">Power Options</label>
     <div class="formField">
         <div class="time start"><span>Turn screen on daily at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
         <div class="time end"><span>Turn screen off daily at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
     </div>
-    <label class="fieldName">Reset Options</label>
+    <!--<label class="fieldName">Reset Options</label>
     <div class="formField">
         reset mirror
         
-    </div>
+    </div>-->
     <label class="fieldName">Updates</label>
     <div class="formField">
-        
-        check for updates
+        <button type="button" onclick="checkforupdate()" class="function">Check For Updates</button>
     </div>
-    <label class="fieldName">Hardware</label>
+    <label class="fieldName">System</label>
     <div class="formField">
-        <button type="button" onclick="powerDialog('reboot')">Reboot Greenscreen</button>
-        <button type="button" onclick="powerDialog('shutdown')">Power Off Greenscreen</button>
+        <button type="button" onclick="powerDialog('reboot')" class="function">Reboot</button>
+        <button type="button" onclick="powerDialog('shutdown')" class="function">Power Off</button>
     </div>
 
 
@@ -78,8 +75,10 @@ input[type="time"]{
 		  <button onclick="powerFunction()" id="deleteButton">Reboot</button>
 		</footer>
 	  </dialog>
+      <div class="gs-logo-white"></div>
+
     </div>
-    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
@@ -113,6 +112,7 @@ input[type="time"]{
 		saveButton.disabled = false;
 	}
     function hideSave(){
+        saveButton.innerText = "saving...";
         saveButton.disabled = disabled;
     }
     dialogBoxId=document.getElementById("dialogBox")

@@ -22,6 +22,9 @@ function populateQR(){
         IP().then((res)=>{
             console.log(res);
             document.getElementById('hostnameInfo').innerText = window.location.protocol +"//"+res.ip + ':' +res.port + window.location.pathname;
+            
+            //<span class="qrCode hidden" id="qrParent"><div id="">Scan to edit on your phone</div><img id="qr-code" src=""><div>Or go to </div><div id="hostnameInfo"></div></span>
+
         })
     }
 }
@@ -47,6 +50,7 @@ function init(){
     if(!isIframe){
         populateQR();
     }
+    attachInfoEventListeners();
 
 }
 
@@ -72,4 +76,45 @@ function launchWizard(page){
 }
 function refreshAndLaunchWizard(page){
     fetch('/refreshwizard?page='+page);
+}
+const info = [
+    {
+        id:"message",
+        content:`<div>You can add a custom image to your GreenScreen display.  <img src="/img/info/placeholder.jpg">More stuff</div>`
+    },
+    {
+        id:"msg-placement",
+        content:`<div>Goes either on the side or middle</div>`
+    }
+   
+];
+
+function attachInfoEventListeners(){
+    let infoIcons = document.querySelectorAll('.info');
+    for(var i = 0; i<infoIcons.length; i++){
+        let infoID = infoIcons[i].getAttribute('data-info');
+        infoIcons[i].addEventListener("click", function (e) {
+            populateModal(infoID);
+        });
+    }
+}
+
+function populateModal(id){
+    let obj = getInfoContent(id);
+    let title = document.querySelector('[data-info="'+id+'"]').innerText;
+    document.getElementById('info-modal-title').innerText = title;
+    document.getElementById('info-modal-content').innerHTML = obj[0].content;
+    MicroModal.show('info-modal');
+}
+
+function getInfoContent(id) {
+    return info.filter(
+        function(info){ return info.id == id }
+    );
+}
+
+function disableSave(){
+    let saveButton = document.getElementById("savebutton");
+    saveButton.disabled = true;
+    saveButton.innerText = "saving...";
 }

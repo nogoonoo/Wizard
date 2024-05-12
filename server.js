@@ -20,8 +20,6 @@ global.IP = ""; //IP object for QR code
 const { isInternetAvailable, InternetAvailabilityService } = require('is-internet-available');
 const {envVars}  = require('./env/config.js')
 
-console.log(envVars.age);
-
 setIPAddr();
 
 // We are using our packages here
@@ -152,6 +150,35 @@ function checkConnection(host, port, timeout) {
       });
   });
 }
+/*------------------------- Help --------------------------- */
+app.get('/help', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/help.html'));
+});
+app.get('/contact', function(req,res){
+  var SibApiV3Sdk = require('sib-api-v3-sdk');
+  var defaultClient = SibApiV3Sdk.ApiClient.instance;
+  var apiKey = defaultClient.authentications['api-key'];
+  apiKey.apiKey = envVars.mailAPIKey;
+
+  var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+  var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
+  sendSmtpEmail.subject = "Greenscreen Contact Us Submission";
+  sendSmtpEmail.htmlContent = "<html><body><h1>Common: This is my first transactional email </h1></body></html>";
+  sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "n8green@gmail.com" };
+  sendSmtpEmail.to = [
+    { "email": "nate@n5interactive.com", "name": "sample-name" }
+  ];
+  sendSmtpEmail.replyTo = { "email": "n8green@gmail.com", "name": "sample-name" };
+  sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
+  sendSmtpEmail.params = { "parameter": "My param value", "subject": "common subject" };
+  
+  
+  apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
+    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+  }, function (error) {
+    console.error(error);
+  });
+});
 /*------------------------- Message ----------------------------*/
 
 app.get('/message', function(req,res){

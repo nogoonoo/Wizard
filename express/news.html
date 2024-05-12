@@ -2,9 +2,7 @@
 <title>News</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
@@ -35,13 +33,13 @@
 <h2>News</h2>
 <form action="/news" method="post" onsubmit="return validateForm()">
 
-    <label class="headerName">Newsfeed</label>
-    <label class="fieldName">Show Newsfeed</label>
+    <!--<label class="headerName">Newsfeed</label>-->
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="newsfeed" name="newsfeed" onchange="togglenews(this);showHideSave()" value="true">
             <span class="slider round"></span>
-        </label>
+        </label>    <label class="fieldName inline">Show Newsfeed</label>
+
     </div>
     <span id="noSources">You must add at least one news source, or hide the newsfeed</span>
     <span id="newsoptions">
@@ -75,8 +73,8 @@
             </div>
         </div>
     </span>
-    Transition speed: 10sec - 60 sec
-    View article in window
+   <!--- Transition speed: 10sec - 60 sec
+    View article in window-->
     <div class="formField">
         <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
         <button type="button" id="refreshbutton" class="hidden" onclick="openMM()">Open Greenscreen</button>
@@ -101,9 +99,10 @@
 	  </dialog>
 
     <div class="simple-keyboard"></div>
+    <div class="gs-logo-white"></div>
 
     </div>
-    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
 
   
 
@@ -152,7 +151,7 @@
             }
             else{
                 document.getElementById('noSources').style.display = "none";
-
+                disableSave();
             }
 
         }

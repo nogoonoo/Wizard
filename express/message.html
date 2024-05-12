@@ -2,15 +2,14 @@
 <title>Custom Message</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/keyboard.css">
 
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/simple-keyboard.js"></script>
+<script src="/js/micromodal.min.js"></script>
 
 <style>
 #messageoptions{
@@ -28,7 +27,7 @@
 	<div class="content">
 <h2>Custom Message</h2>
 <form action="/message" method="post" onsubmit="return validateForm()">
-    <label class="fieldName">Show a Custom Message</label>
+    <label class="fieldName info" data-info="message">Show a Custom Message</label> 
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="showmsg" name="showmsg" onchange="togglemessage(this);showHideSave()" value="false">
@@ -40,7 +39,7 @@
         <div class="formField">
             <textarea id="msgtxt" name="msgtxt" rows="3" cols="38" onchange="showHideSave()" class="input"></textarea>
         </div>
-        <label class="fieldName">Message Placement</label>
+        <label class="fieldName info" data-info="msg-placement">Message Placement</label>
         <div class="formField">
             <select id="msgplace" name="msgplace" onchange="showHideSave()">
                 <option value="side">Sidebar</option>
@@ -70,19 +69,38 @@
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+
       <div class="simple-keyboard"></div>
+	  <div class="gs-logo-white"></div>
 
     </div>
-	<span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="hostnameInfo"></div></span>
-
+    <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
+   
+    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="info-modal-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="info-modal-content">
+              CONTENT GOES HERE
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+    </div>
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
   
-    function validateForm(){
-        let dateReturnValue = true;       
-
-        return dateReturnValue;
+    function validateForm(){    
+        disableSave();
+        return true;
     }
     
 
