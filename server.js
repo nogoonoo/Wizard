@@ -169,8 +169,7 @@ app.post('/contact', function(req,res){
       }
     }
     const sn = execSync("cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2");
-    console.log('sn: ' + sn);
-    body += body +"<br/><br/>SN: "+sn;
+    body += "<br/><br/>Email: "+email+"<br/>SN: "+sn;
     response = "sent";
   }
   catch(err){

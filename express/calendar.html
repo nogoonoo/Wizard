@@ -68,9 +68,34 @@ button.addLine {
     margin-left: 0px;
 }
 
+@media screen and (max-width: 400px) {
+	input[data-type="name"]{
+		width:25%;
+	}
+	input[data-type="ics"] {
+		width:45%;
+	}
+	input[type="color"]{
+		width:8%;
+	}
+	.nameHeader {
+		width:25%;
+	}
+	.urlHeader {
+		width:45%;
+	}
+	.colorHeader {
+		width:inherit;
+	}
+}
+
 </style>
 <body>
-	
+	<div class="menu-container" onclick="toggleMenu(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+    </div>
 	<div class="sidebar" id="sidebar">
 	</div>
 	<div class="content">
@@ -112,7 +137,6 @@ button.addLine {
 		</footer>
 	  </dialog>
 	  <div class="simple-keyboard"></div>
-	  <div class="gs-logo-white"></div>
 
 	</div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
@@ -277,6 +301,7 @@ button.addLine {
 	</script>
 	
 	<script src="/js/keyboard.js"></script>
+	
 
     </body>
 </html>

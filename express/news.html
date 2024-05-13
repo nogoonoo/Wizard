@@ -19,6 +19,14 @@
     color: red;
     display:none;
 }
+@media screen and (max-width: 400px) {
+	input[data-type="name"]{
+		width:25%;
+	}
+	input[type="url"] {
+		width:55%;
+	}
+}
 
 </style>
 <body>
@@ -99,7 +107,6 @@
 	  </dialog>
 
     <div class="simple-keyboard"></div>
-    <div class="gs-logo-white"></div>
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
@@ -151,7 +158,6 @@
             }
             else{
                 document.getElementById('noSources').style.display = "none";
-                disableSave();
             }
 
         }
@@ -229,5 +235,7 @@
 
 	</script>
       <script src="/js/keyboard.js"></script>
+      
+
     </body>
 </html>
