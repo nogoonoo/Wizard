@@ -20,6 +20,7 @@ input[type="time"]{
 </style>
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
+<script src="/js/micromodal.min.js"></script>
 
 <body>
     <div class="menu-container" onclick="toggleMenu(this)">
@@ -30,9 +31,9 @@ input[type="time"]{
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
-<h2>Advanced Settings</h2>
+<h2>Advanced</h2>
 <form action="/advanced" method="post" onsubmit="disableSave();">
-    <label class="fieldName">Power Options</label>
+    <label class="fieldName info" data-info="sys-power">Power Options</label>
     <div class="formField">
         <div class="time start"><span>Turn screen on daily at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
         <div class="time end"><span>Turn screen off daily at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
@@ -42,17 +43,18 @@ input[type="time"]{
         reset mirror
         
     </div>-->
-    <label class="fieldName">Updates</label>
-    <div class="formField">
+    <label class="fieldName inline notop info" data-info="sys-updates">Updates</label>
+    <div class="formField inline">
         <button type="button" onclick="checkforupdate()" class="function">Check For Updates</button>
     </div>
-    <label class="fieldName">System</label>
-    <div class="formField">
+    <div style="height:20px"></div>
+    <label class="fieldName inline notop">System</label>
+    <div class="formField inline">
         <button type="button" onclick="powerDialog('reboot')" class="function">Reboot</button>
         <button type="button" onclick="powerDialog('shutdown')" class="function">Power Off</button>
     </div>
 
-
+    <div style="height:20px"></div>
 
     <div class="formField">
         <button type="submit" id="savebutton" disabled>Update Greenscreen</button>
@@ -78,6 +80,25 @@ input[type="time"]{
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
+    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="info-modal-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="info-modal-content">
+              CONTENT GOES HERE
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+    </div>
+
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");

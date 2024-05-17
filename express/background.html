@@ -7,8 +7,9 @@
 <link rel="stylesheet" href="/css/keyboard.css">
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
-<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script src="/js/simple-keyboard.js"></script>
+<script src="/js/micromodal.min.js"></script>
+
 
 <style type="text/css">
 ul#sourceoptions li {
@@ -128,12 +129,11 @@ div#existingFiles a{
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 	
-<h2>Background</h2>
+<h2 class="info" data-info="about-bgs">Backgrounds</h2>
 
 
 <form action="/background" method="post" onsubmit="return validateForm();">
-    <label class="fieldName">Background Image Source</label>
-    
+    <label class="fieldName info" data-info="bgsources">Background Image Source</label>
     <span id="dateoptions">
 		<div class="formField">
            <!-- <input type="text" id="selectedSource" placeholder="Select a source" onfocus="toggleoptions(true)" onblur="setoption(null)"><i class="arrow down"></i></div>
@@ -168,7 +168,7 @@ div#existingFiles a{
             </span>
 		</div>
 	</span>
-    <label class="fieldName">Rotate Images</label>
+    <label class="fieldName info" data-info="bgrotate">Rotate Images</label>
     <div class="formField">
         <select id="interval" name="interval" onchange="showHideSave()">
             <option value="60000">Every 1 minute</option>
@@ -182,7 +182,7 @@ div#existingFiles a{
             <option value="43200000">Every 12 hours</option>
         </select>
     </div>
-    <label class="fieldName">Background Brightness</label>
+    <label class="fieldName info" data-info="bgbright">Background Brightness</label>
     <label class="fieldDescription">Lower brightness makes text easier to read</label>
     <div class="formField">
         <div class="rangecontainer">
@@ -243,7 +243,24 @@ div#existingFiles a{
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
-
+    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="info-modal-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="info-modal-content">
+              CONTENT GOES HERE
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+    </div>
     <script>
 	if(isLocalHost){
         document.getElementById('fileupload').disabled = true;

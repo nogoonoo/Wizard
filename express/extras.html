@@ -9,6 +9,7 @@
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/simple-keyboard.js"></script>
+<script src="/js/micromodal.min.js"></script>
 
 <style>
 	#countdownoptions{
@@ -24,9 +25,9 @@
     </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
-<h2>Other Widgets</h2>
+<h2 class="info" data-info="about-others">Other Widgets</h2>
 <form action="/extras" method="post" onsubmit="return validateForm()">
-    <label class="headerName">Word of the Day</label>
+    <label class="headerName info" data-info="wotd">Word of the Day</label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="wotd" name="wotd" onchange="showHideSave()" value="true">
@@ -34,7 +35,7 @@
         </label>
         <label class="fieldName inline">Show Word of the Day</label>
     </div>
-    <label class="headerName">Countdown Clock</label>
+    <label class="headerName info" data-info="countdown">Countdown Clock</label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="countdown" name="countdown" onchange="togglecountdown(this);showHideSave()" value="true">
@@ -43,16 +44,16 @@
         <label class="fieldName inline">Show Countdown Clock</label>
     </div>
     <span id="countdownoptions">
-        <label class="fieldName">Countdown To Date</label>
+        <label class="fieldName info" data-info="countdown-date">Countdown To Date</label>
         <div class="formField">
             <input type="datetime-local" id="countdowndate" name="countdowndate" onchange="showHideSave()">
             <span id="dateTimeError" class="dateTimeError"></span>
         </div>
-        <label class="fieldName">Countdown Message</label>
+        <label class="fieldName info" data-info="countdown-msg">Countdown Message</label>
         <div class="formField">
             <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()" class="input" >
         </div>
-        <label class="fieldName">Show message after countdown</label>
+        <label class="fieldName info" data-info="countdown-after">Show message after countdown</label>
         <div class="formField">
             <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()"  class="input" >
         </div>
@@ -95,7 +96,24 @@
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
-
+    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="info-modal-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="info-modal-content">
+              CONTENT GOES HERE
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+    </div>
 <script>
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");

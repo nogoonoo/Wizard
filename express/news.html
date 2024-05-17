@@ -7,6 +7,7 @@
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/simple-keyboard.js"></script>
+<script src="/js/micromodal.min.js"></script>
 
 <link rel="stylesheet" href="/css/keyboard.css">
 </head>
@@ -38,7 +39,7 @@
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
-<h2>News</h2>
+<h2 class="info" data-info="about-news">News</h2>
 <form action="/news" method="post" onsubmit="return validateForm()">
 
     <!--<label class="headerName">Newsfeed</label>-->
@@ -51,7 +52,7 @@
     </div>
     <span id="noSources">You must add at least one news source, or hide the newsfeed</span>
     <span id="newsoptions">
-        <label class="fieldName">Preconfigured Sources</label>
+        <label class="fieldName info" data-info="preconfig-news">Preconfigured Sources</label>
         <div class="formField">
             <input type="checkbox" id="NYT-HARDCODE" name="NYT-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="NYT-HARDCODE">
             <label id="opt1" for="NYT-HARDCODE" class="selector-item_label vertical">The New York Times</label><br/>
@@ -62,7 +63,7 @@
             <input type="checkbox" id="AP-HARDCODE" name="AP-HARDCODE" class="selector-item_radio staticNewsSource"  onchange="showHideSave()" value="AP-HARDCODE">
             <label id="opt4" for="AP-HARDCODE" class="selector-item_label vertical">AP</label><br/>
         </div>
-        <label class="fieldName">Custom Feeds (Up to 3)</label>
+        <label class="fieldName info" data-info="custom-news">Custom Feeds (Up to 3)</label>
         <div class="formField">
             <div class="newsLine" id="calendarLine-1">
                 <input name="name-1" id="name-1" type="text" placeholder="Name" data-type="name" minlength="1" class="input" >
@@ -110,7 +111,24 @@
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
-
+    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
+        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+            <header class="modal__header">
+              <h2 class="modal__title" id="info-modal-title">
+                Remove Images
+              </h2>
+              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            </header>
+            <main class="modal__content" id="info-modal-content">
+              CONTENT GOES HERE
+            </main>
+            <footer class="modal__footer">
+              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
+            </footer>
+          </div>
+        </div>
+    </div>
   
 
 <script>
