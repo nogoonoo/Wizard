@@ -243,6 +243,9 @@ app.post('/message', (req, res) =>{
           css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;}`;
       }
     }
+    if(messagePlacement=="center"){
+      messageText +=`<a href="#" onclick="document.querySelector('div.module.helloworld').style.display='none';">Hide</a>`
+    }
     show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
     if(!showmsg){
@@ -862,10 +865,10 @@ app.post('/news', (req, res) =>{
     }
 
     if(shownews){
-      show_news_snippet = `{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},\n`
+      show_news_snippet = `{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,broadcastNewsUpdates:true}},\n`
     }
     else{
-      show_news_snippet = `//{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},\n`
+      show_news_snippet = `//{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,broadcastNewsUpdates:true}},\n`
     }
     writeToTemplate('news.txt','news',show_news_snippet);
     //write news
