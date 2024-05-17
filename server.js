@@ -244,7 +244,7 @@ app.post('/message', (req, res) =>{
       }
     }
     if(messagePlacement=="center"){
-      messageText +=`*_customhide_*<a href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`
+      messageText +=`<a hideme href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`
     }
     show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
@@ -294,7 +294,7 @@ async function readMsgConfig(){
     let msgTextPrefix = 'config:{text:"';
     let msgTextSuffix = '",placement:';
     let msgText = msg.substring(msg.indexOf(msgTextPrefix)+msgTextPrefix.length,msg.indexOf(msgTextSuffix));
-    let customHideBtnPrefix = "*_customhide_*";
+    let customHideBtnPrefix = `<a hideme`;
     if(msgText.indexOf(customHideBtnPrefix)>-1){
       msgText=msgText.substring(0,msgText.indexOf(customHideBtnPrefix));
     }
