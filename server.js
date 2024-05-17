@@ -244,7 +244,7 @@ app.post('/message', (req, res) =>{
       }
     }
     if(messagePlacement=="center"){
-      messageText +=`<a href=\"#\" onclick=\"document.querySelector('div.module.helloworld').style.display='none';\">Hide</a>`
+      messageText +=`*_customhide_*<a href=\"#\" onclick=\"document.querySelector('div.module.helloworld').style.display='none';\">Hide</a>`
     }
     show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
@@ -289,6 +289,10 @@ async function readMsgConfig(){
     let msgSuffix = "//msg_end";
     let msg = configData.substring(configData.indexOf(msgPrefix)+msgPrefix.length,configData.indexOf(msgSuffix));
     msgData.showmsg = !msg.trim().startsWith(`//`);
+    let customHideBtnPrefix = "*_customhide_*";
+    if(msg.indexOf(customHideBtnPrefix)>-1){
+      msg=msg.substring(0,msg.customHideBtnPrefix);
+    }
 
     let msgTextPrefix = 'config:{text:"';
     let msgTextSuffix = '",placement:';
