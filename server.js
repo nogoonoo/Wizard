@@ -289,15 +289,15 @@ async function readMsgConfig(){
     let msgSuffix = "//msg_end";
     let msg = configData.substring(configData.indexOf(msgPrefix)+msgPrefix.length,configData.indexOf(msgSuffix));
     msgData.showmsg = !msg.trim().startsWith(`//`);
-    let customHideBtnPrefix = "*_customhide_*";
-    if(msg.indexOf(customHideBtnPrefix)>-1){
-      msg=msg.substring(0,msg.customHideBtnPrefix);
-    }
+   
 
     let msgTextPrefix = 'config:{text:"';
     let msgTextSuffix = '",placement:';
     let msgText = msg.substring(msg.indexOf(msgTextPrefix)+msgTextPrefix.length,msg.indexOf(msgTextSuffix));
-
+    let customHideBtnPrefix = "*_customhide_*";
+    if(msgText.indexOf(customHideBtnPrefix)>-1){
+      msgText=msgText.substring(0,msgText.indexOf(customHideBtnPrefix));
+    }
     let placementPrefix = ',placement:"';
     let placementSuffix = '"}';
     let placement = msg.substring(msg.indexOf(placementPrefix)+placementPrefix.length,msg.indexOf(placementSuffix));
