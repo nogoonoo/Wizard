@@ -244,7 +244,7 @@ app.post('/message', (req, res) =>{
       }
     }
     if(messagePlacement=="center"){
-      messageText +=`*_customhide_*<a href=\"#\" onclick=\"document.querySelector('div.module.helloworld').style.display='none';\">Hide</a>`
+      messageText +=`*_customhide_*<a href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`
     }
     show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
