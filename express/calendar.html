@@ -178,8 +178,8 @@ a.help {
 	dialogBoxId=document.getElementById("dialogBox")
 
 	function showDialog(id){
-		console.log('should I show dialg?')
-		console.log(id);
+		//console.log('should I show dialg?')
+		//console.log(id);
 		if(document.getElementById('ics-'+id).value != ""){
 
 			clickedRemove = document.getElementById('ics-'+id).parentElement.id;
@@ -212,15 +212,14 @@ a.help {
 	async function loadData(){
 		const response = await fetch("/fetchcalendar");
 		const myData = await response.json();
-		console.log(myData);
+		//console.log(myData.length);
 
 		myData.forEach((element,index) => {
-			console.log(element.name);
+			//console.log(element.name);
 			addCalLine(element.internalName,element.ics,element.color)
 		});
-		
-
-		
+		if(myData.length<=1)
+			addCalLine()
 	}
 	function showHideSave(){
 		saveButton.disabled = false;
@@ -298,7 +297,7 @@ a.help {
 		toggleadd();
       }
 	  function removeCalendarLine(){
-		console.log(clickedRemove);
+		//console.log(clickedRemove);
 		//document.getElementById("calendarLine-"+clickedRemove).remove();
 		document.getElementById(clickedRemove).remove();
 		showHideSave();

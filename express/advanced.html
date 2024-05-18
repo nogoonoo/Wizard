@@ -116,7 +116,7 @@ input[type="time"]{
     async function loadData(){
         const response = await fetch("/fetchadvanced");
 		const myData = await response.json();
-        console.log(myData);
+        //console.log(myData);
  
         if(myData.onTime.trim().length>0){
             document.getElementById('startTime').value = myData.onTime;

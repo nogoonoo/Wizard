@@ -105,7 +105,7 @@
 
     function togglemessage(obj){
 		let messageOptions = document.getElementById('messageoptions');
-        console.log("toggling");
+        //console.log("toggling");
 
 		if(obj.checked)
             messageOptions.style.display = "block";
@@ -115,12 +115,12 @@
     async function loadData(){
         const response = await fetch("/fetchmsg");
 		const myData = await response.json();
-        console.log(myData);
+        //console.log(myData);
     
         if(myData.showmsg){
             let showmsg = myData.showmsg;
             checkbox = document.getElementById("showmsg");
-            console.log("showmsg:"+showmsg);
+            //console.log("showmsg:"+showmsg);
             if(!showmsg)
                 checkbox.checked = false;
             else{

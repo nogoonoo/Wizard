@@ -151,7 +151,7 @@
 		const response = await fetch("/fetchclock");
 		const myData = await response.json();
 		//console.log(myData);
-		console.log(myData.timezone);
+		//console.log(myData.timezone);
 		if(myData.timezone.length>0){
 			document.getElementById('timezone').value = myData.timezone;
 		}

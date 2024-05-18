@@ -147,12 +147,12 @@
     async function loadData(){
         const response = await fetch("/fetchextras");
 		const myData = await response.json();
-        console.log(myData);
+        //console.log(myData);
     
         if(myData.showWOTD){
             let wotd = myData.showWOTD;
             checkbox = document.getElementById("wotd");
-            console.log(wotd);
+            //console.log(wotd);
             if(!wotd)
                 checkbox.checked = false;
             else
@@ -161,7 +161,7 @@
         if(myData.showCountdown){
             let countDown = myData.showCountdown;
             checkbox = document.getElementById("countdown");
-            console.log(countdown);
+            //console.log(countdown);
             if(!countdown)
                 checkbox.checked = false;
             else{

@@ -20,7 +20,7 @@ function populateQR(){
         document.getElementById('qr-code').setAttribute("src","http://localhost:3000/qrcode?path="+window.location.pathname);
         document.getElementById('qrParent').classList.remove("hidden");
         IP().then((res)=>{
-            console.log(res);
+            //console.log(res);
             document.getElementById('hostnameInfo').innerText = window.location.protocol +"//"+res.ip + ':' +res.port + window.location.pathname;
             
             //<span class="qrCode hidden" id="qrParent"><div id="">Scan to edit on your phone</div><img id="qr-code" src=""><div>Or go to </div><div id="hostnameInfo"></div></span>
@@ -39,7 +39,7 @@ function init(){
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
     const isIframe = urlParams.get('iframed');
-    console.log(myParam);
+    //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
         document.getElementById("status").innerHTML = "Greenscreen settings updated.  Relaunch Greenscreen to see your changes"
         document.getElementById("refreshbutton").classList.remove("hidden");
@@ -98,10 +98,10 @@ function populateModal(id){
     document.getElementById('info-modal-title').innerText = title;
     document.getElementById('info-modal-content').innerHTML = obj[0].content;
     MicroModal.show('info-modal');
-    let pees = document.querySelectorAll('div.accordian');
-    for(i=0;i<pees.length;i++){
-        console.log('appending stuff')
-        pees[i].addEventListener("click", function (e) {
+    let dropdowns = document.querySelectorAll('div.accordian');
+    for(i=0;i<dropdowns.length;i++){
+        //('appending stuff')
+        dropdowns[i].addEventListener("click", function (e) {
             this.querySelector('div.hiddenContent').classList.toggle('open')
             this.querySelector('div.hiddenContent').classList.toggle('closed')
             this.querySelector('span.caret').classList.toggle('right')

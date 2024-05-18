@@ -2,11 +2,9 @@
 <title>Background Settings</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
-<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<script src="/js/micromodal.min.js"></script>
 <style type="text/css">
 
 
@@ -117,7 +115,7 @@ button {
             },
             body: JSON.stringify(body)
         }).then((blah)=>{
-            console.log(blah);
+            //console.log(blah);
             window.location = "/imageedit.html?result=success";
             });
     }
@@ -133,9 +131,9 @@ button {
             obj.checked = true;
     }
    function toggleCheckboxDiv(obj){
-    console.log("Checkd"+obj.innerHTML);
+    //console.log("Checkd"+obj.innerHTML);
         let id = obj.querySelector('[type=checkbox]').id;
-        console.log(obj.querySelector('[type=checkbox]'))
+       // console.log(obj.querySelector('[type=checkbox]'))
         /*obj.style.animation = "getSmaller 150ms";
         setTimeout(()=>{
         obj.style.animation = "";
@@ -159,7 +157,7 @@ button {
 
     }
     async function loadData(){
-        console.log("Loading...");
+        //console.log("Loading...");
         const response = await fetch("/images");
 		const myData = await response.json();
         Array.prototype.forEach.call(myData, function(el) {
@@ -180,7 +178,7 @@ button {
             div.append(checkbox);
             document.getElementById('img-container').append(div);
         })
-        console.log(myData);
+        //console.log(myData);
     }
 
 	let dialogBoxId=document.getElementById("dialogBox")

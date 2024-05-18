@@ -173,7 +173,7 @@
     async function loadData(){
         const response = await fetch("/fetchweatherconfig");
 		const myData = await response.json();
-        console.log(myData);
+        //console.log(myData);
         if(myData.friendlyLocation.length>0){
             document.getElementById('savedLocation').innerHTML = `<div id="savedLocation"><div>Current location:</div><span id="savedLocationName">${myData.friendlyLocation}</span></div>`;
         }
@@ -217,16 +217,16 @@ showFeelsLike:
             clearInterval(_queryInterval);
             hideSave();
         }
-        console.log(e.key + " - " + e.code);
+        //console.log(e.key + " - " + e.code);
         if(e.code != "Space" && e.code != "Period" && e.code != "Comma"){
-            console.log('checking to see if I should query...')
+            //console.log('checking to see if I should query...')
             clearInterval(_queryInterval);
             _queryInterval = setInterval(function(){
-                console.log("I'm in the setInterval");
+                //console.log("I'm in the setInterval");
                 
                 if(keypressed && query.length>minQueryLength){
                     keypressed = false;
-                    console.log('running query');
+                    //console.log('running query');
                     queryLocation(query).then((res)=>{
                         clearInterval(_queryInterval);
                     });
@@ -238,14 +238,14 @@ showFeelsLike:
 	async function queryLocation(query){
 		const response = await fetch("/fetchweather?searchterm="+query);
 		const myData = await response.json();
-		console.log(myData);
+		//console.log(myData);
         //const parentDatalist = document.getElementById('locations');
         const parentDatalist = document.getElementById('locationsDiv');
         parentDatalist.innerHTML = '';
        // document.getElementById('locations').style.display = "none";
 		myData.forEach((element,index) => {
             
-            console.log(index+": "+element);
+            //console.log(index+": "+element);
             var dataItem = document.createElement('div');
             dataItem.innerHTML = (element.city?element.city +", ":"") + (element.state?element.state + ", ":"")+ (element.country?element.country:"");
 			dataItem.onclick = function(){setLocation(this);}
@@ -262,7 +262,7 @@ showFeelsLike:
 		
 	}
     function setLocation(obj){
-        console.log(obj);
+        //console.log(obj);
         document.getElementById('locationsDiv').innerHTML = '';
         document.getElementById('addresslookup').value = obj.innerHTML.substring(0,obj.innerHTML.indexOf("<span"));
         document.getElementById('hiddenLocation').value = obj.getAttribute("data-lat")+","+obj.getAttribute("data-long");
@@ -309,7 +309,7 @@ showFeelsLike:
     <script>
       
     function onChange(input,event) {
-        console.log("Input changed", input);
+        //console.log("Input changed", input);
         document.querySelector(selectedInput || ".input").value = input;
         let timeout = 750;
         let query = document.getElementById('addresslookup').value.trim();
@@ -319,14 +319,14 @@ showFeelsLike:
             hideSave();
         }
         if(input != " " && input != "." && input != ","){
-            console.log('checking to see if I should query...')
+            //console.log('checking to see if I should query...')
             clearInterval(_queryInterval);
             _queryInterval = setInterval(function(){
-                console.log("I'm in the setInterval");
+                //console.log("I'm in the setInterval");
                 
                 if(keypressed && query.length>minQueryLength){
                     keypressed = false;
-                    console.log('running query');
+                   // console.log('running query');
                     queryLocation(query).then((res)=>{
                         clearInterval(_queryInterval);
                     });

@@ -306,7 +306,7 @@ div#existingFiles a{
            fileUploadBtn.innerText = "Uploading...";
            loader.classList.remove("hidden");
            uploadFiles().then((response)=>{
-               console.log('all done');
+               //console.log('all done');
                document.getElementById('fileupload').value = "";
                fileUploadBtn.classList.add("hidden");
                loader.classList.add("hidden");
@@ -388,7 +388,7 @@ div#existingFiles a{
     async function loadData(){
         const response = await fetch("/fetchwallpaper");
 		const myData = await response.json();
-        console.log(myData);
+        //console.log(myData);
         if(myData.source.length>0){
             setoption(document.getElementById(myData.source));
         }

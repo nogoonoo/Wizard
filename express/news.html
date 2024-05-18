@@ -180,7 +180,7 @@
 
         }
 
-        console.log("newsSourceCount: "+newsSourceCount);
+        //console.log("newsSourceCount: "+newsSourceCount);
 
 
         return newsReturnValue;
@@ -209,7 +209,7 @@
     async function loadData(){
         const response = await fetch("/fetchnews");
 		const myData = await response.json();
-        console.log(myData.showNewsfeed);
+        //console.log(myData.showNewsfeed);
         
         let showNews = myData.showNewsfeed;
         checkbox = document.getElementById("newsfeed");

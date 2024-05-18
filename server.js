@@ -1293,11 +1293,11 @@ app.get('/clock', function(req,res){
 app.post('/clock', (req, res) =>{
   let response = "";
   let showtime = false;
-  let time_showtime_snippet = "\tshowTime:"+showtime+",\n";
+  let time_showtime_snippet = "showTime:"+showtime+",\n";
   let showseconds = false;
-  let time_showseconds_snippet = "\tdisplaySeconds:"+showseconds+",\n"
+  let time_showseconds_snippet = "displaySeconds:"+showseconds+",\n"
   let showdate = false;
-  let time_showdate_snippet = "\tshowDate:"+showdate+",\n";
+  let time_showdate_snippet = "showDate:"+showdate+",\n";
   let time_dateformat_snippet = "";
   
   
