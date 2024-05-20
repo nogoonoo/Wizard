@@ -28,7 +28,7 @@ const pages = [
 {
     name:"Extras",
     url: "extras",
-    icon:`<?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" viewBox="0 0 24 24" stroke-width="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF"><path d="M21 3L15 3M21 3L12 12M21 3V9" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H11" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"></path></svg>`
+    icon:`<svg height="24" width="24" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="6" height="6" rx="1" transform="matrix(1 0 0 -1 14 10)" stroke="#ffffff" stroke-linecap="round"></rect> <path d="M10 14H14C14.9428 14 15.4142 14 15.7071 14.2929C16 14.5858 16 15.0572 16 16V18C16 18.9428 16 19.4142 15.7071 19.7071C15.4142 20 14.9428 20 14 20H10V14Z" stroke="#ffffff" stroke-linecap="round"></path> <path d="M10 10C10 9.05719 10 8.58579 9.70711 8.29289C9.41421 8 8.94281 8 8 8H6C5.05719 8 4.58579 8 4.29289 8.29289C4 8.58579 4 9.05719 4 10V14H10V10Z" stroke="#ffffff" stroke-linecap="round"></path> <path d="M10 20H6C5.05719 20 4.58579 20 4.29289 19.7071C4 19.4142 4 18.9428 4 18V14H10V20Z" stroke="#ffffff" stroke-linecap="round"></path> </g></svg>`
 },
 {
     name:"Message",

@@ -56,6 +56,9 @@ app.get('/step2', function(req,res){
 app.get('/step3', function(req,res){
   res.sendFile(path.join(__dirname+'/express/step3.html'));
 });
+app.get('/settings', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/wizardhome.html'));
+});
 app.get('/lookingfornetworks', function(req,res){
   res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
 });
@@ -117,14 +120,15 @@ app.post('/step2', (req, res) =>{
       //console.log(result);
       response = "success";
     }
+    /*
     if(key.toLowerCase().startsWith('timeformat')){//time_12or24_start
       let timeformat = req.body[key];
       console.log("timeformat: "+ timeformat);
       time_format_snippet = "\ttimeFormat:"+timeformat+",\n"; //timeFormat:12,
-    }
+    }*/
   }
   console.log('writing time to config')
-  writeToTemplate('time_12or24.txt','time_12or24',time_format_snippet); //writes to template file 
+  //writeToTemplate('time_12or24.txt','time_12or24',time_format_snippet); //writes to template file 
  
   res.sendFile(path.join(__dirname+'/express/step3.html'));
   res.redirect('/step3?result='+response);
@@ -240,8 +244,8 @@ app.post('/message', (req, res) =>{
         if(messagePlacement=="center")
           css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
         else
-          css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;}`;
-      }
+          css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;bottom: 0;}`;
+        }
     }
     if(messagePlacement=="center"){
       messageText +=`<a hideme href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`
