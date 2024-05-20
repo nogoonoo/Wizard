@@ -81,6 +81,15 @@
                 <span id="error-3" class="urlError"></span>
             </div>
         </div>
+        <label class="fieldName info" data-info="custom-news">Rotate Articles</label>
+        <div class="formField">
+            <select id="interval" name="interval" onchange="showHideSave()">
+                <option value="10000">Every 10 seconds</option>
+                <option value="20000">Every 20 seconds</option>
+                <option value="30000">Every 30 seconds</option>
+                <option value="60000">Every minute</option>
+            </select>
+        </div>
     </span>
    <!--- Transition speed: 10sec - 60 sec
     View article in window-->
@@ -234,6 +243,10 @@
                     document.getElementById("url-"+customCount).value = feed.url;
                 }
             });
+        }
+        if(myData.interval){
+            let interval = document.getElementById("interval");
+            interval.value = myData.interval;
         }
 
 

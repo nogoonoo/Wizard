@@ -817,12 +817,17 @@ app.post('/news', (req, res) =>{
   let show_news_snippet = "";
   let news_feeds = [];
   let news_snippet = "";
+  let interval = 10000;
+
  console.log(req.body);
   try{
     for(var key in req.body) {
   
       if(key.toLowerCase()=='newsfeed'){
         shownews = true
+      }
+      if(key.toLowerCase()=='interval'){
+        interval = req.body[key];
       }
       if(key.toLowerCase().startsWith('name-')){
           //if a news item has a URL but no name, add in "Custom Feed"
@@ -876,10 +881,10 @@ app.post('/news', (req, res) =>{
     }
 
     if(shownews){
-      show_news_snippet = `{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,broadcastNewsUpdates:true}},\n`
+      show_news_snippet = `{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,updateInterval:${interval},broadcastNewsUpdates:true}},\n`
     }
     else{
-      show_news_snippet = `//{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,broadcastNewsUpdates:true}},\n`
+      show_news_snippet = `//{module:"newsfeed",position: "bottom_bar",config:{feeds:[${news_feeds_string}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,animationSpeed:1000,updateInterval:${interval},broadcastNewsUpdates:true}},\n`
     }
     writeToTemplate('news.txt','news',show_news_snippet);
     //write news
@@ -925,11 +930,15 @@ async function readNewsConfig(){
     let news = configData.substring(configData.indexOf(newsPrefix)+newsPrefix.length,configData.indexOf(newsSuffix));
     newsData.showNewsfeed = !news.trim().startsWith(`//`);
 
+    let intervalPrefix = ',updateInterval:';
+    let intervalSuffix = ',broadcastNewsUpdates:';
+    let intervalString = news.substring(news.indexOf(intervalPrefix)+intervalPrefix.length,news.indexOf(intervalSuffix));
+
     let feedsPrefix = '{feeds:[';
     let feedsSuffix = '],showSourceTitle:true';
     let feedsString = news.substring(news.indexOf(feedsPrefix)+feedsPrefix.length,news.indexOf(feedsSuffix));
+    
 
-   console.log(feedsString.length);
    if(feedsString.length>0){
     // `{title:"CNN",url:"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",internalName:"CNN-HARDCODE"}`);
     let feedArray = [];
@@ -950,13 +959,14 @@ async function readNewsConfig(){
 
       newsData.feeds = feedArray;
   }
+  newsData.interval = intervalString;
     /*
     ////run my backup script to see if everything is saved...it didn't look like it saved all my module changes, just media
     */
     
   }
   catch(err){
-    console.log("Error reading extras config: "+err);
+    console.log("Error reading news config: "+err);
   }
   return newsData;
 }
@@ -1005,11 +1015,6 @@ app.post('/extras', (req, res) =>{
       if(key.toLowerCase()=='interval'){
         interval = req.body[key];
       }
-      //news
-      //{module:"newsfeed",position: "bottom_bar",config:{feeds:[{title:"New York Times",url:"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},
-     
-
-    
     }
     show_countdown_snippet = `{module: "MMM-CountDown",position:"bottom_left",config:{event:"${wotd_event}",date:"${wotd_date}",daysLabel:"&nbsp; days &nbsp;&nbsp; ",hoursLabel: "&nbsp;hours &nbsp;&nbsp; ",minutesLabel:"&nbsp;min &nbsp;&nbsp; ",secondsLabel:"&nbsp;sec",completeText:"${wotd_completeText}"}},\n`
 
