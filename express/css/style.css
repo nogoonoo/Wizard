@@ -403,7 +403,7 @@ button#savebutton {
 button#refreshbutton {
   padding: 10px;
   font-weight: 900;
-  width: 200px;
+  /*width: 200px;*/
   font-size: 1.2em;
   color: white;
   background: var(--green);

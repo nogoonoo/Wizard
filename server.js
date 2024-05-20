@@ -33,11 +33,14 @@ app.use(cors());
 
 /*------------------------- Launchers ----------------------------*/
 app.get('/openmm', function(req,res){
-  execSync('pm2 stop wizard-client');
   execSync('pm2 restart mm');
+  execSync('pm2 stop wizard-client');
+});
+app.get('/closewizard', function(req,res){
+  execSync('pm2 stop wizard-client');
 });
 app.get('/openwizard', function(req,res){
-  execSync('pm2 start wizard-client -- calendar');
+  execSync('pm2 start wizard-client -- settings');
 });
 app.get('/refreshwizard', function(req,res){
   res.sendFile(path.join(__dirname+'/express/start.html'));

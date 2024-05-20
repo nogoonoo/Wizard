@@ -35,14 +35,21 @@ async function IP(){
 }
 
 function init(){
+    if(!isLocalHost){
+        document.getElementById('refreshbutton').innerText = 'Refresh Greenscreen';
+        document.getElementById("refreshbutton").classList.add("hidden");
 
+    }
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
     const isIframe = urlParams.get('iframed');
     //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
-        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Relaunch Greenscreen to see your changes"
+        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Return to Greenscreen to see your changes"
         document.getElementById("refreshbutton").classList.remove("hidden");
+    }
+    if(myParam&&myParam.toLowerCase()=="success" && !isLocalHost){
+        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Click 'Refresh Greenscreen' to view your updated settings"
     }
     if(myParam&&myParam.toLowerCase()=="sent"){
         document.getElementById("status").innerHTML = "Thank you for submitting a message.  If you've included your email address, we'll respond as quickly as possible."
@@ -53,6 +60,7 @@ function init(){
     if(!isIframe){
         populateQR();
     }
+   
     attachInfoEventListeners();
 
 }
@@ -72,7 +80,10 @@ function toggleMenu(x) {
   }
 
 function openMM(){
-    fetch('/openmm');
+    fetch('/openmm'); 
+}
+function closeWizard(){
+    fetch('/closewizard'); 
 }
 function launchWizard(page){
     fetch('/openwizard?page='+page);
