@@ -17,7 +17,7 @@ ul#sourceoptions li {
     width: 200px;
     list-style-type: none;
     padding: 10px 5px 5px 10px;
-    background: var(--smoke-white);
+    background: white;
     color: black;
 }
 ul#sourceoptions li:hover {
@@ -30,6 +30,15 @@ ul#sourceoptions {
     z-index: 1000;
     background: white;
 }
+ul#sourceoptions li img{
+    width: 30px;
+
+}
+ul#sourceoptions li span{
+position: relative;
+    /* border: 1px solid black; */
+    bottom: 7px;
+}
 /*
 input#selectedSource {
     height: 40px;
@@ -41,6 +50,16 @@ div#selectedSource{
     height: 40px;
     text-align: center;
     padding: 7px;
+    background: white;
+    color: black;
+    border-radius: 10px;
+}
+
+div#selectedSource span {
+    position: relative;
+    top: -10px;
+    width: 80%;
+    display: inline-block;
 }
 .arrow {
   border: solid black;
@@ -137,15 +156,15 @@ div#existingFiles a{
     <span id="dateoptions">
 		<div class="formField">
            <!-- <input type="text" id="selectedSource" placeholder="Select a source" onfocus="toggleoptions(true)" onblur="setoption(null)"><i class="arrow down"></i></div>
-           --> <div id="selectedSource" placeholder="Select a source" onclick="toggleoptions(true);showHideSave()" onblur="setoption(null)"></div><i class="arrow down"></i>
+           --> <div id="selectedSource" placeholder="Select a source" onclick="toggleoptions(true);showHideSave()" tabindex="0"></div><i class="arrow down"></i>
 
             <ul id="sourceoptions">
-                <li onclick="setoption(this)" id="stock">Stock Images</li>
-                <li onclick="setoption(this)" id="icloud" data-span="icloud-options">iCloud Shared Album</li>
-                <li onclick="setoption(this)" id="bing">Bing Wallpapers</li>
-                <li onclick="setoption(this)" id="local" data-span="local-options">Uploaded Images</li>
-                <li onclick="setoption(this)" id="color" data-span="color-options">Solid Color</li>
-                <li onclick="setoption(this)" id="none">None</li>
+                <li onclick="setoption(this)" id="stock"><img src="/img/icons/stock.jpeg"><span>Stock Images</span></li>
+                <li onclick="setoption(this)" id="icloud" data-span="icloud-options"><img src="/img/icons/apple.png"><span>iCloud Shared Album</span></li>
+                <li onclick="setoption(this)" id="bing"><img src="/img/icons/bing.png"><span>Bing Wallpapers</span></li>
+                <li onclick="setoption(this)" id="local" data-span="local-options"><img src="/img/icons/upload.png"><span>Uploaded Images</span></li>
+                <li onclick="setoption(this)" id="color" data-span="color-options"><img src="/img/icons/color.jpeg"><span>Solid Color</span></li>
+                <li onclick="setoption(this)" id="none"><img src="/img/icons/google.png">None</li>
             </ul>
             <input type="hidden" id="sourceKey" value=""></input>
             <span id="icloud-options" class="source-detail hidden">
@@ -164,7 +183,7 @@ div#existingFiles a{
             </span>
            
             <span id="color-options" class="source-detail hidden">
-                <input type="color" id="selectedcolor" onchange="showHideSave()">
+                Selected Color: <input type="color" id="selectedcolor" onchange="showHideSave()">
             </span>
 		</div>
 	</span>
@@ -361,7 +380,10 @@ div#existingFiles a{
         if(obj!=null){
             let item = document.getElementById(obj.id);
             //document.getElementById('selectedSource').value = item.innerText;
-            document.getElementById('selectedSource').innerText = item.innerText;
+            document.getElementById('selectedSource').innerHTML = '<img id="selectedSourceImg" src="/img/icons/apple.png" style="width:30px"/><span>'+item.innerText+'</span>';
+            let imgSrc = item.querySelector('img').getAttribute('src');
+            let selectedImg = document.getElementById('selectedSourceImg');
+            selectedImg.src = imgSrc;
             document.getElementById('sourceKey').value = obj.id;
             let dataoptions = item.getAttribute('data-span');
             let hiddenSpans = document.getElementsByClassName("source-detail");
