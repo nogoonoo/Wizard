@@ -100,6 +100,54 @@ img#example2 {
     text-align: center;
     margin: auto;
 }
+@media (max-width:1600px) {
+label.fieldName {
+    font-size: .9em;
+}
+}
+@media (max-width:480px) {
+    .gallery {
+        width: 100%;
+    }
+
+    .flickity-prev-next-button {
+        display:none;
+    }
+
+
+    .gallery-cell.cell2 {
+        padding-left: 0px;
+    }
+
+    div.icon svg {
+        display: none;
+    }
+
+    label.fieldName {
+        font-size: .9em;
+        width: 95%;
+        display: block;
+    }
+
+    span.desc {
+        width: 95%;
+        position: relative;
+        font-size: .8em;
+    }
+
+    .entry {
+        height: auto;
+    }
+
+    h2 {
+        line-height: 1em;
+        font-size: 1.5em;
+    }
+
+    .QRcontent {
+        width: 95%;
+    }
+}
 </style>
 <body>
     <div class="menu-container" onclick="toggleMenu(this)">
