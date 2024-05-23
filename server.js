@@ -65,6 +65,28 @@ app.get('/settings', function(req,res){
 app.get('/lookingfornetworks', function(req,res){
   res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
 });
+app.get('/postsetup', function(req,res){
+  exec('./scripts/postsetup.sh', console.log);
+  res.redirect('/settings');
+});
+app.get('/setupdatemsg', function(req,res){
+  let params = req.query;
+  let showMessage = "";
+  for(var key in params) {
+    if(key.toLowerCase().startsWith('showmsg')){
+      showMessage = params[key];
+    }
+  }
+
+  if(showMessage=='true')  //if param is set to true, set the message in config
+    setCustomMessage("Please wait...Greenscreen is updating...","center",true);
+  else   //if param is set to false, unset the message in config
+    setCustomMessage("You can input your custom message here.","side",false);
+
+  res.send("DONE");
+});
+
+
 /*app.get('/keyboard-show', function(req,res){
   exec('./scripts/show-keyboard.sh', console.log);
   res.send('done'); 
@@ -228,10 +250,8 @@ app.get('/message', function(req,res){
 app.post('/message', (req, res) =>{
   let response = "";
   let showmsg = false;
-  let show_msg_snippet = "";
   let messageText = "";
   let messagePlacement = "";
-  let css_string = "";
   try{
     for(var key in req.body) {
   
@@ -244,15 +264,18 @@ app.post('/message', (req, res) =>{
       }
       if(key.toLowerCase()=='msgplace'){
         messagePlacement = req.body[key];
-        if(messagePlacement=="center")
-          css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
-        else
-          css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;bottom: -60px;}`;
-        }
     }
+  }
+
+  setCustomMessage(messageText,messagePlacement,showmsg);
+/*
     if(messagePlacement=="center"){
-      messageText +=`<a hideme href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`
+      messageText +=`<a hideme href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`;
+      css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
     }
+    else
+      css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;bottom: -60px;}`;
+
     show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
     if(!showmsg){
@@ -261,6 +284,8 @@ app.post('/message', (req, res) =>{
     
     writeToTemplate('msg.txt','msg',show_msg_snippet);
     writeToCSS(css_string,envVars.message_css); //write css to either show center or left
+*/
+    
     response = "success";
   }
   catch(err){
@@ -274,6 +299,28 @@ app.post('/message', (req, res) =>{
     res.redirect('/message?result='+response);
   }
 });
+
+function setCustomMessage(messageText, messagePlacement, showmsg){
+  
+  let css_string = "";
+
+  if(messagePlacement=="center"){
+    messageText +=`<a hideme href=\\\"#\\\" onclick=\\\"document.querySelector('div.module.helloworld').style.display='none';\\\">Hide</a>`;
+    css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
+  }
+  else
+    css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;bottom: -60px;}`;
+
+  let show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
+
+  if(!showmsg){
+    show_msg_snippet = `//`+show_msg_snippet
+  }
+  
+  writeToTemplate('msg.txt','msg',show_msg_snippet);
+  writeToCSS(css_string,envVars.message_css); //write css to either show center or left
+}
+
 app.get('/fetchmsg', (req, res) =>{
 
   try{
