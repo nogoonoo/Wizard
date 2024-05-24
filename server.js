@@ -65,6 +65,9 @@ app.get('/settings', function(req,res){
 app.get('/lookingfornetworks', function(req,res){
   res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
 });
+app.get('/wifiwait', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/wifiwait.html'));
+});
 app.get('/postsetup', function(req,res){
   exec('./scripts/postsetup.sh', console.log);
   res.redirect('/settings');

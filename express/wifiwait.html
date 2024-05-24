@@ -1,0 +1,89 @@
+
+<title>Wifi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/style.css">
+<script src="/js/nav.js"></script>
+<script src="/js/util.js"></script>
+
+<body>
+
+<div class="content full">
+
+<style>
+    .welcome-container {
+  display: flex;
+}
+.side {
+  height: 100%;
+}
+
+.leftSide {
+  border-right: 1px solid black;
+  writing-mode: sideways-lr;
+  text-align: center;
+  width:70%;
+  padding-right:5px;
+  height:700px
+}
+.rightSide{
+  width: 30%;
+  padding-left:5px;
+  text-align: center;
+}
+#welcome-message{
+    text-align: center;
+}
+div#connectionStatus {
+    display: inline;
+    position: relative;
+    top: -30px;
+}
+div.connected{
+    display:block !important;
+    top:0px !important;
+}
+</style>
+<div id="welcome-message">
+<span>Checking network connection....</span>
+<div class="">
+    <div class="lds-ripple hidden" id="loader"><div></div><div></div></div>
+    <div id="connectionStatus"></div>   
+    <button type="button" onclick="location.href='/step2';" id="next-button" class="hidden setup">Continue Setup ></button>
+
+</div>
+</div> 
+
+<script>
+
+    const intervalCheck = setInterval(checkWIFI,2000);
+    let foundAP = false;
+    async function checkWIFI(){
+        const response = await fetch('/wificheck');
+         const result = await response.json();
+         if(result.isConnected == "1"){
+            clearInterval(intervalCheck);
+            document.getElementById("connectionStatus").innerText = "You're connected to WiFi!";
+            document.querySelector("div#welcome-message span").classList.add("hidden")
+            document.getElementById("connectionStatus").classList.add("connected");
+            document.getElementById("loader").classList.add("hidden");
+            clearInterval(intervalCheck);
+            openMM();
+         }
+         else{
+            document.getElementById("connectionStatus").innerText = "Waiting for internet connection...";
+            //document.getElementById("wifi-iframe").classList.remove("hidden");
+            document.getElementById("loader").classList.remove("hidden");
+            document.querySelector("div#welcome-message span").classList.remove("hidden");
+            
+
+         }
+        } 
+
+    checkWIFI();
+
+
+	</script>
+    </body>
+</html>
