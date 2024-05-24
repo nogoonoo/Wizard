@@ -455,8 +455,8 @@ function writeWakeCronJob(req){
     ${start_minute} ${start_hour} * * * vcgencmd display_power 1
     #power_off
     ${end_minute} ${end_hour} * * *  vcgencmd display_power 0
-    #power_end" 
-    ${start_minute} ${start_hour} * * * pm2 restart mm
+    #power_end
+    ${start_minute} ${start_hour} * * * pm2 restart mm"
     
     echo "$line" | crontab -u pi -
     `;
