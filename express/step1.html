@@ -123,6 +123,8 @@ div.connected{
 
             document.getElementById("wifi-iframe").setAttribute("src","/lookingfornetworks");
         }
+        console.log("is connected: "+res.isConnected);
+        console.log(res)
         console.log("Status: ", res.status);
         console.log("StatusText: ", res.statusText);
         return res;
