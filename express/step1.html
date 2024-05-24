@@ -81,7 +81,7 @@ div.connected{
     async function checkWIFI(){
         const response = await fetch('/wificheck');
          const result = await response.json();
-         if(result.isConnected == "1"){
+         if(result.isConnected == "1" && window.navigator.onLine){
             clearInterval(intervalCheck);
             document.getElementById("connectionStatus").innerText = "You're connected to WiFi!";
             document.querySelector("div#welcome-message span").classList.add("hidden")
