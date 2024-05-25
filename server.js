@@ -563,11 +563,10 @@ app.post('/background', (req, res) =>{
   let color = "";
   let interval = 1800000;
   let brightness = 50
-
-  let source_snippet = "";
+  let position = "side"
   let color_CSS_snippet = "";
-  let interval_snippet = "";
   let background_snippet = "";
+  let full_screen_css_snippet = "";
 
   try{
     for(var key in req.body) {
@@ -604,8 +603,11 @@ app.post('/background', (req, res) =>{
         interval = req.body[key];
       }
       if(key.toLowerCase()=='brightness'){
-
         brightness = req.body[key]/100;
+      }
+      if(key.toLowerCase()=='position'){
+        position = req.body[key];
+        console.log("background pos: "+position)
       }
     }
    if(source=="icloud")
@@ -616,9 +618,19 @@ app.post('/background', (req, res) =>{
       color_CSS_snippet = `.MMM-Wallpaper img {background:${color} !important;}`;
       writeToCSS(color_CSS_snippet,envVars.wallpaper_css);
     }
+    if(position=="full"){
+      full_screen_css_snippet=`.MMM-Wallpaper .wallpaper {object-fit: cover; width: 100%; height: 100%;}.slotHeader {background: none !important;}.slotContent { background: none !important;}.day_1 .slotTitle {color:transparent}.day_1 .slotTitle:after {background: none;}`;
+      writeToCSS(full_screen_css_snippet,envVars.fullscreen_wallpaper_css);
+    }
+    else
+    {
+      full_screen_css_snippet=``;
+      writeToCSS(full_screen_css_snippet,envVars.fullscreen_wallpaper_css);
+    }
+
     //{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"icloud:https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",color:"#123456",crossfade:false,icloudURL:"https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",shuffle:true,slideInterval:3600000}},
-    background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,filter:"brightness(${brightness})",caption:false,slideInterval:${interval}}},\n`
-    
+    background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,filter:"brightness(${brightness})",caption:false,bgposition:"${position}",slideInterval:${interval}}},\n`
+    console.log(background_snippet);
     writeToTemplate('background.txt','background',background_snippet);
     
     response = "success";
@@ -671,6 +683,10 @@ async function readWallpaperConfig(){
       let intervalPrefix = `,slideInterval:`;
       let intervalSuffix = `}},`;
       interval = wallPaper.substring(wallPaper.indexOf(intervalPrefix)+intervalPrefix.length,wallPaper.indexOf(intervalSuffix));
+
+      let positionPrefix = `,bgposition:"`;
+      let positionSuffix = `",slideInterval:`;
+      position = wallPaper.substring(wallPaper.indexOf(positionPrefix)+positionPrefix.length,wallPaper.indexOf(positionSuffix));
       
       let colorPrefix = `",color:"`;
       let colorSuffix = `",crossfade:`;
@@ -713,7 +729,9 @@ async function readWallpaperConfig(){
       wallPaperData.color = color;
       wallPaperData.interval = parseInt(interval);
       wallPaperData.brightness = parseFloat(brightness)*100;
-      
+      wallPaperData.position = position;
+      console.log("----------");
+      console.log(wallPaperData);
     
   }
     /*

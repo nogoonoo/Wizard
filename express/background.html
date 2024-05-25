@@ -209,10 +209,12 @@ div#existingFiles a{
             
         </div>
     </div>
-    <label class="fieldName">Background Position</label>
+    <label class="fieldName info" data-info="bg-placement">Background Position</label>
     <div class="formField">
-        
-        Entire BG?  Or just left? I'll have to figure out CSS for calendar
+        <select id="bgplace" name="bgplace" onchange="showHideSave()">
+            <option value="side">Sidebar</option>
+            <option value="full">Full-Screen</option>
+        </select>        
     </div>
     <div class="formField">
         <button type="button" onclick="submitWallpaper()" id="savebutton" disabled onsubmit="hideSave()">Save Changes</button>
@@ -293,12 +295,14 @@ div#existingFiles a{
            let color = document.getElementById('selectedcolor').value;
            let interval = document.getElementById('interval').value;
            let brightness = document.getElementById('brightness').value;
-  
+           let position = document.getElementById('bgplace').value;
+
            body.source = source;
            body.icloudURL = icloudURL;
            body.color = color;
            body.interval = interval;
            body.brightness = brightness;
+           body.position = position;
            //console.log(body);
            const resp = await fetch("/background", {
                method: "POST",
@@ -410,7 +414,7 @@ div#existingFiles a{
     async function loadData(){
         const response = await fetch("/fetchwallpaper");
 		const myData = await response.json();
-        //console.log(myData);
+        console.log(myData);
         if(myData.source.length>0){
             setoption(document.getElementById(myData.source));
         }
@@ -425,6 +429,10 @@ div#existingFiles a{
         }
         if(myData.brightness){
             document.getElementById('brightness').value = myData.brightness;
+        }
+        if(myData.position){
+            let bgplace = document.getElementById("bgplace");
+            bgplace.value = myData.position;
         }
 
     }
