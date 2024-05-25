@@ -227,7 +227,7 @@ const info = [
     },
     {
         id:"sys-updates",
-        content:`Greenscreen periodically checks itself for updates.  Click the button to check for and install updates now.`
+        content:`Greenscreen periodically checks itself for updates.  Click the button to check for and install updates now`
     },
     {
         id:"cal-help",

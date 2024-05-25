@@ -73,8 +73,7 @@ app.get('/postsetup', function(req,res){
   res.redirect('/settings');
 });
 app.get('/updatewizard', function(req,res){
-  var updateWizardCmd = "cd /Scripts" +
-          " ./update-wizard.sh";
+  var updateWizardCmd = envVars.updateScript;
   exec(updateWizardCmd, console.log);
 });
 app.get('/setupdatemsg', function(req,res){
@@ -403,9 +402,6 @@ async function readAdvancedConfig(){
       const stdOut = execSync('crontab -l -u pi');
   console.log('stdout: ' + stdOut);
     
-
-   console.log("running crontab")
-
     let cronData = stdOut+'';
     //const cronData = fs.readFileSync(envVars.cronPath,'utf8');
     let onTimePrefix = "#power_on";
