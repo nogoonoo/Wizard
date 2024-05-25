@@ -79,7 +79,10 @@ function toggleMenu(x) {
     }
   }
 
-function openMM(){
+function openMM(obj){
+    if(obj){
+        obj.innerText = 'Opening...'
+    }
     fetch('/openmm'); 
 }
 function closeWizard(){
