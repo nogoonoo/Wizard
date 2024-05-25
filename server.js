@@ -1308,10 +1308,8 @@ async function geocodeWeather(location){
   let returnValue = "";
   const options = {
     provider: 'locationiq',
-    // Optional depending on the providers
-    //fetch: customFetchImplementation,
-    apiKey: envVars.geoAPIkey, // for Mapquest, OpenCage, APlace, Google Premier
-    formatter: null // 'gpx', 'string', ...
+    apiKey: envVars.geoAPIkey,
+    limit: 5
   };
   const geocoder = NodeGeocoder(options);
   const res = await geocoder.geocode(location).then((response)=>{

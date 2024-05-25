@@ -119,6 +119,7 @@
 		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
 		</footer>
 	  </dialog>
+      <br/><br/><br/> <br/><br/><br/>
       <div class="simple-keyboard"></div>
 
     </div>
@@ -243,22 +244,53 @@ showFeelsLike:
         const parentDatalist = document.getElementById('locationsDiv');
         parentDatalist.innerHTML = '';
        // document.getElementById('locations').style.display = "none";
+       let locations = [];
 		myData.forEach((element,index) => {
-            
+            let dataobject = (element.city?element.city +", ":"") + (element.state?element.state + ", ":"")+ (element.country?element.country:"");
+            let dataDesc = (element.streetName?element.streetName +", ":"")+(element.zipcode?element.zipcode:"");
             //console.log(index+": "+element);
-            var dataItem = document.createElement('div');
-            dataItem.innerHTML = (element.city?element.city +", ":"") + (element.state?element.state + ", ":"")+ (element.country?element.country:"");
+           /* var dataItem = document.createElement('div');
+            let dataobject = (element.city?element.city +", ":"") + (element.state?element.state + ", ":"")+ (element.country?element.country:"");
+            dataItem.innerHTML = dataobject;
 			dataItem.onclick = function(){setLocation(this);}
             dataItem.setAttribute("data-lat",element.latitude);
             dataItem.setAttribute("data-long",element.longitude);
             var dataDesc = document.createElement('span');
             dataDesc.innerHTML = (element.streetName?element.streetName +", ":"")+(element.zipcode?element.zipcode:"");
-            dataItem.append(dataDesc)
+*/
+            let location = new Object();
+            location.title = dataobject;
+            location.subtitle = dataDesc;
+            location.lat = element.latitude;
+            location.long = element.longitude;
+            locations.push(location);
+
+            /*dataItem.append(dataDesc)
             parentDatalist.append(dataItem);
            // document.getElementById('locations').style.display = "block";
             keypressed = true; //ready for another query
 			//addCalLine(element.internalName,element.ics,element.color)
+            */
 		});
+        //console.log(locations);
+        var clean = locations.filter((locations, index, self) =>
+        index === self.findIndex((t) => (t.save === locations.save && t.title === locations.title)))
+        //console.log(clean);
+        clean.forEach((element,index)=>{
+            //console.log(element.title);
+            var dataItem = document.createElement('div');
+            dataItem.innerHTML = element.title;
+			dataItem.onclick = function(){setLocation(this);}
+            dataItem.setAttribute("data-lat",element.lat);
+            dataItem.setAttribute("data-long",element.long);
+            var dataDesc = document.createElement('span');
+            dataDesc.innerHTML = element.subtitle;
+            dataItem.append(dataDesc)
+            parentDatalist.append(dataItem);
+            keypressed = true; //ready for another query
+
+        });
+
 		
 	}
     function setLocation(obj){
@@ -274,7 +306,7 @@ showFeelsLike:
 		saveButton.disabled = false;
 	}
     function hideSave(){
-        saveButton.disabled = disabled;
+        saveButton.disabled = true;
     }
     function timezoneChanged(){
         showHideSave();
