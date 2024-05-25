@@ -223,7 +223,7 @@ const info = [
     },
     {
         id:"sys-power",
-        content:`You can turn the screen off and on based on a schedule`
+        content:`You can turn the screen off and on based on a schedule.`
     },
     {
         id:"sys-updates",
