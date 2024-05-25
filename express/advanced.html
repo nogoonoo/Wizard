@@ -45,7 +45,7 @@ input[type="time"]{
     </div>-->
     <label class="fieldName inline notop info" data-info="sys-updates">Updates</label>
     <div class="formField inline">
-        <button type="button" onclick="checkforupdate()" class="function">Check For Updates</button>
+        <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
     </div>
     <div style="height:20px"></div>
     <label class="fieldName inline notop">System</label>
@@ -127,7 +127,10 @@ input[type="time"]{
      
     }
 
- 
+    function checkforupdate(obj){
+        obj.innerText = "Updating...";
+        updateWizard();
+    }
 	function showHideSave(){
 		saveButton.disabled = false;
 	}

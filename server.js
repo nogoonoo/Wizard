@@ -72,6 +72,11 @@ app.get('/postsetup', function(req,res){
   exec('./scripts/postsetup.sh', console.log);
   res.redirect('/settings');
 });
+app.get('/updatewizard', function(req,res){
+  var updateWizardCmd = "cd /Scripts" +
+          " ./update-wizard.sh";
+  exec(updateWizardCmd, console.log);
+});
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
   let showMessage = "";
