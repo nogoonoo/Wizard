@@ -77,7 +77,7 @@ app.get('/updatewizard', function(req,res){
   //exec(updateWizardCmd, console.log);
   let result = "";
   exec('pi@mmtestpi:~ $ git -C /home/pi/Wizard/ fetch --dry-run',result);
-  console.log(result);
+  console.log("Update status: "+result);
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
