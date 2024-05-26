@@ -201,6 +201,13 @@ div#existingFiles a{
             <option value="43200000">Every 12 hours</option>
         </select>
     </div>
+    <label class="fieldName info" data-info="bg-placement">Background Position</label>
+    <div class="formField">
+        <select id="bgplace" name="bgplace" onchange="showHideSave()">
+            <option value="side">Sidebar</option>
+            <option value="full">Full-Screen</option>
+        </select>        
+    </div>
     <label class="fieldName info" data-info="bgbright">Background Brightness</label>
     <label class="fieldDescription">Lower brightness makes text easier to read</label>
     <div class="formField">
@@ -209,14 +216,7 @@ div#existingFiles a{
             
         </div>
     </div>
-    <label class="fieldName info" data-info="bg-placement">Background Position</label>
-    <div class="formField">
-        <select id="bgplace" name="bgplace" onchange="showHideSave()">
-            <option value="side">Sidebar</option>
-            <option value="full">Full-Screen</option>
-        </select>        
-    </div>
-    <br/>
+    
     <div class="formField">
         <button type="button" onclick="submitWallpaper()" id="savebutton" disabled onsubmit="hideSave()">Save Changes</button>
         <button type="button" id="refreshbutton" class="" onclick="openMM(this)">Return to Greenscreen</button>
