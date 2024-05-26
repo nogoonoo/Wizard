@@ -73,8 +73,11 @@ app.get('/postsetup', function(req,res){
   res.redirect('/settings');
 });
 app.get('/updatewizard', function(req,res){
-  var updateWizardCmd = envVars.updateScript;
-  exec(updateWizardCmd, console.log);
+  //var updateWizardCmd = envVars.updateScript;
+  //exec(updateWizardCmd, console.log);
+  let result = "";
+  exec('pi@mmtestpi:~ $ git -C /home/pi/Wizard/ fetch --dry-run',result);
+  console.log(result);
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
