@@ -129,12 +129,12 @@ input[type="time"]{
     }
 
     function checkforupdate(obj){
+       
+        
+    }
+    async function checkforupdate(obj){
         obj.innerText = "Checking for updates...";
         obj.disabled = true;
-        checkForUpdates();
-    }
-    async function checkForUpdates(){
-
     const response = await fetch("/updatewizard");
 		const myData = await response.json()
         console.log(myData);
@@ -149,6 +149,8 @@ input[type="time"]{
             result = "An update is available"
         }
         document.getElementById('updateMessage').innerText = result;
+        obj.innerText = "Check For Updates";
+        obj.disabled = false;
 }
 	function showHideSave(){
 		saveButton.disabled = false;
