@@ -76,18 +76,28 @@ app.get('/updatewizard', function(req,res){
   //var updateWizardCmd = envVars.updateScript;
   //exec(updateWizardCmd, console.log);
   execSync('git -C /home/pi/Wizard/ remote update');
-  let result = execSync('git -C /home/pi/Wizard/ status -uno');
-  let friendlyResult = "";
-  if(result.toString().toLowerCase().indexOf('branch is behind')>-1){
-    console.log('an update is available');
-    friendlyResult = "available";
+  let wizardResult = execSync('git -C /home/pi/Wizard/ status -uno');
+  let updateAvailable = false;
+  if(wizardResult.toString().toLowerCase().indexOf('branch is behind')>-1){
+    console.log('an update is available for Wizard');
+    updateAvailable = true;
   }
   else{
     console.log('you are up to date');
-    friendlyResult = "uptodate";
+  }
+
+  execSync('git -C /home/pi/Scripts/updater/ remote update');
+  let updaterResult = execSync('git -C /home/pi/Scripts/updater/ status -uno');
+  if(updaterResult.toString().toLowerCase().indexOf('branch is behind')>-1){
+    console.log('an update is available for Updater');
+    updateAvailable = true;
+  }
+  else{
+    console.log('you are up to date');
   }
   //let result = execSync('git -C /home/pi/Wizard/ status');
-  console.log("Update status: "+result);
+  console.log("Wizard Update status: "+wizardResult);
+  console.log("Updater Update status: "+updaterResult);
   res.send(friendlyResult);
 });
 app.get('/setupdatemsg', function(req,res){
