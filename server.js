@@ -75,8 +75,7 @@ app.get('/postsetup', function(req,res){
 app.get('/updatewizard', function(req,res){
   //var updateWizardCmd = envVars.updateScript;
   //exec(updateWizardCmd, console.log);
-  let result = "";
-  exec('pi@mmtestpi:~ $ git -C /home/pi/Wizard/ fetch --dry-run',result);
+  let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Update status: "+result);
 });
 app.get('/setupdatemsg', function(req,res){
