@@ -80,7 +80,6 @@ app.get('/updatewizard', function(req,res){
   //let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Update status: "+result);
 
-
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
