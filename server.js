@@ -77,6 +77,7 @@ app.get('/updatewizard', function(req,res){
   //exec(updateWizardCmd, console.log);
   let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Update status: "+result);
+
   
 });
 app.get('/setupdatemsg', function(req,res){
