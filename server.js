@@ -75,8 +75,8 @@ app.get('/postsetup', function(req,res){
 app.get('/updatewizard', function(req,res){
   //var updateWizardCmd = envVars.updateScript;
   //exec(updateWizardCmd, console.log);
-  execSync('git remote update');
-  let result = execSync('git status -uno');
+  execSync('git -C /home/pi/Wizard/ remote update');
+  let result = execSync('git -C /home/pi/Wizard/ status -uno');
   let friendlyResult = "";
   if(result.toString().toLowerCase().indexOf('branch is behind')>-1){
     console.log('an update is available');
