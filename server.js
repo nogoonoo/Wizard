@@ -75,6 +75,7 @@ app.get('/postsetup', function(req,res){
 app.get('/updatewizard', function(req,res){
   //var updateWizardCmd = envVars.updateScript;
   //exec(updateWizardCmd, console.log);
+  let returnVal = "up to date";
   execSync('git -C /home/pi/Wizard/ remote update');
   let wizardResult = execSync('git -C /home/pi/Wizard/ status -uno');
   let updateAvailable = false;
@@ -98,6 +99,8 @@ app.get('/updatewizard', function(req,res){
   //let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Wizard Update status: "+wizardResult);
   console.log("Updater Update status: "+updaterResult);
+  if(updateAvailable)
+    returnVal = "update available";
   res.send(friendlyResult);
 });
 app.get('/setupdatemsg', function(req,res){
