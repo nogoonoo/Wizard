@@ -75,10 +75,12 @@ app.get('/postsetup', function(req,res){
 app.get('/updatewizard', function(req,res){
   //var updateWizardCmd = envVars.updateScript;
   //exec(updateWizardCmd, console.log);
-  let result = execSync('git -C /home/pi/Wizard/ status');
+  execSync('git remote update');
+  let result = execSync('git status -uno');
+  //let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Update status: "+result);
 
-  
+
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
