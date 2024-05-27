@@ -77,7 +77,7 @@ app.get('/updatewizard', function(req,res){
   //exec(updateWizardCmd, console.log);
   execSync('git remote update');
   let result = execSync('git status -uno');
-  if(result.toString().toLowerCase.indexOf('branch is behind'))
+  if(result.toString().toLowerCase().indexOf('branch is behind')>-1)
     console.log('an update is available')
   else
     console.log('you are up to date');
