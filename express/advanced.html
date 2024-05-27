@@ -46,6 +46,7 @@ input[type="time"]{
     <label class="fieldName inline notop info" data-info="sys-updates">Updates</label>
     <div class="formField inline">
         <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
+        <span id="updateMessage"></span>
     </div>
     <div style="height:20px"></div>
     <label class="fieldName inline notop">System</label>
@@ -129,8 +130,26 @@ input[type="time"]{
 
     function checkforupdate(obj){
         obj.innerText = "Checking for updates...";
-        updateWizard();
+        obj.disabled = true;
+        checkForUpdates();
     }
+    async function checkForUpdates(){
+
+    const response = await fetch("/updatewizard");
+		const myData = await response.json()
+        console.log(myData);
+        let result = "";
+        if(myData.status.indexOf('error:')>-1){
+            result = "There was an error checking for an update"
+        }
+        if(myData.status.indexOf('current')>-1){
+            result = "You Greenscreen is up to date"
+        }
+        if(myData.status.indexOf('behind')>-1){
+            result = "An update is available"
+        }
+        document.getElementById('updateMessage').innerText = result;
+}
 	function showHideSave(){
 		saveButton.disabled = false;
 	}

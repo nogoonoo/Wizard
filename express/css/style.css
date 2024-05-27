@@ -437,6 +437,9 @@ button.function:active {
   padding: 4px;
   background: var(--darkgreen);
 }
+button.function:disabled {
+  background-color:#ddd;
+}
 div#status {
   margin: 10px;
 }

@@ -85,9 +85,7 @@ function openMM(obj){
     }
     fetch('/openmm'); 
 }
-function updateWizard(){
-    fetch('/updatewizard'); 
-}
+
 function closeWizard(){
     fetch('/closewizard'); 
 }

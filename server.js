@@ -73,7 +73,9 @@ app.get('/postsetup', function(req,res){
   res.redirect('/settings');
 });
 app.get('/updatewizard', function(req,res){
-  let returnVal = "up to date";
+  let returnVal = new Object();
+  returnVal.status = "current"
+  try{
   execSync('git -C /home/pi/Wizard/ remote update');
   let wizardResult = execSync('git -C /home/pi/Wizard/ status -uno');
   let updateAvailable = false;
@@ -81,7 +83,7 @@ app.get('/updatewizard', function(req,res){
    // console.log('an update is available for Wizard');
     updateAvailable = true;
   }
-  
+
   execSync('git -C /home/pi/Scripts/updater/ remote update');
   let updaterResult = execSync('git -C /home/pi/Scripts/updater/ status -uno');
   if(updaterResult.toString().toLowerCase().indexOf('branch is behind')>-1){
@@ -92,7 +94,11 @@ app.get('/updatewizard', function(req,res){
   //console.log("Wizard Update status: "+wizardResult);
   //console.log("Updater Update status: "+updaterResult);
   if(updateAvailable)
-    returnVal = "update available";
+    returnVal.status = "behind";
+}
+catch(err){
+  returnVal.status = "error:"+err.toString();
+}
   res.send(returnVal);
 });
 app.get('/setupdatemsg', function(req,res){
