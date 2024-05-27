@@ -77,13 +77,18 @@ app.get('/updatewizard', function(req,res){
   //exec(updateWizardCmd, console.log);
   execSync('git remote update');
   let result = execSync('git status -uno');
-  if(result.toString().toLowerCase().indexOf('branch is behind')>-1)
-    console.log('an update is available')
-  else
+  let friendlyResult = "";
+  if(result.toString().toLowerCase().indexOf('branch is behind')>-1){
+    console.log('an update is available');
+    friendlyResult = "available";
+  }
+  else{
     console.log('you are up to date');
+    friendlyResult = "uptodate";
+  }
   //let result = execSync('git -C /home/pi/Wizard/ status');
   console.log("Update status: "+result);
-
+  res.send(friendlyResult);
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
