@@ -645,7 +645,9 @@ app.post('/background', (req, res) =>{
       writeToCSS(color_CSS_snippet,envVars.wallpaper_css);
     }
     if(position=="full"){
-      full_screen_css_snippet=`.MMM-Wallpaper .wallpaper {object-fit: cover; width: 100%; height: 100%;}.slotHeader {background: none !important;}.slotContent { background: none !important;}.day_1 .slotTitle {color:transparent}.day_1 .slotTitle:after {background: none;}`;
+      //full_screen_css_snippet=`.MMM-Wallpaper .wallpaper {object-fit: cover; width: 100%; height: 100%;}.slotHeader {background: none !important;}.slotContent { background: none !important;}.day_1 .slotTitle {color:transparent}.day_1 .slotTitle:after {background: none;}`;
+      full_screen_css_snippet=`.MMM-Wallpaper .wallpaper {object-fit: cover; width: 100%; height: 100%;}.day_1 .slotTitle {color:transparent}.day_1 .slotTitle:after {background: none;}`;
+
       writeToCSS(full_screen_css_snippet,envVars.fullscreen_wallpaper_css);
     }
     else
