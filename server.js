@@ -101,7 +101,7 @@ app.get('/updatewizard', function(req,res){
   console.log("Updater Update status: "+updaterResult);
   if(updateAvailable)
     returnVal = "update available";
-  res.send(friendlyResult);
+  res.send(returnVal);
 });
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
