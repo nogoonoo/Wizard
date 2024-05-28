@@ -45,11 +45,11 @@ function init(){
     const isIframe = urlParams.get('iframed');
     //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
-        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Return to Greenscreen to see your changes"
+        document.getElementById("status").innerHTML = "Greenscreen settings saved.  Return to Greenscreen to see your changes"
         document.getElementById("refreshbutton").classList.remove("hidden");
     }
     if(myParam&&myParam.toLowerCase()=="success" && !isLocalHost){
-        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Click 'Refresh Greenscreen' to view your updated settings"
+        document.getElementById("status").innerHTML = "Greenscreen settings updated.  Click 'Refresh Greenscreen' to view your changes"
     }
     if(myParam&&myParam.toLowerCase()=="sent"){
         document.getElementById("status").innerHTML = "Thank you for submitting a message.  If you've included your email address, we'll respond as quickly as possible."

@@ -91,6 +91,14 @@ input[data-type="ics"]{}
         align-items: center;
         justify-content: space-between;
       }
+      footer {
+        text-align: center;
+        
+      }
+      footer button{
+        border-radius: 5px;
+        
+      }
       #deleteButton {
         background-color: red;
         border: none;

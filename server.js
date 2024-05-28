@@ -1546,7 +1546,8 @@ app.post('/calendar', (req, res) =>{
     let calendar_name_snippet = "";
     let name_count = 0;
     let calendar_css_snippet = "";
-
+    let calendar_grid_snippet = "";
+    console.log(req.body);
     for(var key in req.body) {
       if(req.body.hasOwnProperty(key)){
         if(key.toLowerCase().startsWith('name')){
@@ -1555,8 +1556,7 @@ app.post('/calendar', (req, res) =>{
 
           name = name.replace(/"/g, "");
           //calendar_name_snippet += (name_count>0?",":"")+"\""+name+"\"";
-          calendar_name_snippet += (name_count>0?",":"")+"\""+internalName+"\"";
-          name_count++;
+          
         }
         if(key.toLowerCase().startsWith('ics')){
           ics = req.body[key];
@@ -1565,8 +1565,18 @@ app.post('/calendar', (req, res) =>{
         }
         if(key.toLowerCase().startsWith('color')){
           color = req.body[key];
-          calendar_css_snippet +="div.event[data-calendar-name=\""+internalName+"\"] {\n\tbackground: linear-gradient(0deg, "+color+" 99%, #000 1%);\n\tcolor:white !important;\n}\n";
-          calendar_ical_snippet += "\n{\n\tname:\""+internalName+"\",\n\turl:\""+ics+"\",\n\tinternalName:\""+name+"\",\n\tcolor:\""+color+"\",\n},";
+          
+          if(ics.length>0){
+            calendar_name_snippet += (name_count>0?",":"")+"\""+internalName+"\"";
+            calendar_css_snippet +="div.event[data-calendar-name=\""+internalName+"\"] {\n\tbackground: linear-gradient(0deg, "+color+" 99%, #000 1%);\n\tcolor:white !important;\n}\n";
+            calendar_ical_snippet += "\n{\n\tname:\""+internalName+"\",\n\turl:\""+ics+"\",\n\tinternalName:\""+(name.length<1?internalName.substring(internalName.indexOf('-')+1):name)+"\",\n\tcolor:\""+color+"\",\n},";
+          }
+          name_count++;
+
+        }
+        if(key.toLowerCase().startsWith('showlines')){
+          calendar_css_snippet +=` .cellSlot {border-left:#555 dotted 1px;border-right:#555 dotted 1px;}.timeline {border-bottom: #555 1px dotted;}\n`
+          calendar_grid_snippet = `gridlines:true,\n`
         }
       }
     }
@@ -1574,14 +1584,13 @@ app.post('/calendar', (req, res) =>{
     calendar_ical_snippet = "calendars : ["+ calendar_ical_snippet+ "\n],";
     calendar_name_snippet = "calendars:["+ calendar_name_snippet + "],\n";
 
-  writeToTemplate('calname.txt','cal_name',calendar_name_snippet); //writes to template file  //setTimeout(function(){
-  writeToTemplate('ics.txt','cal_ics',calendar_ical_snippet); //writes to template file          //},3000);
+  writeToTemplate('calname.txt','cal_name',calendar_name_snippet); //writes to template file
+  writeToTemplate('ics.txt','cal_ics',calendar_ical_snippet); //writes to template file 
+  writeToTemplate('grid.txt','gridlines',calendar_grid_snippet); //writes to template file 
+  
+
   writeToCSS(calendar_css_snippet,envVars.calendar_css);
-    //write JSON to the text file 'calname.txt', and ics.txt
-    //call configmagic.sh
-    //done!
-    //update CSS
-    //verify change
+
     res.sendFile(path.join(__dirname+'/express/calendar.html'));
     if(req.headers.referer.indexOf('iframed')>-1)
       response += "&iframed=1";
@@ -1631,6 +1640,7 @@ function readCalendarConfig(){
       let internalEnd = internalNameTmp.indexOf(",")-1;
       internalNameTmp = internalNameTmp.substring(internalNameTmp.indexOf("\"")+1,internalEnd)
 
+
       //console.log(internalNameTmp);
       //console.log("------------------")
       //console.log(internalStart+","+internalEnd);
@@ -1652,7 +1662,13 @@ function readCalendarConfig(){
       continueParsing = icsData.indexOf("name:\"")>-1;
     }
     //console.log(cals);
-
+    let gridPrefix = "//gridlines_start";
+    let gridSuffix = "//gridlines_end";
+    let showlines = configData.substring(configData.indexOf(gridPrefix)+gridPrefix.length,configData.indexOf(gridSuffix));
+    showlines = showlines.substring(showlines.indexOf(":")+1,showlines.lastIndexOf(","));
+    obj = new Object();
+    obj.showlines = showlines;
+    cals.push(obj);
   }
   catch(err){
     console.log("Error reading config: "+err);

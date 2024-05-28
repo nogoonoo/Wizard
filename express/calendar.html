@@ -127,9 +127,15 @@ a.help {
 	</div>
 	<button type="button" onclick="javascript:addCalLine()" class="addLine" id="addLineBtn">Add Calendar URL</button>
 	<a href="#" onclick="javascript:populateModal('cal-help')" class="help">Help me find my calendar url</a>
-
 	<div class="formField">
-	<button type="submit" id="savebutton" disabled>Save Changes</button>
+		<label class="switch">
+			<input type="checkbox" id="showlines" name="showlines" onchange="showHideSave()" value="true">
+			<span class="slider round"></span>
+		</label><label class="fieldName inline">Show calendar gridlines</label>
+	</div>
+	<br/>
+	<div class="formField">
+	<button type="submit" id="savebutton" disabled formnovalidate>Save Changes</button>
 	<button type="button" id="refreshbutton" class="" onclick="openMM(this)">Return to Greenscreen</button>
 </div>
 	</form>
@@ -137,15 +143,12 @@ a.help {
 
 	<dialog id="dialogBox">
 		<header>
-		  <h2 class="header">Confirmation</h2>
+			<p>Are you sure you want to remove this calendar?&nbsp;&nbsp;&nbsp;</p>
 		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
 		</header>
-		<section>
-		  <p>Are you sure you want to remove this calendar?</p>
-		</section>
 		<footer>
-		  <button onclick="closeDialog()" id="closeDialogFooter">Wait, go back</button>
-		  <button onclick="removeCalendarLine()" id="deleteButton">Yes, delete it</button>
+		  <button onclick="closeDialog()" id="closeDialogFooter">Cancel</button>
+		  <button onclick="removeCalendarLine()" id="deleteButton">Delete</button>
 		</footer>
 	  </dialog>
 	  <div class="simple-keyboard"></div>
@@ -175,7 +178,26 @@ a.help {
 	let showSave = false;
 	let saveButton = document.getElementById("savebutton");
 	
-	dialogBoxId=document.getElementById("dialogBox")
+	dialogBoxId=document.getElementById("dialogBox");
+	/*function checkFields(){
+		let retval = false;
+		//if cnt == 2, that means there's one line.  If both fields are blank, delete that line then submit
+		if(cnt==2){
+			if(document.getElementById('name-1').value.length<1 && document.getElementById('url-1').value.length<1){
+				document.getElementById('name-1').remove;
+				document.getElementById('url-1').remove;
+				retval  = true;
+			}
+			else{ //there's still 1, but one isn't empty, so validate
+ 
+			}
+		}
+		else{
+			//there's more than 1.  Start checking for empty strings
+		}
+		console.log('poo');
+		return retval;
+	}*/
 
 	function showDialog(id){
 		//console.log('should I show dialg?')
@@ -213,12 +235,17 @@ a.help {
 		const response = await fetch("/fetchcalendar");
 		const myData = await response.json();
 		//console.log(myData.length);
-
+		console.log(myData);
 		myData.forEach((element,index) => {
 			//console.log(element.name);
-			addCalLine(element.internalName,element.ics,element.color)
+			if(element.ics)
+				addCalLine(element.internalName,element.ics,element.color)
+			if(element.showlines){
+				document.getElementById('showlines').checked = element.showlines;
+				
+			}
 		});
-		if(myData.length<=1)
+		if(myData.length<=2)
 			addCalLine()
 	}
 	function showHideSave(){
