@@ -35,7 +35,7 @@ async function IP(){
 }
 
 function init(){
-    if(!isLocalHost){
+    if(!isLocalHost && document.getElementById('refreshbutton')){
         document.getElementById('refreshbutton').innerText = 'Refresh Greenscreen';
         document.getElementById("refreshbutton").classList.add("hidden");
 
@@ -225,11 +225,14 @@ const info = [
     },
     {
         id:"sys-updates",
-        content:`Greenscreen periodically checks itself for updates.  Click the button to check for and install updates now`
+        content:`Greenscreen will periodically check for updates.  Click the 'Check for Updates' button to check for and install updates now`
     },
     {
         id:"sys-options",
-        content:`Shutting down your Greenscreen is safer than just removing the power button.  Rebooting your Greenscreen may help resolve occational issues.`
+        content:`There are several device options you can choose from: <ul><li>Standby - This will put the monitor to sleep until the next scheduled wake time.  This option is only available when accessing setting from another device.</li>
+        <li>Wake from Standby - This will wake the monitor up. This option is only available when accessing setting from another device.</li>
+        <li>Reboot - Rebooting your Greenscreen may help resolve occational issues.</li>
+        <li>Shutdown - Shutting down your Greenscreen is safer than just removing the power button.</li>`
     },
     {
         id:"sys-reset",

@@ -447,6 +447,7 @@ button.function {
   background: var(--green);;
   border-radius: 4px;
   border-width: 1px;
+  width:150px
 }
 button.function:active {
   padding: 4px;

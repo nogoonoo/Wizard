@@ -1,5 +1,5 @@
 
-<title>Advanced Settings</title>
+<title>System Settings</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
@@ -31,7 +31,7 @@ input[type="time"]{
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
-<h2>Advanced</h2>
+<h2>System</h2>
 <form action="/advanced" method="post" onsubmit="disableSave();">
     <label class="fieldName info" data-info="sys-power">Power Options</label>
     <div class="formField">
@@ -43,20 +43,31 @@ input[type="time"]{
         reset mirror
         
     </div>-->
-    <label class="fieldName inline notop info" data-info="sys-updates">Updates</label>
-    <div class="formField inline">
+    <label class="fieldName info" data-info="sys-updates">Version Information</label>
+    <div class="formField">
+        <div id="aboutGS">
+        Config Version: <span id="wizardVID">...</span><br/>
+        Greenscreen Version: <span id="gsVID"></span>
+        </div>
+     </div>
+    <div class="formField">
         <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
         <span id="updateMessage"></span>
     </div>
     <div style="height:20px"></div>
-    <label class="fieldName inline notop info" data-info="sys-options">System</label>
-    <div class="formField inline">
-        <button type="button" onclick="powerDialog('reboot')" class="function">Reboot Greenscreen</button>
-        <button type="button" onclick="powerDialog('shutdown')" class="function">Shutdown Greenscreen</button>
+    <label class="fieldName notop info" data-info="sys-options">Device Options</label>
+    <div class="formField">
+        <button type="button" onclick="sleep()" class="function" id="sleep" disabled>Standby</button>
+        <button type="button" onclick="wake()" class="function" id="wake"  disabled>Wake from Standby</button>
+
     </div>
-    <br/><br/>
-    <label class="fieldName inline notop info" data-info="sys-reset">Reset</label>
-    <div class="formField inline">
+    <div class="formField">
+        <button type="button" onclick="powerDialog('reboot')" class="function">Reboot</button>
+        <button type="button" onclick="powerDialog('shutdown')" class="function">Shutdown</button>
+
+    </div>
+    <label class="fieldName notop info" data-info="sys-reset">Reset Customizations</label>
+    <div class="formField">
         <button type="button" onclick="powerDialog('reset')" class="function">Reset to System Defaults</button>
     </div>
 
@@ -131,7 +142,25 @@ input[type="time"]{
         if(myData.offTime.length>0){
             document.getElementById('endTime').value = myData.offTime;
         }
+        
      
+    }
+    async function loadAbout(){
+        const wizardResponse = await fetch("/about-wizard");
+        const gsResponse = await fetch("/about-gs");
+		const wizData = await wizardResponse.json();
+        const gsData = await gsResponse.json();
+        console.log(wizData.about.version);
+ 
+        if(wizData.about.version.length>0){
+            document.getElementById('wizardVID').innerText = wizData.about.version;
+        }
+        if(gsData.about.version.length>0){
+            document.getElementById('gsVID').innerText = gsData.about.version;
+        }
+        /*if(myData.about.trim().length>0){
+            document.getElementById('wizardVID').innerText = myData.about.version;
+        }*/
     }
 
     function checkforupdate(obj){
@@ -264,11 +293,65 @@ input[type="time"]{
                 
             });
     }
+    async function sleep(){
+        const response = await fetch('/screen-sleep', {
+                method: "POST", 
+            }).then(res => res.json())
+            .then(data => {
+                /*
+                if(data.resetResult=="success"){
+                
+                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
+                //setTimeout(function(){location.reload();},5000);
+                //let btn = document.getElementById('deleteButton');
+                btn.innerText='Close';
+                    btn.disabled = false;
+                    btn.onclick=function(){
+                        location.reload();
+                    };
+                }
+                else{
+                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                    btn.disabled = false;
+                }*/
+        })                  
+    }
+    async function wake(){
+        const response = await fetch('/screen-wake', {
+                method: "POST", 
+            }).then(res => res.json())
+            .then(data => {
+                /*
+                if(data.resetResult=="success"){
+                
+                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
+                //setTimeout(function(){location.reload();},5000);
+                //let btn = document.getElementById('deleteButton');
+                btn.innerText='Close';
+                    btn.disabled = false;
+                    btn.onclick=function(){
+                        location.reload();
+                    };
+                }
+                else{
+                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                    btn.disabled = false;
+                }*/
+        })                  
+    }
 
 	loadNav();
     init();
     loadData();
-
+    loadAbout();
+    if(!isLocalHost){
+        document.getElementById('sleep').disabled = false;
+        document.getElementById('wake').disabled = false;
+    }
 	</script>
 
 

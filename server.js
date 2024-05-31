@@ -215,6 +215,12 @@ function checkConnection(host, port, timeout) {
 app.get('/help', function(req,res){
   res.sendFile(path.join(__dirname+'/express/help.html'));
 });
+app.get('/about-wizard', function(req,res){
+  res.sendFile(path.join(__dirname+'/version.json'));
+});
+app.get('/about-gs', function(req,res){
+  res.sendFile(envVars.updaterFolder+'version.json');
+});
 app.post('/contact', function(req,res){
 
   let email = "not specified";
@@ -226,11 +232,20 @@ app.post('/contact', function(req,res){
         email = req.body[key];
       }
       if(key.toLowerCase()=='submittxt'){
-        body = req.body[key];
+        body = "<b>Submitted Text:</b> "+req.body[key];
       }
     }
     const sn = execSync("cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2");
-    body += "<br/><br/>Email: "+email+"<br/>SN: "+sn;
+    body += "<br/><br/><b>Email:</b> "+(email.length<1?"Not Specified":email)+"<br/><b>SN: </b>"+sn+"<br/>";
+    try{
+      const gsVersionInfo = fs.readFileSync(envVars.updaterFolder+'version.json');
+      const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'));
+      body += "<b>Greenscreen Version Data:</b> "+gsVersionInfo + "<br/><b>Wizard Version Data:</b> "+wizardVersionInfo;
+    }
+    catch(err){
+      console.log("email error: "+err);
+    }
+  
     response = "sent";
   }
   catch(err){
@@ -570,6 +585,43 @@ app.post('/screen-shutdown', (req, res) =>{
     res.sendFile(path.join(__dirname+'/express/rebooting.html'));
   }
 });
+
+app.post('/screen-sleep', (req, res) =>{
+  let response = "error";
+  let obj = new Object();
+  try{
+    execSync('vcgencmd display_power 0');
+    response = "success";
+  }
+  catch(err){
+    response="error";
+    console.log(err);
+  }
+  finally{
+    obj.result = response
+    res.send(obj);  
+  }
+});
+
+app.post('/screen-wake', (req, res) =>{
+  let response = "error";
+  let obj = new Object();
+  try{
+    execSync('vcgencmd display_power 1');
+    response = "success";
+  }
+  catch(err){
+    response="error";
+    console.log(err);
+  }
+  finally{
+    obj.result = response
+    res.send(obj);  
+  }
+  
+});
+
+
 
 
 
