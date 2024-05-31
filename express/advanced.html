@@ -52,7 +52,7 @@ input[type="time"]{
      </div>
     <div class="formField">
         <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
-        <span id="updateMessage"></span>
+        <span id="updateMessage"></span><button type="button" onclick="updatenow(this)" class="function">Update Now</button>
     </div>
     <div style="height:20px"></div>
     <label class="fieldName notop info" data-info="sys-options">Device Options</label>
@@ -163,14 +163,25 @@ input[type="time"]{
         }*/
     }
 
-    function checkforupdate(obj){
-       
+    function updatenow(obj){
+       doupdate();
+       this.innerText = 'Updating...';
+       this.disabled = true;
         
     }
+    async function doupdate(){
+        const response = await fetch('/forceupdate', {
+                method: "POST", 
+            }).then((res)=>
+            {
+                
+            });
+    }
+    
     async function checkforupdate(obj){
         obj.innerText = "Checking for updates...";
         obj.disabled = true;
-    const response = await fetch("/updatewizard");
+    const response = await fetch("/checkupdate");
 		const myData = await response.json()
         console.log(myData);
         let result = "";

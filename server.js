@@ -72,7 +72,7 @@ app.get('/postsetup', function(req,res){
   exec('./scripts/postsetup.sh', console.log);
   res.redirect('/settings');
 });
-app.get('/updatewizard', function(req,res){
+app.get('/checkupdate', function(req,res){
   let returnVal = new Object();
   returnVal.status = "current"
   try{
@@ -101,6 +101,12 @@ catch(err){
 }
   res.send(returnVal);
 });
+
+app.post('/forceupdate', function(req,res){
+  
+  //res.sendFile(path.join(__dirname+'/express/start.html'));
+});
+
 app.get('/setupdatemsg', function(req,res){
   let params = req.query;
   let showMessage = "";

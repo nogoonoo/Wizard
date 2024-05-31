@@ -229,10 +229,10 @@ const info = [
     },
     {
         id:"sys-options",
-        content:`There are several device options you can choose from: <ul><li>Standby - This will put the monitor to sleep until the next scheduled wake time.  This option is only available when accessing setting from another device.</li>
-        <li>Wake from Standby - This will wake the monitor up. This option is only available when accessing setting from another device.</li>
-        <li>Reboot - Rebooting your Greenscreen may help resolve occational issues.</li>
-        <li>Shutdown - Shutting down your Greenscreen is safer than just removing the power button.</li>`
+        content:`There are several device options you can choose from: <ul><li><b>Standby</b> - This will put the monitor to sleep until the next scheduled wake time.  This option is only available when accessing setting from another device. <br/><br/> <i>*Note* You can only wake the screen back up by using another device, not directly on Greenscreen.  Alternatively, and not recommended, you can unplug Greenscreen and plug it back in to turn the screen back on.</i></li><br/>
+        <li><b>Wake from Standby</b> - This will wake the monitor up. This option is only available when accessing setting from another device.</li>
+        <li><b>Reboot</b> - Rebooting your Greenscreen may help resolve occational issues.</li>
+        <li><b>Shutdown</b> - Shutting down your Greenscreen is safer than just unplugging the power cable.</li>`
     },
     {
         id:"sys-reset",
