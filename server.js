@@ -528,7 +528,10 @@ app.post('/screen-reset-config', (req, res) =>{
   let obj = new Object();
   
   try{
-    execSync('cp -f '+envVars.defaultConfig+' '+envVars.configPath)
+    execSync('cp -f '+envVars.defaultConfig+' '+envVars.configPath);
+    writeToCSS('',envVars.calendar_css);
+    writeToCSS('',envVars.fullscreen_wallpaper_css);
+
     response = "success";
   }
   catch(err){
