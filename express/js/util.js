@@ -228,6 +228,14 @@ const info = [
         content:`Greenscreen periodically checks itself for updates.  Click the button to check for and install updates now`
     },
     {
+        id:"sys-options",
+        content:`Shutting down your Greenscreen is safer than just removing the power button.  Rebooting your Greenscreen may help resolve occational issues.`
+    },
+    {
+        id:"sys-reset",
+        content:`Resetting your Greenscreen will erase the following customizations: <div class='dialogDeets'><ul><li>saved calendars</li><li>weather location</li><li>newsfeeds</li><li>countdown clocks</li><li>messages</li><li>background settings (not including uploaded images)</li></ul></div>The following settings will not be affected:<div class='dialogDeets'><ul><li>Screen power on/off schedule</li><li>uploaded images</li><li>network connections</li></ul></div><br/>.`
+    },
+    {
         id:"cal-help",
         content:`<div>Most online calendars provide data in the form of an iCal feed. Greenscreen uses this to display your events.  To get your calendar's URL, start by selecting your calendar type:<br/><br/>
         <div class="accordian">Google Calendar <span class="caret right"></span>

@@ -91,6 +91,9 @@ input[data-type="ics"]{}
         align-items: center;
         justify-content: space-between;
       }
+      h2#dialogHeader {
+        color: var(--middark);
+    }
       footer {
         text-align: center;
         
@@ -108,6 +111,10 @@ input[data-type="ics"]{}
         margin: 4px 2px;
         cursor: pointer;
       }
+      button#deleteButton:disabled {
+        background-color: #bbb;
+        color:#ddd;
+    }
       #closeDialogFooter {
         background-color: gray;
         border: none;

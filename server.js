@@ -523,6 +523,23 @@ async function writeToCron(filename, content){
   return retVal;
 }
 
+app.post('/screen-reset-config', (req, res) =>{
+  let response = "Error";
+  let obj = new Object();
+  
+  try{
+    execSync('cp -f '+envVars.defaultConfig+' '+envVars.configPath)
+    response = "success";
+  }
+  catch(err){
+    response="Error";
+    console.log(err);
+  }
+  finally{
+    obj.resetResult = response
+    res.send(obj);
+  }
+});
 app.post('/screen-reboot', (req, res) =>{
   try{
     execSync('sudo reboot');

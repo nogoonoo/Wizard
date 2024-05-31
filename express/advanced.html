@@ -49,10 +49,15 @@ input[type="time"]{
         <span id="updateMessage"></span>
     </div>
     <div style="height:20px"></div>
-    <label class="fieldName inline notop">System</label>
+    <label class="fieldName inline notop info" data-info="sys-options">System</label>
     <div class="formField inline">
-        <button type="button" onclick="powerDialog('reboot')" class="function">Reboot</button>
-        <button type="button" onclick="powerDialog('shutdown')" class="function">Power Off</button>
+        <button type="button" onclick="powerDialog('reboot')" class="function">Reboot Greenscreen</button>
+        <button type="button" onclick="powerDialog('shutdown')" class="function">Shutdown Greenscreen</button>
+    </div>
+    <br/><br/>
+    <label class="fieldName inline notop info" data-info="sys-reset">Reset</label>
+    <div class="formField inline">
+        <button type="button" onclick="powerDialog('reset')" class="function">Reset to System Defaults</button>
     </div>
 
     <div style="height:20px"></div>
@@ -67,7 +72,7 @@ input[type="time"]{
 
 	<dialog id="dialogBox">
 		<header>
-		  <h2 class="header">Confirmation</h2>
+		  <h2 class="header" id="dialogHeader">Confirmation</h2>
 		  <button onclick="closeDialog()" id="closeDialogHeader">&#x2716</button>
 		</header>
 		<section>
@@ -78,6 +83,7 @@ input[type="time"]{
 		  <button onclick="powerFunction()" id="deleteButton">Reboot</button>
 		</footer>
 	  </dialog>
+      
 
     </div>
     <span class="qrCode hidden" id="qrParent"><img id="qr-code" src=""><div id="">Scan QR code, or visit</div><div id="hostnameInfo"></div></span>
@@ -165,15 +171,25 @@ input[type="time"]{
     function powerDialog(option){
         let dialogMsg = document.getElementById('dialogMsg');
         let actionButton = document.getElementById('deleteButton');
+        let dialogHeader = document.getElementById('dialogHeader');
         if(option == 'reboot'){
             dialogMsg.innerText = "Are you sure you want to reboot Greenscreen?"
-            actionButton.innerText = "Yes, Reboot";
+            actionButton.innerText = "Reboot Greenscreen";
+            dialogHeader.innerText = "Reboot Greenscreen"
             pwrFunc = "reboot";
         }
         if(option == 'shutdown'){
             dialogMsg.innerText = "Are you sure you want to shutdown Greenscreen?"
-            actionButton.innerText = "Yes, Shutdown";
+            actionButton.innerText = "Shutdown Greenscreen";
+            dialogHeader.innerText = "Shutdown Greenscreen"
             pwrFunc = "shutdown";
+        }
+        if(option == 'reset'){
+            dialogMsg.innerHTML = "Resetting your Greenscreen will erase the following customizations: <div class='dialogDeets'><ul><li>saved calendars</li><li>weather location</li><li>newsfeeds</li><li>countdown clocks</li><li>messages</li><li>background settings (not including uploaded images)</li></ul></div>The following settings will not be affected:<div class='dialogDeets'><ul><li>Screen power on/off schedule</li><li>uploaded images</li><li>network connections</li></ul></div><br/> Are you sure you want to reset your Greenscreen to system defaults?"
+            actionButton.innerText = "Reset Greenscreen";
+            dialogHeader.innerText = "Reset Greenscreen Settings"
+
+            pwrFunc = "reset";
         }
         dialogBoxId.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
@@ -184,12 +200,53 @@ input[type="time"]{
     }
 
     function powerFunction(){
-        if(pwrFunc == "reboot")
+        let btn = document.getElementById('deleteButton');
+        if(pwrFunc == "reboot"){
             reboot();
-        if(pwrFunc == "shutdown")
+            btn.innerText='Rebooting...';
+            btn.disabled = true;
+        }
+        if(pwrFunc == "shutdown"){
             shutdown();
+            btn.innerText='Shutting down...';
+            btn.disabled = true;
+        }
+        if(pwrFunc == "reset"){
+            reset();
+            btn.innerText='Resetting...';
+            btn.disabled = true;
+
+        }
     }
 
+    async function reset(){
+        const response = await fetch('/screen-reset-config', {
+                method: "POST", 
+            }).then(res => res.json())
+            .then(data => {
+ 
+                if(data.resetResult=="success"){
+                document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                btn.innerText='Close';
+                 btn.disabled = false;
+                 btn.onclick=function(){
+                        location.reload();
+                 };
+                }
+                else{
+                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                 btn.disabled = false;
+                }
+  })
+            
+                
+                 
+            
+    }
     async function shutdown(){
         const response = await fetch('/screen-shutdown', {
                 method: "POST", 
@@ -204,7 +261,7 @@ input[type="time"]{
                 method: "POST", 
             }).then((res)=>
             {
-                //document.getElementById('filemessage').innerText = "Upload complete";
+                
             });
     }
 
