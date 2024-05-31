@@ -21,6 +21,58 @@ input[type="time"]{
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/micromodal.min.js"></script>
+<script>
+    async function sleep(){
+        const response = await fetch('/screen-sleep', {
+                method: "POST", 
+            }).then(res => res.json())
+            .then(data => {
+                /*
+                if(data.resetResult=="success"){
+                
+                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
+                //setTimeout(function(){location.reload();},5000);
+                //let btn = document.getElementById('deleteButton');
+                btn.innerText='Close';
+                    btn.disabled = false;
+                    btn.onclick=function(){
+                        location.reload();
+                    };
+                }
+                else{
+                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                    btn.disabled = false;
+                }*/
+        })                  
+    }
+    async function wake(){
+        const response = await fetch('/screen-wake', {
+                method: "POST", 
+            }).then(res => res.json())
+            .then(data => {
+                /*
+                if(data.resetResult=="success"){
+                
+                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
+                //setTimeout(function(){location.reload();},5000);
+                //let btn = document.getElementById('deleteButton');
+                btn.innerText='Close';
+                    btn.disabled = false;
+                    btn.onclick=function(){
+                        location.reload();
+                    };
+                }
+                else{
+                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
+                //setTimeout(function(){location.reload();},5000);
+                let btn = document.getElementById('deleteButton');
+                    btn.disabled = false;
+                }*/
+        })                  
+    }
+</script>
 
 <body>
     <div class="menu-container" onclick="toggleMenu(this)">
@@ -293,56 +345,7 @@ input[type="time"]{
                 
             });
     }
-    async function sleep(){
-        const response = await fetch('/screen-sleep', {
-                method: "POST", 
-            }).then(res => res.json())
-            .then(data => {
-                /*
-                if(data.resetResult=="success"){
-                
-                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
-                //setTimeout(function(){location.reload();},5000);
-                //let btn = document.getElementById('deleteButton');
-                btn.innerText='Close';
-                    btn.disabled = false;
-                    btn.onclick=function(){
-                        location.reload();
-                    };
-                }
-                else{
-                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
-                //setTimeout(function(){location.reload();},5000);
-                let btn = document.getElementById('deleteButton');
-                    btn.disabled = false;
-                }*/
-        })                  
-    }
-    async function wake(){
-        const response = await fetch('/screen-wake', {
-                method: "POST", 
-            }).then(res => res.json())
-            .then(data => {
-                /*
-                if(data.resetResult=="success"){
-                
-                    //document.getElementById('dialogMsg').innerText = "Your Greenscreen settings have been reset.";
-                //setTimeout(function(){location.reload();},5000);
-                //let btn = document.getElementById('deleteButton');
-                btn.innerText='Close';
-                    btn.disabled = false;
-                    btn.onclick=function(){
-                        location.reload();
-                    };
-                }
-                else{
-                    document.getElementById('dialogMsg').innerText = "It looks like there was a problem resetting your Greenscreen";
-                //setTimeout(function(){location.reload();},5000);
-                let btn = document.getElementById('deleteButton');
-                    btn.disabled = false;
-                }*/
-        })                  
-    }
+    
 
 	loadNav();
     init();
