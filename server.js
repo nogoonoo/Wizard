@@ -103,7 +103,8 @@ catch(err){
 });
 
 app.post('/forceupdate', function(req,res){
-  exec(`../Scripts/gs-updater.sh`)
+  exec(`../Scripts/gs-updater.sh`);
+  //BOO!
   //res.sendFile(path.join(__dirname+'/express/start.html'));
 });
 
