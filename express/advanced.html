@@ -167,7 +167,46 @@ input[type="time"]{
        doupdate();
        this.innerText = 'Updating...';
        this.disabled = true;
-        
+       let retry = 12;
+       let result = "";
+       let checkUpdates = setInterval(function(){
+            if(retry>0){
+                let poo = checkUpdate().then((res)=>
+                {
+                    console.log(res);
+                    result = res;
+                    if(res=='current'){
+                        updateStatus(result);
+                        clearInterval(checkUpdates);
+                    }
+                    retry--;
+                });
+                
+            }
+            else{
+                updateStatus(result);
+                clearInterval(checkUpdates);
+            }
+        },5000);
+    }
+function updateStatus(status){
+console.log('done updating: '+status)
+}
+   async function checkUpdate(){
+        const response = await fetch("/checkupdate");
+        const myData = await response.json()
+        //console.log(myData);
+        let result = "";
+        if(myData.status.indexOf('error:')>-1){
+            result = "error"
+        }
+        if(myData.status.indexOf('current')>-1){
+            result = "current"
+        }
+        if(myData.status.indexOf('behind')>-1){
+            result = "behind"
+        }
+        return result;
     }
     async function doupdate(){
         const response = await fetch('/forceupdate', {
