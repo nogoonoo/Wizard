@@ -560,10 +560,11 @@ span#dateTimeError {
   margin-top: 0;
   margin-bottom: 0;
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   line-height: 1.25;
   color: var(--darkgreen);
-    box-sizing: border-box;
+  box-sizing: border-box;
+  margin-left: 0px;
 }
 
 .modal__close {

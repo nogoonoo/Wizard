@@ -1029,6 +1029,9 @@ app.post('/news', (req, res) =>{
           case "CNN-HARDCODE":
             news_feeds.push(`{title:"CNN",url:"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",internalName:"CNN-HARDCODE"}`);
             break;
+          case "FOX-HARDCODE":
+            news_feeds.push(`{title:"FOX",url:"https://moxie.foxnews.com/google-publisher/latest.xml",internalName:"FOX-HARDCODE"}`);
+            break;
         }
       }      
       //{module:"newsfeed",position: "bottom_bar",config:{feeds:[{title:"New York Times",url:"https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"}],showSourceTitle:true,showPublishDate:true,broadcastNewsFeeds:true,broadcastNewsUpdates:true}},

@@ -141,11 +141,13 @@ function disableSave(){
 const info = [
     {
         id:"message",
-        content:`<div>You can add a custom image to your GreenScreen display.  <img src="/img/info/placeholder.jpg">More stuff</div>`
+        content:`Need to remind yourself or a family member of an important event?  Maybe you just want to leave a thoughtful message? You can show a message in a couple of 
+        different locations on your Greenscreen`
     },
     {
         id:"msg-placement",
-        content:`Message to show to the left or center of screen`
+        content:` You can place a message in the sidebar <img src="/img/info/msgside.jpg">
+        or make it stand out more and place it in the middle of the screen<img src="/img/info/msgcenter.jpg"`
     },
     {
         id:"about-cals",
@@ -177,35 +179,71 @@ const info = [
     },
      {
         id:"weatherdeets",
-        content:`Toggle this on to show additional weather information (like wind speed, etc)`
+        content:`Toggle this on to show additional weather information<ul><li>Wind Speed and Direction</li><li>Sunrise/Sunset</li><li>'Feels Like'</li></ul><img src="/img/info/weather3.jpg">`
     },
     {
+        id:"weatherforecast",
+        content:`Greenscreen will display a forecast up to 7 days from today<img src="/img/info/weather2.jpg">`
+    },
+    
+    {
         id:"bgbright",
-        content:`Lower the brightness to make text easier to read`
+        content:`The background image brightness can be increased or decreased.  Decreasing the brighness makes text easier to read.`
     },
     {
         id:"bgsources",
-        content:`Different sources`
+        content:`Greenscreen can display and rotate between backgrounds from a variety of sources:<ul>
+        <li><b>Stock Images</b>: A curated selection of hundreds of landscape and nature images.</li><br/>
+        <li><b>iCloud Shared Albums</b>: Use a shared iCloud photo albums from your iPhone, iPad, or Mac</li><br/>
+        <li><b>Bing Wallpapers</b>: Bing Wallpaper includes a collection of beautiful images from around the world that have been featured on the Bing homepage</li><br/>
+        <li><b>Upload your own images</b>: You can upload your own images directly to Greenscreen from your phone or other device</li><br/>
+        <li><b>Solid Color</b>: Want something more simple?  Specify one of millions of colors to use as your background.</li>
+        </ul>`
     },
     {
         id:"bgrotate",
-        content:`How often we rotate`
+        content:`Greenscreen can rotate through images from once a minute, to every 12 hours`
     },
     {
+        id:"bg-placement",
+        content:`Greenscreen will display background images on the sidebar or fullscreen`
+    },
+    
+    {
         id:"preconfig-news",
-        content:`Greenscreen comes with a few setup`
+        content:`Greenscreen comes with several preconfigured news feeds, including:
+        <ul>
+        <li>Associated Press</li>
+        <li>CNN</li>
+        <li>Fox News</li>
+        <li>The New York Times</li>
+        <li>The Wall Street Journal </li>
+        </ul>
+        You can select multiple news sources to cycle through your Greenscreen newsfeed. Remember, you can click on the articles as they cycle through and display the full article on your screen.`
     },
     {
         id:"custom-news",
-        content:`Add custom RSS feeds`
+        content:`Greenscreen allows you to add custom news feeds, known as RSS feeds.  Most online news sources provide an RSS feed, which can usually be found with a Google search. 
+        RSS are in the form of a URL.  Here's a few examples:<ul><li>https://gizmodo.com/rss</li><li>https://feeds.nbcnews.com/nbcnews/public/world</li><li>https://www.engadget.com/rss.xml</li></ul>
+        You can enter in a name and the URL for up to 3 custom news sources. Remember, you can click on the articles as they cycle through and display the full article on your screen.`
+    },
+    {
+        id:"rotate-news",
+        content:`Greenscreen will rotate through articles from your selected news sources.  The rotation interval can be set to <ul><li>10 seconds</li><li>20 seconds</li><li>30 seconds</li><li>1 minute</li></ul>`
     },
     {
         id:"wotd",
-        content:`Word of the day`
+        content:`Build your vocabulary with Merriam-Webster's Word of the Day! Each day a Merriam-Webster editor offers insight into a fascinating new word.
+        <img src="/img/info/wotd.jpg">`
     },
     {
         id:"countdown",
-        content:`You can countdown to something`
+        content:`Build excitement by counting down to an important anniversary, holiday, birthday, or any other custom day and time<img src="/img/info/countdown1.jpg">Once the countdown is reached, it will display a customized message<img src="/img/info/countdown2.jpg">`
+    },
+    {
+        id:"rotate-widgets",
+        content:`You can rotate between the Word of the Day and the Countdown widget every <ul><li>5 seconds</li><li>10 seconds</li><li>20 seconds</li><li>30 seconds</li><li>1 minute</li></ul>
+        If you select 'don't rotate', the widgets will stack on top of one another<img src="/img/info/norotateimage.jpg">`
     },
     {
         id:"countdown-date",
@@ -221,7 +259,7 @@ const info = [
     },
     {
         id:"sys-power",
-        content:`You can turn the screen off and on based on a schedule.`
+        content:`It wouldn't be a 'green' screen if you couldn't put the display in standby once in a while, right?  Schedule your Greenscreen to go into standby in the evening and wake up in the morning.`
     },
     {
         id:"sys-updates",
@@ -230,8 +268,8 @@ const info = [
     {
         id:"sys-options",
         content:`There are several device options you can choose from: <ul><li><b>Standby</b> - This will put the monitor to sleep until the next scheduled wake time.  This option is only available when accessing setting from another device. <br/><br/> <i>*Note* You can only wake the screen back up by using another device, not directly on Greenscreen.  Alternatively, and not recommended, you can unplug Greenscreen and plug it back in to turn the screen back on.</i></li><br/>
-        <li><b>Wake from Standby</b> - This will wake the monitor up. This option is only available when accessing setting from another device.</li>
-        <li><b>Reboot</b> - Rebooting your Greenscreen may help resolve occational issues.</li>
+        <li><b>Wake from Standby</b> - This will wake the monitor up. This option is only available when accessing setting from another device.</li><br/>
+        <li><b>Reboot</b> - Rebooting your Greenscreen may help resolve occational issues.</li><br/>
         <li><b>Shutdown</b> - Shutting down your Greenscreen is safer than just unplugging the power cable.</li>`
     },
     {

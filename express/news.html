@@ -20,6 +20,12 @@
     color: red;
     display:none;
 }
+label.vertical {
+    width: 170px !important;
+    display: inline-block;
+    padding: 5px;
+    line-height: 20px !important;
+}
 @media screen and (max-width: 400px) {
 	input[data-type="name"]{
 		width:25%;
@@ -54,14 +60,19 @@
     <span id="newsoptions">
         <label class="fieldName info" data-info="preconfig-news">Preconfigured Sources</label>
         <div class="formField">
-            <input type="checkbox" id="NYT-HARDCODE" name="NYT-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="NYT-HARDCODE">
-            <label id="opt1" for="NYT-HARDCODE" class="selector-item_label vertical">The New York Times</label><br/>
-            <input type="checkbox" id="WSJ-HARDCODE" name="WSJ-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="WSJ-HARDCODE">
-            <label id="opt2" for="WSJ-HARDCODE" class="selector-item_label vertical">The Wall Street Journal</label><br/>
-            <input type="checkbox" id="CNN-HARDCODE" name="CNN-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="CNN-HARDCODE">
-            <label id="opt3" for="CNN-HARDCODE" class="selector-item_label vertical">CNN</label><br/>
             <input type="checkbox" id="AP-HARDCODE" name="AP-HARDCODE" class="selector-item_radio staticNewsSource"  onchange="showHideSave()" value="AP-HARDCODE">
-            <label id="opt4" for="AP-HARDCODE" class="selector-item_label vertical">AP</label><br/>
+            <label id="opt1 for="AP-HARDCODE" class="selector-item_label vertical">Associated Press</label><br/>
+            <input type="checkbox" id="CNN-HARDCODE" name="CNN-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="CNN-HARDCODE">
+            <label id="opt2" for="CNN-HARDCODE" class="selector-item_label vertical">CNN</label><br/>
+            <input type="checkbox" id="FOX-HARDCODE" name="FOX-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="FOX-HARDCODE">
+            <label id="opt3" for="FOX-HARDCODE" class="selector-item_label vertical">Fox News</label><br/>
+            <input type="checkbox" id="NYT-HARDCODE" name="NYT-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="NYT-HARDCODE">
+            <label id="opt4" for="NYT-HARDCODE" class="selector-item_label vertical">New York Times</label><br/>
+            <input type="checkbox" id="WSJ-HARDCODE" name="WSJ-HARDCODE" class="selector-item_radio staticNewsSource" onchange="showHideSave()" value="WSJ-HARDCODE">
+            <label id="opt5" for="WSJ-HARDCODE" class="selector-item_label vertical">Wall Street Journal</label><br/>
+            
+            
+            
         </div>
         <label class="fieldName info" data-info="custom-news">Custom Feeds (Up to 3)</label>
         <div class="formField">
@@ -81,7 +92,7 @@
                 <span id="error-3" class="urlError"></span>
             </div>
         </div>
-        <label class="fieldName info" data-info="custom-news">Rotate Articles</label>
+        <label class="fieldName info" data-info="rotate-news">Rotate Articles</label>
         <div class="formField">
             <select id="interval" name="interval" onchange="showHideSave()">
                 <option value="10000">Every 10 seconds</option>
