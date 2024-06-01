@@ -52,7 +52,7 @@ input[type="time"]{
      </div>
     <div class="formField">
         <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
-        <span id="updateMessage"></span><button type="button" onclick="updatenow(this)" class="function">Update Now</button>
+        <span id="updateMessage"></span><button type="button" onclick="updatenow(this)" class="function" id="updatebtn">Update Now</button>
     </div>
     <div style="height:20px"></div>
     <label class="fieldName notop info" data-info="sys-options">Device Options</label>
@@ -165,8 +165,9 @@ input[type="time"]{
 
     function updatenow(obj){
        doupdate();
-       this.innerText = 'Updating...';
-       this.disabled = true;
+       let updateBtn = document.getElementById('updatebtn');
+       updateBtn.innerText = 'Updating...';
+       updateBtn.disabled = true;
        let retry = 12;
        let result = "";
        let checkUpdates = setInterval(function(){
@@ -190,7 +191,22 @@ input[type="time"]{
         },5000);
     }
 function updateStatus(status){
-console.log('done updating: '+status)
+    console.log('done updating: '+status);
+    let updateBtn = document.getElementById('updatebtn');
+    let updateMsg = document.getElementById('updateMessage');
+    updateBtn.disabled = false;
+    updateBtn.innerText = "Update Now";
+    switch(status){
+        case 'current':
+            updateMsg.innerText = "Update successful"
+            break;
+        case 'error':
+             updateMsg.innerText = "There was an error when trying to update. Try again"
+            break;
+        case 'behind':
+             updateMsg.innerText = "Looks like the update is taking a while.  Try again"
+            break;
+    }
 }
    async function checkUpdate(){
         const response = await fetch("/checkupdate");
