@@ -52,7 +52,7 @@ input[type="time"]{
      </div>
     <div class="formField">
         <button type="button" onclick="checkforupdate(this)" class="function">Check For Updates</button>
-        <span id="updateMessage"></span><button type="button" onclick="updatenow(this)" class="function" id="updatebtn">Update Now</button>
+        <span id="updateMessage"></span><button type="button" onclick="updatenow(this)" class="function hidden" id="updatebtn">Update Now</button>
     </div>
     <div style="height:20px"></div>
     <label class="fieldName notop info" data-info="sys-options">Device Options</label>
@@ -198,7 +198,8 @@ function updateStatus(status){
     updateBtn.innerText = "Update Now";
     switch(status){
         case 'current':
-            updateMsg.innerText = "Update successful"
+            updateMsg.innerText = "Update successful";
+            document.getElementById('updatebtn').classList.add('hidden');
             break;
         case 'error':
              updateMsg.innerText = "There was an error when trying to update. Try again"
@@ -247,7 +248,9 @@ function updateStatus(status){
             result = "Your Greenscreen is up to date"
         }
         if(myData.status.indexOf('behind')>-1){
-            result = "An update is available"
+            result = "An update is available";
+            document.getElementById('updatebtn').classList.remove('hidden');
+
         }
         document.getElementById('updateMessage').innerText = result;
         obj.innerText = "Check For Updates";
