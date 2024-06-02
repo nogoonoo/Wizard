@@ -365,7 +365,12 @@ function setCustomMessage(messageText, messagePlacement, showmsg){
   else
     css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;bottom: -60px;}`;
 
+    messageText = messageText.replace(/(\r\n|\r|\n)/g, '<br>');
+   // messageText = messageText.stringify();
+    console.log(messageText.indexOf('\n'));
+    console.log(messageText);
   let show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
+
 
   if(!showmsg){
     show_msg_snippet = `//`+show_msg_snippet

@@ -131,7 +131,7 @@
     
         if(myData.msgText){
             let msgtxt = document.getElementById("msgtxt");
-            msgtxt.value = myData.msgText;
+            msgtxt.value = myData.msgText.replace(/<br\s*[\/]?>/gi, "\n");
         }
         if(myData.placement){
             let msgplace = document.getElementById("msgplace");
