@@ -98,7 +98,7 @@ function refreshAndLaunchWizard(page){
 
 
 function attachInfoEventListeners(){
-    let infoIcons = document.querySelectorAll('.info');
+    let infoIcons = document.querySelectorAll('span[data-info]');
     for(var i = 0; i<infoIcons.length; i++){
         let infoID = infoIcons[i].getAttribute('data-info');
         infoIcons[i].addEventListener("click", function (e) {
@@ -109,7 +109,7 @@ function attachInfoEventListeners(){
 
 function populateModal(id){
     let obj = getInfoContent(id);
-    let title = document.querySelector('[data-info="'+id+'"]').innerText;
+    let title = obj[0].title;//document.querySelector('[data-info="'+id+'"]').innerText;
     document.getElementById('info-modal-title').innerText = title;
     document.getElementById('info-modal-content').innerHTML = obj[0].content;
     MicroModal.show('info-modal');
@@ -141,57 +141,65 @@ function disableSave(){
 const info = [
     {
         id:"message",
+        title:"Custom Messages",
         content:`Need to remind yourself or a family member of an important event?  Maybe you just want to leave a thoughtful message? You can show a message in a couple of 
         different locations on your Greenscreen`
     },
     {
         id:"msg-placement",
+        title:"Message Placement",
         content:` You can place a message in the sidebar <img src="/img/info/msgside.jpg">
         or make it stand out more and place it in the middle of the screen<img src="/img/info/msgcenter.jpg"`
     },
     {
         id:"about-cals",
+        title:"Calendars",
         content:`Show animated gif of cals`
     },
     {
         id:"about-datetime",
-        content:`Show animated gif of dates`
-    },
-    {
-        id:"about-datetime",
+        title:"Date and Time",
         content:`Show animated gif of dates`
     },
     {
         id:"about-weather",
+        title:"Weather",
         content:`Show animated gif of dates`
     },
     {
         id:"about-bgs",
+        title:"Backgrounds",
         content:`Show animated gif of dates`
     },
     {
         id:"about-news",
+        title:"Newsfeed",
         content:`Show animated gif of news`
     },
     {
         id:"about-others",
+        title:"Extra",
         content:`Show animated gif of extras`
     },
      {
         id:"weatherdeets",
+        title:"Weather Details",
         content:`Toggle this on to show additional weather information<ul><li>Wind Speed and Direction</li><li>Sunrise/Sunset</li><li>'Feels Like'</li></ul><img src="/img/info/weather3.jpg">`
     },
     {
         id:"weatherforecast",
+        title:"Weather Forecast",
         content:`Greenscreen will display a forecast up to 7 days from today<img src="/img/info/weather2.jpg">`
     },
     
     {
         id:"bgbright",
+        title:"Background Brightness",
         content:`The background image brightness can be increased or decreased.  Decreasing the brighness makes text easier to read.`
     },
     {
         id:"bgsources",
+        title:"Background Image Sources",
         content:`Greenscreen can display and rotate between backgrounds from a variety of sources:<ul>
         <li><b>Stock Images</b>: A curated selection of hundreds of landscape and nature images.</li><br/>
         <li><b>iCloud Shared Albums</b>: Use a shared iCloud photo albums from your iPhone, iPad, or Mac</li><br/>
@@ -202,15 +210,18 @@ const info = [
     },
     {
         id:"bgrotate",
+        title:"Image Rotation Interval",
         content:`Greenscreen can rotate through images from once a minute, to every 12 hours`
     },
     {
         id:"bg-placement",
+        title:"Background Placement",
         content:`Greenscreen will display background images on the sidebar or fullscreen`
     },
     
     {
         id:"preconfig-news",
+        title:"Preconfigured News Sources",
         content:`Greenscreen comes with several preconfigured news feeds, including:
         <ul>
         <li>Associated Press</li>
@@ -223,50 +234,61 @@ const info = [
     },
     {
         id:"custom-news",
+        title:"Custom News Sources",
         content:`Greenscreen allows you to add custom news feeds, known as RSS feeds.  Most online news sources provide an RSS feed, which can usually be found with a Google search. 
         RSS are in the form of a URL.  Here's a few examples:<ul><li>https://gizmodo.com/rss</li><li>https://feeds.nbcnews.com/nbcnews/public/world</li><li>https://www.engadget.com/rss.xml</li></ul>
         You can enter in a name and the URL for up to 3 custom news sources. Remember, you can click on the articles as they cycle through and display the full article on your screen.`
     },
     {
         id:"rotate-news",
+        title:"News Rotation Frequency",
         content:`Greenscreen will rotate through articles from your selected news sources.  The rotation interval can be set to <ul><li>10 seconds</li><li>20 seconds</li><li>30 seconds</li><li>1 minute</li></ul>`
     },
     {
         id:"wotd",
+        title:"Word of the Day",
         content:`Build your vocabulary with Merriam-Webster's Word of the Day! Each day a Merriam-Webster editor offers insight into a fascinating new word.
         <img src="/img/info/wotd.jpg">`
     },
     {
         id:"countdown",
+        title:"Countdown Clock",
         content:`Build excitement by counting down to an important anniversary, holiday, birthday, or any other custom day and time<img src="/img/info/countdown1.jpg">Once the countdown is reached, it will display a customized message<img src="/img/info/countdown2.jpg">`
     },
     {
         id:"rotate-widgets",
+        title:"How often to rotate between widgets",
         content:`You can rotate between the Word of the Day and the Countdown widget every <ul><li>5 seconds</li><li>10 seconds</li><li>20 seconds</li><li>30 seconds</li><li>1 minute</li></ul>
         If you select 'don't rotate', the widgets will stack on top of one another<img src="/img/info/norotateimage.jpg">`
     },
     {
         id:"countdown-date",
+        title:"Countdown Date",
         content:`The date to countdown to`
     },
     {
         id:"countdown-msg",
+        title:"Countdown Message",
         content:`The mssage to show`
     },
     {
         id:"countdown-after",
+        title:"Message to show after countdown",
         content:`Once its sountedown, shows this`
     },
     {
         id:"sys-power",
+        title:"Standby Schedule",
         content:`It wouldn't be a 'green' screen if you couldn't put the display in standby once in a while, right?  Schedule your Greenscreen to go into standby in the evening and wake up in the morning.`
     },
     {
         id:"sys-updates",
+        title:"System Updates",
         content:`Greenscreen will periodically check for updates.  Click the 'Check for Updates' button to check for and install updates now`
     },
     {
         id:"sys-options",
+        title:"Power Functions",
         content:`There are several device options you can choose from: <ul><li><b>Standby</b> - This will put the monitor to sleep until the next scheduled wake time.  This option is only available when accessing setting from another device. <br/><br/> <i>*Note* You can only wake the screen back up by using another device, not directly on Greenscreen.  Alternatively, and not recommended, you can unplug Greenscreen and plug it back in to turn the screen back on.</i></li><br/>
         <li><b>Wake from Standby</b> - This will wake the monitor up. This option is only available when accessing setting from another device.</li><br/>
         <li><b>Reboot</b> - Rebooting your Greenscreen may help resolve occational issues.</li><br/>
@@ -274,10 +296,12 @@ const info = [
     },
     {
         id:"sys-reset",
+        title:"Erase Settings",
         content:`Resetting your Greenscreen will erase the following customizations: <div class='dialogDeets'><ul><li>saved calendars</li><li>weather location</li><li>newsfeeds</li><li>countdown clocks</li><li>messages</li><li>background settings (not including uploaded images)</li></ul></div>The following settings will not be affected:<div class='dialogDeets'><ul><li>Screen power on/off schedule</li><li>uploaded images</li><li>network connections</li></ul></div><br/>.`
     },
     {
         id:"cal-help",
+        title:"How do I add my Calendars?",
         content:`<div>Most online calendars provide data in the form of an iCal feed. Greenscreen uses this to display your events.  To get your calendar's URL, start by selecting your calendar type:<br/><br/>
         <div class="accordian">Google Calendar <span class="caret right"></span>
         <div class="hiddenContent closed">

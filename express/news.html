@@ -45,7 +45,7 @@ label.vertical {
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 
-<h2 class="info" data-info="about-news">News</h2>
+<h2 class="info">News<span data-info="about-news"></span></h2>
 <form action="/news" method="post" onsubmit="return validateForm()">
 
     <!--<label class="headerName">Newsfeed</label>-->
@@ -58,7 +58,7 @@ label.vertical {
     </div>
     <span id="noSources">You must add at least one news source, or hide the newsfeed</span>
     <span id="newsoptions">
-        <label class="fieldName info" data-info="preconfig-news">Preconfigured Sources</label>
+        <label class="fieldName info">Preconfigured Sources<span data-info="preconfig-news"></span></label>
         <div class="formField">
             <input type="checkbox" id="AP-HARDCODE" name="AP-HARDCODE" class="selector-item_radio staticNewsSource"  onchange="showHideSave()" value="AP-HARDCODE">
             <label id="opt1" for="AP-HARDCODE" class="selector-item_label vertical">Associated Press</label><br/>
@@ -74,7 +74,7 @@ label.vertical {
             
             
         </div>
-        <label class="fieldName info" data-info="custom-news">Custom Feeds (Up to 3)</label>
+        <label class="fieldName info">Custom Feeds (Up to 3)<span data-info="custom-news"></span></label>
         <div class="formField">
             <div class="newsLine" id="calendarLine-1">
                 <input name="name-1" id="name-1" type="text" placeholder="Name" data-type="name" minlength="1" class="input" >
@@ -92,7 +92,7 @@ label.vertical {
                 <span id="error-3" class="urlError"></span>
             </div>
         </div>
-        <label class="fieldName info" data-info="rotate-news">Rotate Articles</label>
+        <label class="fieldName info">Rotate Articles<span data-info="rotate-news"></span></label>
         <div class="formField">
             <select id="interval" name="interval" onchange="showHideSave()">
                 <option value="10000">Every 10 seconds</option>

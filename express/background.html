@@ -148,11 +148,11 @@ div#existingFiles a{
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
 	
-<h2 class="info" data-info="about-bgs">Backgrounds</h2>
+<h2 class="info">Backgrounds<span data-info="about-bgs"></span></h2>
 
 
 <form action="/background" method="post" onsubmit="return validateForm();">
-    <label class="fieldName info" data-info="bgsources">Background Image Source</label>
+    <label class="fieldName info">Background Image Source<span data-info="bgsources"></span></label>
     <span id="dateoptions">
 		<div class="formField">
            <!-- <input type="text" id="selectedSource" placeholder="Select a source" onfocus="toggleoptions(true)" onblur="setoption(null)"><i class="arrow down"></i></div>
@@ -187,7 +187,7 @@ div#existingFiles a{
             </span>
 		</div>
 	</span>
-    <label class="fieldName info" data-info="bgrotate">Rotate Images</label>
+    <label class="fieldName info">Rotate Images<span data-info="bgrotate"></span></label>
     <div class="formField">
         <select id="interval" name="interval" onchange="showHideSave()">
             <option value="60000">Every 1 minute</option>
@@ -201,14 +201,14 @@ div#existingFiles a{
             <option value="43200000">Every 12 hours</option>
         </select>
     </div>
-    <label class="fieldName info" data-info="bg-placement">Background Position</label>
+    <label class="fieldName info">Background Position<span data-info="bg-placement"></span></label>
     <div class="formField">
         <select id="bgplace" name="bgplace" onchange="showHideSave()">
             <option value="side">Sidebar</option>
             <option value="full">Full-Screen</option>
         </select>        
     </div>
-    <label class="fieldName info" data-info="bgbright">Background Brightness</label>
+    <label class="fieldName info">Background Brightness<span data-info="bgbright"></span></label>
     <label class="fieldDescription">Lower brightness makes text easier to read</label>
     <div class="formField">
         <div class="rangecontainer">

@@ -330,18 +330,32 @@ label.fieldDescription {
 .formField.inline {
   display:inline;
 }
+/*.info::after {*/
+  span[data-info]{
+    background-image: url("data:image/svg+xml, %3Csvg width='24px' height='24px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23FFFFFF' stroke-width='1.5'%3E%3C/circle%3E%3Cpath d='M12 17V11' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round'%3E%3C/path%3E%3Ccircle cx='1' cy='1' r='1' transform='matrix(1 0 0 -1 11 9)' fill='%23FFFFFF'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-size: 80%;
+    width: 23px;
+    height: 20px;
+    content: " ";
+    display: inline-block;
+    background-position: 4px -1px;
+    cursor:pointer;
+    vertical-align: middle;
+  }/*
 .info::after {
-  background-image: url("data:image/svg+xml, %3Csvg width='24px' height='24px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23FFFFFF' stroke-width='1.5'%3E%3C/circle%3E%3Cpath d='M12 17V11' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round'%3E%3C/path%3E%3Ccircle cx='1' cy='1' r='1' transform='matrix(1 0 0 -1 11 9)' fill='%23FFFFFF'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E%0A");
-  background-repeat: no-repeat;
-  background-size: 70%;
-  width: 20px;
-  height: 18px;
-  content: " ";
-  display: inline-block;
-  background-position: 4px 4px;
-  top:15px;
-  cursor:pointer;
-}
+    background-image: url("data:image/svg+xml, %3Csvg width='24px' height='24px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg id='SVGRepo_bgCarrier' stroke-width='0'%3E%3C/g%3E%3Cg id='SVGRepo_tracerCarrier' stroke-linecap='round' stroke-linejoin='round'%3E%3C/g%3E%3Cg id='SVGRepo_iconCarrier'%3E%3Ccircle cx='12' cy='12' r='10' stroke='%23FFFFFF' stroke-width='1.5'%3E%3C/circle%3E%3Cpath d='M12 17V11' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round'%3E%3C/path%3E%3Ccircle cx='1' cy='1' r='1' transform='matrix(1 0 0 -1 11 9)' fill='%23FFFFFF'%3E%3C/circle%3E%3C/g%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-size: 70%;
+    width: 20px;
+    height: 18px;
+    content: " ";
+    display: inline-block;
+    background-position: 4px 4px;
+    top:15px;
+    cursor:pointer;
+    background-color:red;
+  }*/
 /* sidebar */
 .sidebar {
   margin: 0;

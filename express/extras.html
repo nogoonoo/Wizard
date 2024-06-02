@@ -25,9 +25,9 @@
     </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
-<h2 class="info" data-info="about-others">Other Widgets</h2>
+<h2 class="info">Other Widgets<span data-info="about-others"></span></h2>
 <form action="/extras" method="post" onsubmit="return validateForm()">
-    <label class="headerName info" data-info="wotd">Word of the Day</label>
+    <label class="headerName info">Word of the Day<span data-info="wotd"></span></label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="wotd" name="wotd" onchange="showHideSave()" value="true">
@@ -44,22 +44,22 @@
         <label class="fieldName inline">Show Countdown Clock</label>
     </div>
     <span id="countdownoptions">
-        <label class="fieldName info" data-info="countdown-date">Countdown To Date</label>
+        <label class="fieldName info">Countdown To Date<span data-info="countdown-date"></span></label>
         <div class="formField">
             <input type="datetime-local" id="countdowndate" name="countdowndate" onchange="showHideSave()">
             <span id="dateTimeError" class="dateTimeError"></span>
         </div>
-        <label class="fieldName info" data-info="countdown-msg">Countdown Message</label>
+        <label class="fieldName info">Countdown Message<span data-info="countdown-msg"></span></label>
         <div class="formField">
             <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()" class="input" >
         </div>
-        <label class="fieldName info" data-info="countdown-after">Show message after countdown</label>
+        <label class="fieldName info">Show message after countdown<span data-info="countdown-after"></span></label>
         <div class="formField">
             <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()"  class="input" >
         </div>
     </span>
 
-    <label class="headerName info" data-info="rotate-widgets">Rotate Widgets</label>
+    <label class="headerName info">Rotate Widgets<span data-info="rotate-widgets"></span></label>
     <div class="formField">
         <select id="interval" name="interval" onchange="showHideSave()">
             <option value="-1">Don't rotate</option>

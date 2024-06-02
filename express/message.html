@@ -25,7 +25,7 @@
     </div>
 	<div class="sidebar" id="sidebar"></div>
 	<div class="content">
-<h2 class="info" data-info="message">Custom Message</h2>
+<h2 class="info">Custom Message<span data-info="message"></span></h2>
 <form action="/message" method="post" onsubmit="return validateForm()">
     <div class="formField">
         <label class="switch">
@@ -39,7 +39,7 @@
         <div class="formField">
             <textarea id="msgtxt" name="msgtxt" rows="3" cols="38" onchange="showHideSave()" class="input"></textarea>
         </div>
-        <label class="fieldName info" data-info="msg-placement">Message Placement</label>
+        <label class="fieldName info">Message Placement<span data-info="msg-placement"></span></label>
         <div class="formField">
             <select id="msgplace" name="msgplace" onchange="showHideSave()">
                 <option value="side">Sidebar</option>
