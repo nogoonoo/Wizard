@@ -17,15 +17,24 @@ function closeDialog(){
 
 function populateQR(){
     if(window.location.href.indexOf('localhost:3000')>-1){
-        document.getElementById('qr-code').setAttribute("src","http://localhost:3000/qrcode?path="+window.location.pathname);
-        document.getElementById('qrParent').classList.remove("hidden");
-        IP().then((res)=>{
-            //console.log(res);
+        let qrImage = document.createElement('img');
+        qrImage.id = "qr-code";
+        qrImage.src = "http://localhost:3000/qrcode?path="+window.location.pathname;
+        //document.getElementById('qr-code').setAttribute("src","http://localhost:3000/qrcode?path="+window.location.pathname);
+        let qrParent = document.getElementById('qrParent');
+        qrParent.appendChild(qrImage);
+        let divInfo = document.createElement('div');
+        divInfo.id = "qrinfo";
+        //divInfo.innerText = "Scan, or open browser to";
+        let divHostName = document.createElement('div');
+        divHostName.id = "hostnameInfo";
+        divHostName.innerText = "http://greenscreen:3000"+window.location.pathname;
+        qrParent.appendChild(divInfo);
+        qrParent.appendChild(divHostName);
+        qrParent.classList.remove("hidden");
+        /*IP().then((res)=>{
             document.getElementById('hostnameInfo').innerText = window.location.protocol +"//"+res.ip + ':' +res.port + window.location.pathname;
-            
-            //<span class="qrCode hidden" id="qrParent"><div id="">Scan to edit on your phone</div><img id="qr-code" src=""><div>Or go to </div><div id="hostnameInfo"></div></span>
-
-        })
+        })*/
     }
 }
 async function IP(){
