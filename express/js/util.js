@@ -22,6 +22,7 @@ function populateQR(){
         qrImage.src = "http://localhost:3000/qrcode?path="+window.location.pathname;
         //document.getElementById('qr-code').setAttribute("src","http://localhost:3000/qrcode?path="+window.location.pathname);
         let qrParent = document.getElementById('qrParent');
+        qrParent.innerText = "Scan for Settings"
         qrParent.appendChild(qrImage);
         let divInfo = document.createElement('div');
         divInfo.id = "qrinfo";

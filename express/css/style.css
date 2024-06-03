@@ -701,20 +701,21 @@ span#qrParent {
   right: 0px;
 	/*border:1px solid black;
   border-radius:20px*/
-	width:200px;
+	width:260px;
 	height:170px;
-	
+  text-align: center;
+  color: white;	
 }
 span#qrParent img{
 	text-align:center;
-	width:120px;
+	width:150px;
 	margin:auto;
 	display:block;
   border-radius: 25px;
 }
 span#qrParent div{
 	text-align:center;
-	font-size:.8em;
+	font-size:1em;
   color:white;
 }
 span#qrParent #hostnameInfo{
