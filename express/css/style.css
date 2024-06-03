@@ -708,7 +708,7 @@ span#qrParent {
 }
 span#qrParent img{
 	text-align:center;
-	width:150px;
+	width:170px;
 	margin:auto;
 	display:block;
   border-radius: 25px;
@@ -719,7 +719,22 @@ span#qrParent div{
   color:white;
 }
 span#qrParent #hostnameInfo{
-	font-weight: bolder;
+	font-weight: inherit;
+}
+div#hostnameInfo {
+  /* background-color: green; */
+  /* margin: 0px; */
+  /* width: 80%; */
+  /* text-align: center; */
+  /* border: 1px solid white; */
+  /* align-items: center; */
+  display: inline-flex;
+  margin-top: 10px;
+  background: #ddd;
+  border-radius: 5px;
+  padding: 3px;
+  font-size: 0.9em !important;
+  color:black !important;
 }
 .simple-keyboard {
   max-width: 1050px;

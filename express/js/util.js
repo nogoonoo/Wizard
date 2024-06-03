@@ -29,7 +29,7 @@ function populateQR(){
         //divInfo.innerText = "Scan, or open browser to";
         let divHostName = document.createElement('div');
         divHostName.id = "hostnameInfo";
-        divHostName.innerText = "http://greenscreen:3000"+window.location.pathname;
+        divHostName.innerText = "greenscreen:3000"+window.location.pathname;
         qrParent.appendChild(divInfo);
         qrParent.appendChild(divHostName);
         qrParent.classList.remove("hidden");
