@@ -561,7 +561,7 @@ span#dateTimeError {
   overflow-y: auto;
   box-sizing: border-box;
   width: 800px;
-  height: 700px;
+  /*height: 700px;*/
 }
 
 .modal__header {
@@ -643,6 +643,10 @@ main.modal__content img {
     margin-bottom: 10px;
 }
 
+.modal__content h3 {
+  color: var(--middark);
+  font-size:1.5em;
+}
 
 /**************************\
   Demo Animation Style
