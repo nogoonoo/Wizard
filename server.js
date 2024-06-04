@@ -363,7 +363,7 @@ function setCustomMessage(messageText, messagePlacement, showmsg){
     css_string = `div.module.helloworld {color:#444;background-color:white; position: fixed;top: 50%;left: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);width: 40vw;height: auto;padding: 50px;margin: 10px;line-height: 1.8;border-radius: 10px;font-family: sans-serif;font-weight: 400;z-index:10000;}`;
   }
   else
-    css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:500px;border-radius:10px;padding:20px;position: absolute;}`;
+    css_string = `div.module.helloworld{color:#FFF;background: rgba(0, 0, 0,.1);width:530px;border-radius:10px;padding:20px;position: absolute;}`;
 
     messageText = messageText.replace(/(\r\n|\r|\n)/g, '<br>');
    // messageText = messageText.stringify();
