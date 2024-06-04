@@ -1662,7 +1662,7 @@ app.post('/calendar', (req, res) =>{
 
         }
         if(key.toLowerCase().startsWith('showlines')){
-          calendar_css_snippet +=` .cellSlot {border-left:#999 solid 1px;border-right:#999 solid 1px;}.timeline {border-bottom: #999 1px solid;}\n`
+          calendar_css_snippet +=` .cellSlot {border-left:#999 solid 1px;border-right:#999 solid 0px;}.timeline {border-bottom: #999 1px solid;}\n`
           calendar_grid_snippet = `gridlines:true,\n`
         }
       }
