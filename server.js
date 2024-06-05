@@ -514,6 +514,8 @@ function writeWakeCronJob(req){
     #power_end
     ${start_minute} ${start_hour} * * * pm2 restart mm"
     
+    0 1 * * 0 /home/pi/Scripts/gs-updater.sh
+    
     echo "$line" | crontab -u pi -
     `;
 
