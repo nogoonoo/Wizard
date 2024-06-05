@@ -47,6 +47,9 @@ app.get('/refreshwizard', function(req,res){
 });
 
 /*------------------------- Welcome ----------------------------*/
+app.get('/', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/wizardhome.html'));
+});
 app.get('/start', function(req,res){
   res.sendFile(path.join(__dirname+'/express/start.html'));
 });
