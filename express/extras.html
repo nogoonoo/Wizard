@@ -35,7 +35,7 @@
         </label>
         <label class="fieldName inline">Show Word of the Day</label>
     </div>
-    <label class="headerName info" data-info="countdown">Countdown Clock</label>
+    <label class="headerName info">Countdown Clock<span data-info="countdown"></span></label>
     <div class="formField">
         <label class="switch">
             <input type="checkbox" id="countdown" name="countdown" onchange="togglecountdown(this);showHideSave()" value="true">
@@ -44,16 +44,16 @@
         <label class="fieldName inline">Show Countdown Clock</label>
     </div>
     <span id="countdownoptions">
-        <label class="fieldName info">Countdown To Date<span data-info="countdown-date"></span></label>
+        <label class="fieldName info">Countdown Date<span data-info="countdown-date"></span></label>
         <div class="formField">
             <input type="datetime-local" id="countdowndate" name="countdowndate" onchange="showHideSave()">
             <span id="dateTimeError" class="dateTimeError"></span>
         </div>
-        <label class="fieldName info">Countdown Message<span data-info="countdown-msg"></span></label>
+        <label class="fieldName info">Countdown Label<span data-info="countdown-msg"></span></label>
         <div class="formField">
             <input type="text" id="countdownmsg" name="countdownmsg" onchange="showHideSave()" class="input" >
         </div>
-        <label class="fieldName info">Show message after countdown<span data-info="countdown-after"></span></label>
+        <label class="fieldName info">Countdown Complete Message<span data-info="countdown-after"></span></label>
         <div class="formField">
             <input type="text" id="completemsg" name="completemsg" onchange="showHideSave()"  class="input" >
         </div>

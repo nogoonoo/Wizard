@@ -159,7 +159,7 @@ const info = [
         id:"msg-placement",
         title:"Message Placement",
         content:` You can place a message in the sidebar <img src="/img/info/msgside.jpg">
-        or make it stand out more and place it in the middle of the screen<img src="/img/info/msgcenter.jpg"`
+        or make it stand out more and place it in the middle of the screen<img src="/img/info/msgcenter.jpg">`
     },
     {
         id:"about-cals",
@@ -205,7 +205,7 @@ const info = [
     {
         id:"bgbright",
         title:"Background Brightness",
-        content:`The background image brightness can be increased or decreased.  Decreasing the brighness makes text easier to read.`
+        content:`The background image brightness can be increased or decreased.  Decreasing the brighness makes text easier to read.<br/><br/>Lower brightness<img style="width:40%" src="/img/info/bg-dark.jpg">Higher brightness<img  style="width:40%" src="/img/info/bg-bright.jpg">`
     },
     {
         id:"bgsources",
@@ -221,12 +221,12 @@ const info = [
     {
         id:"bgrotate",
         title:"Image Rotation Interval",
-        content:`Greenscreen can rotate through images from once a minute, to every 12 hours`
+        content:`Greenscreen can rotate through images at different intervals, including every:<ul><li>1 minute</li><li>5 minutes</li><li>15 minutes</li><li>30 minutes</li><li>1 hour</li><li>2 hours</li><li>4 hours</li><li>8 hours</li><li>12 hours</li></ul> `
     },
     {
         id:"bg-placement",
         title:"Background Placement",
-        content:`Greenscreen will display background images on the sidebar or fullscreen`
+        content:`Greenscreen can display background images on the sidebar <img src="/img/info/bg-side.jpg"> or fullscreen<img src="/img/info/bg-full.jpg">`
     },
     
     {
@@ -274,17 +274,17 @@ const info = [
     {
         id:"countdown-date",
         title:"Countdown Date",
-        content:`The date to countdown to`
+        content:`The date to countdown to.  The clock will display how many days, hours, minutes, and seconds until the date you specify.<img src="/img/info/countdown-date.jpg">`
     },
     {
         id:"countdown-msg",
-        title:"Countdown Message",
-        content:`The mssage to show`
+        title:"Countdown Label Message",
+        content:`This is the prefixed message to show above the countdown clock<img src="/img/info/countdown-msg.jpg">`
     },
     {
         id:"countdown-after",
-        title:"Message to show after countdown",
-        content:`Once its sountedown, shows this`
+        title:"Countdown Complete Message",
+        content:`Once the date has been reached, you can specify what message to show<img src="/img/info/countdown-complete.jpg">`
     },
     {
         id:"sys-power",
