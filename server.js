@@ -255,8 +255,10 @@ app.post('/contact', function(req,res){
         let logLines = execSync('tail -100'+envVars.updateGSLogPath);
         body += `<br/><b>Runner Logs</b><br/>`+logLines;
       }
-      catch(err){}
-      body += "<br/>"+updateWizardLog;
+      catch(err){
+        body += "<br/>"+err;
+
+      }
     }
     catch(err){
       console.log("email error: "+err);
