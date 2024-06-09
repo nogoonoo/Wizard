@@ -252,7 +252,7 @@ app.post('/contact', function(req,res){
       const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'));
       body += "<b>Greenscreen Version Data:</b> "+gsVersionInfo + "<br/><b>Wizard Version Data:</b> "+wizardVersionInfo;
       try{
-        let logLines = execSync('tail -100'+envVars.updateGSLogPath);
+        let logLines = execSync('tail -100 '+envVars.updateGSLogPath);
         body += `<br/><b>Runner Logs</b><br/>`+logLines;
       }
       catch(err){
