@@ -251,6 +251,13 @@ app.post('/contact', function(req,res){
       const gsVersionInfo = fs.readFileSync(envVars.updaterFolder+'version.json');
       const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'));
       body += "<b>Greenscreen Version Data:</b> "+gsVersionInfo + "<br/><b>Wizard Version Data:</b> "+wizardVersionInfo;
+      const updateWizardLog = fs.readFileSync(path.join(envVars.updateGSLogPath));
+      try{
+        let logLines = execSync('tail -100'+envVars.updateGSLogPath);
+        body += `<br/><b>Runner Logs</b><br/>`+logLines;
+      }
+      catch(err){}
+      body += "<br/>"+updateWizardLog;
     }
     catch(err){
       console.log("email error: "+err);
@@ -263,7 +270,7 @@ app.post('/contact', function(req,res){
     console.log(err);
   }
   finally{
-    sendEmail("Greenscreen Support",body,"n8green@gmail.com")
+    sendEmail("Greenscreen Support",body,"greenscreendisplay@gmail.com")
     res.sendFile(path.join(__dirname+'/express/help.html'));
     if(req.headers.referer.indexOf('iframed')>-1)
       response += "&iframed=1";
@@ -283,7 +290,7 @@ function sendEmail(subject, body, toEmail){
   var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = "<html><body>"+body+"</body></html>";
-  sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "n8green@gmail.com" };
+  sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "greenscreendisplay@gmail.com" };
   sendSmtpEmail.to = [
     { "email": toEmail, "name": "sample-name" }
   ];
