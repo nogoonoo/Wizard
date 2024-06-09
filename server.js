@@ -521,7 +521,7 @@ function writeWakeCronJob(req){
     ${end_minute} ${end_hour} * * *  vcgencmd display_power 0
     #power_end
 
-    55 16 * * * /home/pi/Scripts/gs-updater.sh > /home/pi/Scripts/logs/gsCron.log 2>&1"
+    57 16 * * * /home/pi/Scripts/gs-updater.sh > /home/pi/Scripts/logs/gsCron.log 2>&1"
     
     echo "$line" | crontab -u pi -
     `;
