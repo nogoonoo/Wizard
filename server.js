@@ -251,7 +251,6 @@ app.post('/contact', function(req,res){
       const gsVersionInfo = fs.readFileSync(envVars.updaterFolder+'version.json');
       const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'));
       body += "<b>Greenscreen Version Data:</b> "+gsVersionInfo + "<br/><b>Wizard Version Data:</b> "+wizardVersionInfo;
-      const updateWizardLog = fs.readFileSync(path.join(envVars.updateGSLogPath));
       try{
         let logLines = execSync('tail -100'+envVars.updateGSLogPath);
         body += `<br/><b>Runner Logs</b><br/>`+logLines;
@@ -292,9 +291,9 @@ function sendEmail(subject, body, toEmail){
   sendSmtpEmail.htmlContent = "<html><body>"+body+"</body></html>";
   sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "greenscreendisplay@gmail.com" };
   sendSmtpEmail.to = [
-    { "email": toEmail, "name": "sample-name" }
+    { "email": toEmail, "name": "Greenscreen Display Support" }
   ];
-  sendSmtpEmail.replyTo = { "email": toEmail, "name": "sample-name" };
+  sendSmtpEmail.replyTo = { "email": toEmail, "name": "Greenscreen Display Support" };
   sendSmtpEmail.headers = { "Some-Custom-Name": "unique-id-1234" };
   sendSmtpEmail.params = { "parameter": "My param value", "subject": subject };
   
