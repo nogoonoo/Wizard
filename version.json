@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240604",  
-  "version-friendly": "June 02, 2024",
-  "notes":"Fixes to help icons"
+  "version": "20240611",  
+  "version-friendly": "June 11, 2024",
+  "notes":"Fixes for console.logs"
 }}  
