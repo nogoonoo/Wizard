@@ -106,9 +106,8 @@ catch(err){
 });
 
 app.post('/forceupdate', function(req,res){
-  exec(`../Scripts/gs-updater.sh`);
-  //BOO!
-  //res.sendFile(path.join(__dirname+'/express/start.html'));
+  execFileSync(envVars.updaterFolder+`gs-updater.sh`);
+  res.send("running");
 });
 
 app.get('/setupdatemsg', function(req,res){
@@ -181,7 +180,7 @@ app.post('/step2', (req, res) =>{
   for(var key in req.body) {
     if(key.toLowerCase().startsWith('timezone')){
       let timezone = req.body[key];
-     //*****FOR LOCAL MACHINE TESTING, COOMMENT OUT THIS LINE */
+     //*****FOR LOCAL MACHINE TESTING, COMMENT OUT THIS LINE */
      if(!envVars.isdev) 
       execSync('sudo timedatectl set-timezone '+timezone);
       //console.log(result);
