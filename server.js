@@ -106,7 +106,7 @@ catch(err){
 });
 
 app.post('/forceupdate', function(req,res){
-  execFileSync(envVars.updaterFolder+`gs-updater.sh`);
+  execSync(envVars.updaterFolder+`gs-updater.sh`);
   res.send("running");
 });
 
