@@ -300,7 +300,7 @@ function sendEmail(subject, body, toEmail){
   
   
   apiInstance.sendTransacEmail(sendSmtpEmail).then(function (data) {
-    console.log('API called successfully. Returned data: ' + JSON.stringify(data));
+    //console.log('API called successfully. Returned data: ' + JSON.stringify(data));
   }, function (error) {
     console.error(error);
   });
@@ -377,8 +377,8 @@ function setCustomMessage(messageText, messagePlacement, showmsg){
 
     messageText = messageText.replace(/(\r\n|\r|\n)/g, '<br>');
    // messageText = messageText.stringify();
-    console.log(messageText.indexOf('\n'));
-    console.log(messageText);
+    //console.log(messageText.indexOf('\n'));
+    //console.log(messageText);
   let show_msg_snippet = 	`{module: "helloworld",position: "top_left", config:{text:"${messageText}",placement:"${messagePlacement}"}},\n`;
 
 
@@ -462,7 +462,7 @@ async function readAdvancedConfig(){
   
       // Exec output contains both stderr and stdout outputs
       const stdOut = execSync('crontab -l -u pi');
-  console.log('stdout: ' + stdOut);
+  //console.log('stdout: ' + stdOut);
     
     let cronData = stdOut+'';
     //const cronData = fs.readFileSync(envVars.cronPath,'utf8');
@@ -753,7 +753,7 @@ app.post('/background', (req, res) =>{
 
     //{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"icloud:https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",color:"#123456",crossfade:false,icloudURL:"https://www.icloud.com/sharedalbum/#B0c5qXGF1DfeOm",shuffle:true,slideInterval:3600000}},
     background_snippet = `{module: "MMM-Wallpaper",position: "fullscreen_below",config:{source:"${source}",color:"${color}",crossfade:false,icloudURL:"${icloudURL}",shuffle:true,filter:"brightness(${brightness})",caption:false,bgposition:"${position}",slideInterval:${interval}}},\n`
-    console.log(background_snippet);
+    //console.log(background_snippet);
     writeToTemplate('background.txt','background',background_snippet);
     
     response = "success";
@@ -824,8 +824,8 @@ async function readWallpaperConfig(){
       let brightnessSrefix = `)",caption:`;
       let brightness = wallPaper.substring(wallPaper.indexOf(brightnessPrefix)+brightnessPrefix.length,wallPaper.indexOf(brightnessSrefix));
 
-      console.log(source);
-      console.log(interval);
+      //console.log(source);
+      //console.log(interval);
     
       switch(true){
         case(source.indexOf('icloud')>-1)://icloud:<album id>
@@ -853,8 +853,8 @@ async function readWallpaperConfig(){
       wallPaperData.interval = parseInt(interval);
       wallPaperData.brightness = parseFloat(brightness)*100;
       wallPaperData.position = position;
-      console.log("----------");
-      console.log(wallPaperData);
+      //console.log("----------");
+      //console.log(wallPaperData);
     
   }
     /*
@@ -977,7 +977,7 @@ app.get('/image-count', function(req,res){
 });
 app.get('/images', function(req,res){
   //let images = new Object();
-  console.log("I'm HERE");
+  //console.log("I'm HERE");
   let files = [];
   /*fs.readdir(envVars.thumbnail_path, function (err, files) {
     if (err) {return console.log('Unable to scan directory: ' + err);} 
@@ -1011,7 +1011,7 @@ app.post('/news', (req, res) =>{
   let news_snippet = "";
   let interval = 10000;
 
- console.log(req.body);
+ //console.log(req.body);
   try{
     for(var key in req.body) {
   
@@ -1068,7 +1068,7 @@ app.post('/news', (req, res) =>{
         }
       }
     });
-    console.log(parsed_feeds);
+    //console.log(parsed_feeds);
     let news_feeds_string = parsed_feeds.join(',');
     
     if (news_feeds_string.charAt(news_feeds_string.length - 1) === ',') {
@@ -1083,7 +1083,7 @@ app.post('/news', (req, res) =>{
     }
     writeToTemplate('news.txt','news',show_news_snippet);
     //write news
-    console.log(show_news_snippet);
+    //console.log(show_news_snippet);
     response = "success";
   }
   catch(err){
@@ -1092,7 +1092,7 @@ app.post('/news', (req, res) =>{
   }
   finally{
     res.sendFile(path.join(__dirname+'/express/news.html'));
-    console.log("NEWS:  "+req.headers.referer)
+    //console.log("NEWS:  "+req.headers.referer)
     if(req.headers.referer.indexOf('iframed')>-1)
       response += "&iframed=1";
     res.redirect('/news?result='+response);
@@ -1102,7 +1102,7 @@ app.get('/fetchnews', (req, res) =>{
   let params = req.query;
   try{
     readNewsConfig().then((response)=>{
-      console.log(response)
+      //console.log(response)
       res.send(response);
     })
     //data.timezone =tmpTimeZone;
@@ -1245,10 +1245,9 @@ app.post('/extras', (req, res) =>{
 });
 
 app.get('/fetchextras', (req, res) =>{
-  let params = req.query;
   try{
     readExtrasConfig().then((response)=>{
-      console.log(response)
+      //(response)
       res.send(response);
     })
     //data.timezone =tmpTimeZone;
@@ -1268,14 +1267,14 @@ async function readExtrasConfig(){
     let wotdPrefix = "//wotd_start";
     let wotdSuffix = "//wotd_end";
     let wotd = configData.substring(configData.indexOf(wotdPrefix)+wotdPrefix.length,configData.indexOf(wotdSuffix));
-    console.log("length of WOTD: "+wotd.length);
+    //console.log("length of WOTD: "+wotd.length);
     extrasData.showWOTD = wotd.length>1;
 
     let countdownPrefix = "//countdown_start";
     let countdownSuffix = "//countdown_end";
     let showCountdown = configData.substring(configData.indexOf(countdownPrefix)+countdownPrefix.length,configData.indexOf(countdownSuffix));
-    console.log("length of countdown: "+showCountdown.length);
-    console.log(showCountdown.trim().startsWith(`//`));
+    //console.log("length of countdown: "+showCountdown.length);
+    //console.log(showCountdown.trim().startsWith(`//`));
     extrasData.showCountdown = !showCountdown.trim().startsWith(`//`);//if it starts with a comment, it's hidden.  Else, show it.
 
     let eventPrefix = `event:"`;
@@ -1319,7 +1318,7 @@ app.get('/fetchweatherconfig', (req, res) =>{
   let params = req.query;
   try{
     readWeatherConfig().then((response)=>{
-      console.log(response)
+      //console.log(response)
       res.send(response);
     })
     //data.timezone =tmpTimeZone;
@@ -1334,7 +1333,7 @@ app.get('/fetchweatherconfig', (req, res) =>{
 app.get('/fetchweather', (req, res) =>{
   let data = new Object();
   let params = req.query;
-  console.log('geocoding...');
+ // console.log('geocoding...');
   try{
     for(var key in params) {
       if(key.toLowerCase().startsWith('searchterm')){
@@ -1370,7 +1369,7 @@ app.post('/weather', function(req,res){
   let wind_units_snippet = "";
   let units = "imperial";
   let days = 5;
-  console.log(req.body);
+  //console.log(req.body);
   try{
     for(var key in req.body) {
       if(key.toLowerCase().startsWith('addresslookup')){
@@ -1386,21 +1385,21 @@ app.post('/weather', function(req,res){
       }
       if(key.toLowerCase().startsWith('days')){//weather_forecast_days_start
         days = req.body[key];
-        console.log("Days: "+ days);
+       // console.log("Days: "+ days);
         weather_forecast_days_snippet = "maxNumberOfDays:"+days+",\n";
         //maxNumberOfDays:5,
       }
       if(key.toLowerCase().startsWith('units')){//weather_forecast_units_start //weather_current_units_start
         //imperial//metric
         units = req.body[key];
-        console.log("Units: "+ units);
+       // console.log("Units: "+ units);
         weather_units_snippet = "tempUnits:\""+units+"\",\n";
         wind_units_snippet = "windUnits:\""+units+"\",\n"; //set wind units to whatever temp is
         //tempUnits: "imperial",
       }
       if(key.toLowerCase().startsWith('feelslike')){//weather_feelslike_start
         extraInfo = true;//only shows up if it's set to true
-        console.log("Extra info: "+ extraInfo);
+       // console.log("Extra info: "+ extraInfo);
         weather_feelslike_snippet = "showFeelsLike:true,onlyTemp:false,\n";
         /* also set onlyTemp:true, */
       }
@@ -1438,9 +1437,9 @@ async function geocodeWeather(location){
   };
   const geocoder = NodeGeocoder(options);
   const res = await geocoder.geocode(location).then((response)=>{
-    console.log("GOT RESPONSE FROM LOCATIONIQ");
-    console.log(location);
-    console.log(response);
+   // console.log("GOT RESPONSE FROM LOCATIONIQ");
+  //  console.log(location);
+  //  console.log(response);
     returnValue = response;
   });
   return returnValue;
@@ -1453,7 +1452,6 @@ async function readWeatherConfig(){
       let coordsSuffix = "//weather_forecast_end";
 
       let forecastLine = configData.substring(configData.indexOf(coordsPrefix)+coordsPrefix.length,configData.indexOf(coordsSuffix));
-      console.log(forecastLine);
       var locationTmp = forecastLine;
       let startString = "friendlyLocation:\"";
       let nameStart = locationTmp.indexOf(startString)+startString.length;
@@ -1513,36 +1511,29 @@ app.post('/clock', (req, res) =>{
        //*****FOR LOCAL MACHINE TESTING, COOMMENT OUT THIS LINE */
        if(!envVars.isdev) 
         execSync('sudo timedatectl set-timezone '+timezone);
-        //console.log(result);
         response = "success";
       }
       if(key.toLowerCase().startsWith('showtime')){//time_showtime_start
         showtime = req.body[key];
-        console.log("Showtime: "+ showtime);
         time_showtime_snippet = "showTime:"+showtime+",\n"; //showTime:true,
       }
       if(key.toLowerCase().startsWith('timeformat')){//time_12or24_start
         let timeformat = req.body[key];
-        console.log("timeformat: "+ timeformat);
         time_format_snippet = "timeFormat:"+timeformat+",\n"; //timeFormat:12,
       }
       if(key.toLowerCase().startsWith('showseconds')){//time_seconds_start
         showseconds = req.body[key];
-        console.log("showseconds: "+ showseconds);
         time_showseconds_snippet = "displaySeconds:"+showseconds+",\n"; //tdisplaySeconds:false,
       }
       if(key.toLowerCase().startsWith('showdate')){//time_showdate_start
         showdate = req.body[key];
-        console.log("showdate: "+ showdate);
         time_showdate_snippet = "showDate:"+showdate+",\n"; //	showDate:true,
       }
       if(key.toLowerCase().startsWith('dateformat')){//time_dateformat_start
         let dateformat = req.body[key];
-        console.log("dateformat: "+ dateformat);
         time_dateformat_snippet = "dateFormat:\""+dateformat+"\",\n"; //dateFormat:"dddd, MMM Do",
       }
     }
-    console.log('writing time to config')
     //writeToTemplate('time\/time_showtime.txt','time_showtime',time_showtime_snippet); //writes to template file 
     writeToTemplate('time_showtime.txt','time_showtime',time_showtime_snippet); //writes to template file 
     //./configmagic.sh time_showtime_start time_showtime_end time_showtime.txt /Users/nathangreen/Desktop/config.js
@@ -1567,8 +1558,7 @@ app.post('/clock', (req, res) =>{
 
 app.get('/fetchclock', (req, res) =>{
   let data = new Object();
-  //let obj = new Object();
-  //console.log('getting data'+req);
+
   try{
      let tmpTimeZone = execSync('timedatectl | grep "Time zone"').toString().trim();
      tmpTimeZone = tmpTimeZone.substring(tmpTimeZone.indexOf(':')+2);
@@ -1620,8 +1610,6 @@ app.get('/fetchclock', (req, res) =>{
 
   }
 
-  //console.log(data)
-
   res.send(data);
 });
 
@@ -1630,7 +1618,6 @@ app.get('/fetchclock', (req, res) =>{
 
 app.get('/calendar', function(req,res){
   res.sendFile(path.join(__dirname+'/express/calendar.html'));
-  //__dirname : It will resolve to your project folder.
 });
 
 //Route that handles login logic
@@ -1645,7 +1632,6 @@ app.post('/calendar', (req, res) =>{
     let name_count = 0;
     let calendar_css_snippet = "";
     let calendar_grid_snippet = "";
-    console.log(req.body);
     for(var key in req.body) {
       if(req.body.hasOwnProperty(key)){
         if(key.toLowerCase().startsWith('name')){
@@ -1702,7 +1688,6 @@ app.post('/calendar', (req, res) =>{
 })
 
 app.get('/fetchcalendar', (req, res) =>{
- // console.log('getting data'+req);
   
   res.send(readCalendarConfig());
 })
@@ -1717,31 +1702,20 @@ function readCalendarConfig(){
     let continueParsing = true;
     while(continueParsing){
       obj = new Object();
-      //console.log("icsData: "+ icsData);
       var nameTmp = icsData;
       let nameStart = nameTmp.indexOf("name:\"")+6;
       let nameEnd = nameTmp.indexOf("\",");
-     // console.log(nameStart+","+nameEnd);
       nameTmp = nameTmp.substring(nameStart,nameEnd);
-     // console.log('nameTmp: '+nameTmp);
 
       var icsTmp = icsData.substring(nameEnd+2);
       let icsStart = icsTmp.indexOf("url:\"")+5;
       let icsEnd = icsTmp.indexOf("\",");
-      //console.log(icsStart+","+icsEnd);
       icsTmp = icsTmp.substring(icsStart,icsEnd);
-      //console.log("-----------");
-      //console.log('icsTemp: '+icsTmp);
 
       let internalStart = icsData.indexOf("internalName:\"");
       var internalNameTmp = icsData.substring(internalStart+2);
       let internalEnd = internalNameTmp.indexOf(",")-1;
       internalNameTmp = internalNameTmp.substring(internalNameTmp.indexOf("\"")+1,internalEnd)
-
-
-      //console.log(internalNameTmp);
-      //console.log("------------------")
-      //console.log(internalStart+","+internalEnd);
       
       let colorStart = icsData.indexOf("color:\"");
       var colorTemp = icsData.substring(colorStart+2);
@@ -1759,7 +1733,7 @@ function readCalendarConfig(){
       icsData = icsData.substring(icsData.indexOf("},")+2);
       continueParsing = icsData.indexOf("name:\"")>-1;
     }
-    //console.log(cals);
+
     let gridPrefix = "//gridlines_start";
     let gridSuffix = "//gridlines_end";
     let showlines = configData.substring(configData.indexOf(gridPrefix)+gridPrefix.length,configData.indexOf(gridSuffix));
@@ -1778,7 +1752,6 @@ function readCalendarConfig(){
 
 async function writeToTemplate(filename, delimiter, content){
   let fileContent = "//"+delimiter +"_start\n"+ content +"//"+ delimiter+"_end";
-  //console.log(fileContent);
   let retVal = "error"
   //let tmpFilename = 'time/time_showtime.txt';
   //if(filename.indexOf('')) //  \\\/
@@ -1790,7 +1763,7 @@ async function writeToTemplate(filename, delimiter, content){
       console.error(err);
     } else {
       //using execSync so it completes before finishing
-      console.log('./configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+envVars.configPath);
+     // console.log('./configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+envVars.configPath);
       execSync('./scripts/configmagic.sh '+delimiter+'_start '+delimiter+'_end '+filename+' '+envVars.configPath, console.log);
       //exec('./configmagic.sh '+delimiter+'_start '+delimiter+'_end ics.txt', console.log)
       console.error("success");    
@@ -1803,7 +1776,6 @@ async function writeToTemplate(filename, delimiter, content){
 
 
 async function writeToCSS(content, destinationFilename){
-  console.log(content);
   let retVal = "error"
   fs.writeFile(destinationFilename, content, err => {
     if (err) {
