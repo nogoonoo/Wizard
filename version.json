@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240611.1",  
+  "version": "20240611.2",  
   "version-friendly": "June 11, 2024",
   "notes":"Fixes for console.logs, added env vars"
 }}  
