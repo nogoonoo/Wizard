@@ -79,23 +79,20 @@ app.get('/checkupdate', function(req,res){
   let returnVal = new Object();
   returnVal.status = "current"
   try{
-  execSync('git -C /home/pi/Wizard/ remote update');
-  let wizardResult = execSync('git -C /home/pi/Wizard/ status -uno');
+  execSync('git -C '+envVars.wizardHome+' remote update');
+  let wizardResult = execSync('git -C '+envVars.wizardHome+' status -uno');
   let updateAvailable = false;
   if(wizardResult.toString().toLowerCase().indexOf('branch is behind')>-1){
    // console.log('an update is available for Wizard');
     updateAvailable = true;
   }
 
-  execSync('git -C /home/pi/Scripts/updater/ remote update');
-  let updaterResult = execSync('git -C /home/pi/Scripts/updater/ status -uno');
+  execSync('git -C '+envVars.updaterFolder+' remote update');
+  let updaterResult = execSync('git -C '+envVars.updaterFolder+' status -uno');
   if(updaterResult.toString().toLowerCase().indexOf('branch is behind')>-1){
     //console.log('an update is available for Updater');
     updateAvailable = true;
   }
-  //let result = execSync('git -C /home/pi/Wizard/ status');
-  //console.log("Wizard Update status: "+wizardResult);
-  //console.log("Updater Update status: "+updaterResult);
   if(updateAvailable)
     returnVal.status = "behind";
 }
@@ -106,7 +103,7 @@ catch(err){
 });
 
 app.post('/forceupdate', function(req,res){
-  execSync(envVars.updaterFolder+`gs-updater.sh`);
+  execSync(envVars.updateScript);
   res.send("running");
 });
 
@@ -270,7 +267,7 @@ app.post('/contact', function(req,res){
     console.log(err);
   }
   finally{
-    sendEmail("Greenscreen Support",body,"greenscreendisplay@gmail.com")
+    sendEmail("Greenscreen Support",body,envVars.supportEmail)
     res.sendFile(path.join(__dirname+'/express/help.html'));
     if(req.headers.referer.indexOf('iframed')>-1)
       response += "&iframed=1";
@@ -290,7 +287,7 @@ function sendEmail(subject, body, toEmail){
   var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
   sendSmtpEmail.subject = subject;
   sendSmtpEmail.htmlContent = "<html><body>"+body+"</body></html>";
-  sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": "greenscreendisplay@gmail.com" };
+  sendSmtpEmail.sender = { "name": "Greenscreen Contact Form", "email": envVars.supportEmail };
   sendSmtpEmail.to = [
     { "email": toEmail, "name": "Greenscreen Display Support" }
   ];
@@ -520,7 +517,7 @@ function writeWakeCronJob(req){
     ${end_minute} ${end_hour} * * *  vcgencmd display_power 0
     #power_end
 
-    00 03 * * 1 /home/pi/Scripts/gs-updater.sh > /home/pi/Scripts/logs/gsCron.log 2>&1"
+    00 03 * * 1 ${envVars.updateScript} > ${envVars.updateCronLogPath} 2>&1"
     
     echo "$line" | crontab -u pi -
     `;
@@ -698,10 +695,10 @@ app.post('/background', (req, res) =>{
             source = 'icloud';
           break;
           case("local")://local:local_image_path
-            source = `local:/home/pi/MagicMirror/modules/media/uploaded`
+            source = `local:${envVars.local_image_path}`
           break;   
           case("color")://local:local_image_path
-            source = `local:/home/pi/MagicMirror/modules/media/blank`
+            source = `local:${envVars.local_blank}`
           break;  
           case("none"):
             source = `none`
@@ -843,7 +840,7 @@ async function readWallpaperConfig(){
         case(source.indexOf('none')>-1)://won't write to my guy
           wallPaperData.source = 'none';
         break;
-        case(source.indexOf('/modules/media/blank')>-1)://local:/home/pi/MagicMirror/modules/media/blank
+        case(source.indexOf('/modules/media/blank')>-1)://local:/
           wallPaperData.source = 'color'; 
         break;
       }
