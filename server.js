@@ -103,7 +103,11 @@ catch(err){
 });
 
 app.post('/forceupdate', function(req,res){
-  execSync(envVars.updateScript);
+  if(req.headers.host.indexOf('localhost:3000')>-1){
+    execSync(envVars.updateScript+" -nogs");  //don't restart greenscreen after update
+  }
+  else
+    execSync(envVars.updateScript);
   res.send("running");
 });
 
