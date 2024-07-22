@@ -50,6 +50,9 @@ function init(){
         document.getElementById("refreshbutton").classList.add("hidden");
 
     }
+    if(!isLocalHost){
+        document.querySelector('.formField.spacer').classList.remove('spacer');
+    }
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
     const isIframe = urlParams.get('iframed');
