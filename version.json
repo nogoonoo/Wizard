@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240722",  
+  "version": "20240722.1",  
   "version-friendly": "July 22, 2024",
-  "notes":"Fixes for select dropdowns on localhost"
+  "notes":"Tweaked spacing for 'extras'"
 }}  
