@@ -1,7 +1,7 @@
 #!/bin/bash 
 
     crontab -r 
-    
+     
     line="#power_start
     #power_on
     00 08 * * * vcgencmd display_power 1 ; pm2 restart mm
