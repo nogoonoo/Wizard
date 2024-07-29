@@ -51,7 +51,8 @@ function init(){
 
     }
     if(!isLocalHost){
-        document.querySelector('.formField.spacer').classList.remove('spacer');
+        if(document.querySelector('.formField.spacer'))
+            document.querySelector('.formField.spacer').classList.remove('spacer');
     }
     const urlParams = new URLSearchParams(window.location.search);
     const myParam = urlParams.get('result');
