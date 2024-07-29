@@ -499,13 +499,13 @@ function writeWakeCronJob(req){
     for(var key in req.body) {
       if(key.toLowerCase().startsWith('starttime')){
         let start = req.body[key];
-       // console.log(start);
+        console.log(start);
         start_hour = start.substring(0,start.indexOf(":"));
         start_minute = start.substring(start.indexOf(":")+1);
       }
       if(key.toLowerCase()=='endtime'){
         let end = req.body[key];
-        //console.log(end);
+        console.log(end);
         end_hour = end.substring(0,end.indexOf(":"));
         end_minute = end.substring(end.indexOf(":")+1);
       }
@@ -527,7 +527,7 @@ function writeWakeCronJob(req){
     `;
 
     writeToCron(envVars.cronPath,full_snippet); //writes to template file  //setTimeout(function(){
-
+    console.log("done writing to CRON");
     response = "success";
   }
   catch(err){
