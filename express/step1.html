@@ -24,17 +24,20 @@
 }
 
 .leftSide {
-  border-right: 1px solid black;
-  writing-mode: sideways-lr;
-  text-align: center;
-  width:70%;
+ /* border-right: 1px solid black;*/
+  text-align: right;
+  width:80%;
   padding-right:5px;
-  height:700px
+  height:700px;
+  position: relative;
+  right:57px;
 }
 .rightSide{
-  width: 30%;
+  width: 20%;
   padding-left:5px;
   text-align: center;
+  font-style: italic;
+  font-size: .9em;
 }
 #welcome-message{
     text-align: center;
@@ -48,9 +51,15 @@ div.connected{
     display:block !important;
     top:0px !important;
 }
+span.start-msg{
+    font-size:1.2em;
+    font-weight: bolder;;
+}
 </style>
 <div id="welcome-message">
-<span>To start, I need to connect to your network</span>
+<span class="start-msg">To start, let's get connected to your network.  </span>
+<div class="start-desc">A list of available wi-fi networks will display in the box below.  Choose one and input the password (if needed) when prompted using the on-screen keyboard.  <a href="javascript:window.location.reload()">Refresh this page </a>if the available network window is blank.</div>
+
 <div class="">
     <div class="lds-ripple hidden" id="loader"><div></div><div></div></div>
     <div id="connectionStatus"></div>   
@@ -61,11 +70,10 @@ div.connected{
 
 <div class="welcome-container" id="welcome-container">
     <div class="side leftSide">
-        A list of available networks will show below.  Choose one of these and input the password (if needed) when prompted.
-        <iframe src="/lookingfornetworks" width="800px" height="700px" id="wifi-iframe" class="hidden"></iframe>
+        <iframe src="/lookingfornetworks" width="1000px" height="700px" id="wifi-iframe" class="hidden" style="border-radius: 15px;"></iframe>
     </div>
     <div class="side rightSide">
-        Scan the following QR code and continue network setup on your device.  This screen will refresh once Greenscreen is connected to your network
+        If you have any problems connecting, you can scan the QR code below and continue setting up your Greenscreen wi-fi connection via your personal device. <br/><br/>
         <img src="/img/greenscreen-qrcode.png" width="100px" height="100px">
     </div>
   </div>
@@ -75,9 +83,10 @@ div.connected{
 
 </div>
 <script>
-
-    const intervalCheck = setInterval(checkWIFI,5000);
+    let isAPRunningOrAreWeOnline = setInterval(checkIfAPOrGSOnline,5000);
+    let intervalCheck = setInterval(checkWIFI,2000);
     let foundAP = false;
+    let apLoaded = false;
     async function checkWIFI(){
         const response = await fetch('/wificheck');
          const result = await response.json();
@@ -90,6 +99,8 @@ div.connected{
             document.getElementById("welcome-container").classList.add("hidden");
             document.getElementById("loader").classList.add("hidden");
             document.getElementById("next-button").classList.remove("hidden");
+            document.querySelector(".start-desc").classList.add("hidden")
+
             clearInterval(intervalCheck);
          }
          else{
@@ -103,18 +114,30 @@ div.connected{
             //show how do I connect?
          }
     }
+    function checkIfAPIsLoaded(){
+        var img=document.createElement('img');
+        img.src='http://localhost:80/img/ledoff.gif?rand='+Math.random();
+        img.onload=function(){setAPLoaded(1)};
+        img.onerror=function(){setAPLoaded(0)};
+        img.style.display='none';
+        document.body.appendChild(img);
+    }
+    function setAPLoaded(status){
+        apLoaded = status;
+    }
     async function checkForBroadcast(){
         try {
         console.log("Looking for AP...");
 
         // the await eliminates the need for .then
-        const res = await fetch("/apcheck", {
-            method: "GET"
-        })
+    
         // this code is resumed once the fetch Promise is resolved.
         // res now has a value.
-        if(res.status=="200"){
-            console.log("Found AP")
+        //if(res.status=="200"){
+            checkIfAPIsLoaded()
+
+        if(apLoaded){
+            console.log("Found AP");
             document.getElementById("wifi-iframe").setAttribute("src","http://localhost:80");
             foundAP = true;
         }
@@ -123,11 +146,11 @@ div.connected{
 
             document.getElementById("wifi-iframe").setAttribute("src","/lookingfornetworks");
         }
-        console.log("is connected: "+res.isConnected);
-        console.log(res)
-        console.log("Status: ", res.status);
-        console.log("StatusText: ", res.statusText);
-        return res;
+        //console.log("is connected: "+res.isConnected);
+       // console.log(res)
+        //console.log("Status: ", res.status);
+       // console.log("StatusText: ", res.statusText);
+        return apLoaded;
     }
     catch(err) { 
         // because the promise could error, it is advised to use
@@ -142,6 +165,51 @@ div.connected{
 }   
 
     checkWIFI();
+    async function checkIfAPOrGSOnline(){
+        console.log('doing a double check');
+        checkIfAPIsLoaded();
+        let wificheck = await fetch('/wificheck');
+         let wiFiOnline = await wificheck.json();
+         if(wiFiOnline.isConnected == "1"){ 
+            console.log('connected to wifi');
+            document.getElementById("connectionStatus").innerText = "You're connected to WiFi!";
+            document.querySelector("div#welcome-message span").classList.add("hidden")
+            document.getElementById("connectionStatus").classList.add("connected");
+            document.getElementById("wifi-iframe").classList.add("hidden");
+            document.getElementById("welcome-container").classList.add("hidden");
+            document.getElementById("loader").classList.add("hidden");
+            document.getElementById("next-button").classList.remove("hidden");
+            document.querySelector(".start-desc").classList.add("hidden")
+
+         } 
+         else if(apLoaded){
+            console.log('not connected to wifi');
+
+            if(document.getElementById("wifi-iframe").getAttribute("src").indexOf('localhost')==-1){
+             document.getElementById("wifi-iframe").setAttribute("src","http://localhost:80");
+             foundAP = true;
+             console.log('ap is down');
+            }
+            else
+                console.log('ap is up');
+         }
+         else{
+            //call checkWIFI() to start over
+            console.log('not connected to wifi');
+            document.getElementById("connectionStatus").innerText = "";
+            document.querySelector("div#welcome-message span").classList.remove("hidden")
+            document.getElementById("connectionStatus").classList.remove("connected");
+            document.getElementById("wifi-iframe").classList.remove("hidden");
+            document.getElementById("welcome-container").classList.remove("hidden");
+            document.getElementById("loader").classList.remove("hidden");
+            document.getElementById("next-button").classList.add("hidden");
+            document.querySelector(".start-desc").classList.remove("hidden")
+
+            intervalCheck = setInterval(checkWIFI,2000);
+         }
+
+
+    }
     
 	//loadNav();
     //init();
