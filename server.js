@@ -62,6 +62,9 @@ app.get('/step2', function(req,res){
 app.get('/step3', function(req,res){
   res.sendFile(path.join(__dirname+'/express/step3.html'));
 });
+app.get('/step4', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/step4.html'));
+});
 app.get('/settings', function(req,res){
   res.sendFile(path.join(__dirname+'/express/wizardhome.html'));
 });
@@ -73,7 +76,7 @@ app.get('/wifiwait', function(req,res){
 });
 app.get('/postsetup', function(req,res){
   exec('./scripts/postsetup.sh', console.log);
-  res.redirect('/settings');
+  res.redirect('/step4');
 });
 app.get('/checkupdate', function(req,res){
   let returnVal = new Object();

@@ -865,6 +865,7 @@ ol.stepper {
   overflow: hidden;
   width: 60%;
   margin: auto;
+  height:180px;
 }
 
 ol.stepper li {

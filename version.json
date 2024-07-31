@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240729",  
-  "version-friendly": "July 29, 2024",
-  "notes":"Tweaked spacing for 'extras', improved wi-fi connection screen"
+  "version": "20240731",  
+  "version-friendly": "July 31, 2024",
+  "notes":"Reduced stepper spacing, improve post step3 UX with a step4 message"
 }}  
