@@ -200,7 +200,7 @@ app.post('/step2', (req, res) =>{
   console.log('writing time to config')
   //writeToTemplate('time_12or24.txt','time_12or24',time_format_snippet); //writes to template file 
  
-  res.sendFile(path.join(__dirname+'/express/step3.html'));
+  //res.sendFile(path.join(__dirname+'/express/step3.html'));
   res.redirect('/step3?result='+response);
 
 });

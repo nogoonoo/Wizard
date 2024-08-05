@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240731",  
+  "version": "20240731.1",  
   "version-friendly": "July 31, 2024",
-  "notes":"Reduced stepper spacing, improve post step3 UX with a step4 message"
+  "notes":"Do .sh file permissions leave"
 }}  
