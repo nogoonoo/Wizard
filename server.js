@@ -16,6 +16,7 @@ const sharp = require('sharp');
 var qr = require('qr-image');
 const { Server } = require('http')
 const { networkInterfaces } = require('os');
+let ipRetry = 5;
 global.IP = ""; //IP object for QR code
 const { isInternetAvailable, InternetAvailabilityService } = require('is-internet-available');
 const {envVars}  = require('./env/config.js')
@@ -1805,6 +1806,7 @@ function generateString(length) {
 
 
 function setIPAddr(){
+
   const nets = networkInterfaces();
   const results = Object.create(null); // Or just '{}', an empty object
   for (const name of Object.keys(nets)) {
@@ -1817,10 +1819,15 @@ function setIPAddr(){
                   results[name] = [];
               }
               results[name].push(net.address);
-              //console.log("setting IP..."+ net.address);
+              console.log("setting IP..."+ net.address);
               global.IP = net.address;
           }
       }
+  }
+  if(global.IP.length<5){
+    ipRetry--;
+    console.log("IP looks blank...retrying...");
+    setTimeout(function(){setIPAddr();},3000);
   }
 }
 

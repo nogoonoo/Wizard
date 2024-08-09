@@ -1,5 +1,5 @@
 {"about": {  
-  "version": "20240731.3",  
-  "version-friendly": "July 31, 2024",
-  "notes":"Made change to /Scripts/gs-update to chmod files as needed"
+  "version": "20240809",  
+  "version-friendly": "Aug 9, 2024",
+  "notes":"Added IP retry to server"
 }}  
