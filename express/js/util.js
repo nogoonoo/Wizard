@@ -78,7 +78,6 @@ function init(){
         document.querySelector('h2').classList.add("hidden");
         document.body.style.backgroundImage = "none";
         document.getElementById('refreshbutton').style.display = "none";
-        document.querySelector('.hg-theme-default').style.width = "80%";
     }
     if(!isIframe){
         populateQR();
