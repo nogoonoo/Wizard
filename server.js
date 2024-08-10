@@ -16,7 +16,8 @@ const sharp = require('sharp');
 var qr = require('qr-image');
 const { Server } = require('http')
 const { networkInterfaces } = require('os');
-let ipRetry = 5;
+let ipRetry = 6;
+let ipTimeout = 10000;
 global.IP = ""; //IP object for QR code
 const { isInternetAvailable, InternetAvailabilityService } = require('is-internet-available');
 const {envVars}  = require('./env/config.js')
@@ -36,6 +37,9 @@ app.use(cors());
 app.get('/openmm', function(req,res){
   execSync('pm2 restart mm');
   execSync('pm2 stop wizard-client');
+});
+app.get('/refreshmm', function(req,res){
+  execSync('pm2 restart mm');
 });
 app.get('/closewizard', function(req,res){
   execSync('pm2 stop wizard-client');
@@ -1827,7 +1831,7 @@ function setIPAddr(){
   if(global.IP.length<5){
     ipRetry--;
     console.log("IP looks blank...retrying...");
-    setTimeout(function(){setIPAddr();},3000);
+    setTimeout(function(){setIPAddr();},ipTimeout);
   }
 }
 

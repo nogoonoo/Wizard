@@ -59,8 +59,14 @@ function init(){
     const isIframe = urlParams.get('iframed');
     //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
-        document.getElementById("status").innerHTML = "Greenscreen settings saved.  Return to Greenscreen to see your changes"
-        document.getElementById("refreshbutton").classList.remove("hidden");
+        if(isIframe){
+            document.getElementById("status").innerHTML = "Greenscreen settings saved.  Please wait while the screen refreshes..."
+            fetch('/refreshmm'); 
+        }
+        else{
+            document.getElementById("status").innerHTML = "Greenscreen settings saved.  Return to Greenscreen to see your changes"
+            document.getElementById("refreshbutton").classList.remove("hidden");
+        }
     }
     if(myParam&&myParam.toLowerCase()=="success" && !isLocalHost){
         document.getElementById("status").innerHTML = "Greenscreen settings updated.  Click 'Refresh Greenscreen' to view your changes"
@@ -70,6 +76,8 @@ function init(){
     }
     if(isIframe){
         document.querySelector('h2').classList.add("hidden");
+        document.body.style.backgroundImage = "none";
+        document.getElementById('refreshbutton').style.display = "none";
     }
     if(!isIframe){
         populateQR();
