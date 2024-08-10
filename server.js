@@ -687,6 +687,9 @@ app.get('/ip', (req, res) =>{
 });
 /*------------------------- background ----------------------------*/
 
+app.get('/background', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/background.html'));
+});
 app.post('/background', (req, res) =>{
   let source = "stock";
   let icloudURL = "";
@@ -697,6 +700,7 @@ app.post('/background', (req, res) =>{
   let color_CSS_snippet = "";
   let background_snippet = "";
   let full_screen_css_snippet = "";
+  let response = "";
 
   try{
     for(var key in req.body) {
@@ -772,11 +776,13 @@ app.post('/background', (req, res) =>{
     console.log(err);
   }
   finally{
-    res.sendFile(path.join(__dirname+'/express/background.html'));
+   // res.sendFile(path.join(__dirname+'/express/background.html'));
+    console.log("has iframed: "+(req.headers.referer.indexOf('iframed')>-1));
     if(req.headers.referer.indexOf('iframed')>-1)
       response += "&iframed=1";
     res.redirect('/background?result='+response);
   }
+  
 });
 
 app.get('/fetchwallpaper', (req, res) =>{
@@ -901,9 +907,7 @@ const fileFilter = (req, file, cb) => {
 //const upload = multer({ storage: storage, fileFilter: fileFilter });
 const upload = multer({ storage: storage, fileFilter: fileFilter}).array('my-files');
 
-app.get('/background', function(req,res){
-  res.sendFile(path.join(__dirname+'/express/background.html'));
-});
+
 /*app.post('/image-upload', upload.array('my-files'), function (req, res, next) {
   // req.files is array of `profile-files` files
   // req.body will contain the text fields, if there were any
@@ -1683,11 +1687,12 @@ app.post('/calendar', (req, res) =>{
   
 
   writeToCSS(calendar_css_snippet,envVars.calendar_css);
-
+let response = "success";
     res.sendFile(path.join(__dirname+'/express/calendar.html'));
-    if(req.headers.referer.indexOf('iframed')>-1)
+    if(req.headers.referer.indexOf('iframed')>-1){
       response += "&iframed=1";
-    res.redirect('/calendar?result=success');
+    }
+    res.redirect('/calendar?result='+response);
   }
   catch(err){
     res.send('Looks like there was a problem saving your changes:\n\n'+err)

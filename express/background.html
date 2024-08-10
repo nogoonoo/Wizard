@@ -313,8 +313,11 @@ div#existingFiles a{
                },
                body: JSON.stringify(body)
            }).then((blah)=>{
+                let result = "success";
+                if(window.location.href.indexOf('iframed')>1)
+                    result+="&iframed=1";
 
-               window.location = "/background?result=success";
+                window.location = "/background?result="+result;
            });
        }
        async function getImageCount(){
