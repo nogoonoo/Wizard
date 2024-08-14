@@ -63,8 +63,8 @@ function init(){
     //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
         if(isIframe){
-            document.getElementById("status").innerHTML = "Greenscreen settings saved.  Please wait while the screen refreshes..."
-            fetch('/refreshmm'); 
+           // document.getElementById("status").innerHTML = "Greenscreen settings saved.  Please wait while the screen refreshes..."
+           // fetch('/refreshmm'); 
         }
         else{
             document.getElementById("status").innerHTML = "Greenscreen settings saved.  Return to Greenscreen to see your changes"
@@ -78,9 +78,9 @@ function init(){
         document.getElementById("status").innerHTML = "Thank you for submitting a message.  If you've included your email address, we'll respond as quickly as possible."
     }
     if(isIframe){
-        document.querySelector('h2').classList.add("hidden");
+       /*document.querySelector('h2').classList.add("hidden");
         document.body.style.backgroundImage = "none";
-        document.getElementById('refreshbutton').style.display = "none";
+        document.getElementById('refreshbutton').style.display = "none";*/
     }
     if(!isIframe){
         populateQR();
