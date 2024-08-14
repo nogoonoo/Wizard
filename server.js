@@ -41,6 +41,9 @@ app.get('/openmm', function(req,res){
 app.get('/refreshmm', function(req,res){
   execSync('pm2 restart mm');
 });
+app.get('/refreshmmf5', function(req,res){
+  execSync('/home/pi/Scripts/refreshwindow.sh');
+});
 app.get('/closewizard', function(req,res){
   execSync('pm2 stop wizard-client');
 });

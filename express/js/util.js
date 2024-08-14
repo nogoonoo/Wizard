@@ -44,6 +44,9 @@ async function IP(){
     return IP;
 }
 
+async function refreshMM(){
+    fetch('/refreshmmf5'); 
+}
 function init(){
     if(!isLocalHost && document.getElementById('refreshbutton')){
         document.getElementById('refreshbutton').innerText = 'Refresh Greenscreen';
