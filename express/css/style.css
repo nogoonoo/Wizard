@@ -453,6 +453,16 @@ button#refreshbutton {
   border-radius: 4px;
   border-width: 1px;
 }
+button#closewizardbutton {
+  padding: 10px;
+  font-weight: 900;
+  /*width: 200px;*/
+  font-size: 1.2em;
+  color: white;
+  background: var(--green);
+  border-radius: 4px;
+  border-width: 1px;
+}
 button.function {
   padding: 5px;
   font-weight: 500;

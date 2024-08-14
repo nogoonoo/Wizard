@@ -44,8 +44,14 @@ async function IP(){
     return IP;
 }
 
-async function refreshMM(){
+async function refreshMM(obj){
+    if(obj){
+        obj.innerText = 'Refreshing...'
+    }
     fetch('/refreshmmf5'); 
+    setTimeout(function(){if(obj){
+        obj.innerText = 'Refresh Greenscreen'
+    }},5000);
 }
 function init(){
     if(!isLocalHost && document.getElementById('refreshbutton')){
