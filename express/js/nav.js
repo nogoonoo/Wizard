@@ -47,7 +47,7 @@ const pages = [
 }
 ];
 function loadNav(){
-    if(window.location.href.indexOf('iframed')==-1){
+    //if(window.location.href.indexOf('iframed')==-1){
         let parent = document.getElementById("sidebar");
         pages.forEach(element => {
             let link = document.createElement('a');
@@ -59,10 +59,10 @@ function loadNav(){
                 link.className = "active";
             parent.append(link);
         });
-    }  
+   /* }  
     else{
         document.querySelector('div.menu-container').remove();
         document.querySelector('div.sidebar').remove();
         document.querySelector('div.content').setAttribute('style','margin-left:0px');
-    }
+    }*/
 }
