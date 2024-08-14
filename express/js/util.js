@@ -63,7 +63,7 @@ function init(){
     //console.log(myParam);
     if(myParam&&myParam.toLowerCase()=="success"){
         if(isIframe){
-           // document.getElementById("status").innerHTML = "Greenscreen settings saved.  Please wait while the screen refreshes..."
+            document.getElementById("status").innerHTML = "Greenscreen customization saved.  Click 'Return to Greenscreen' to refresh and view your changes"
            // fetch('/refreshmm'); 
         }
         else{
