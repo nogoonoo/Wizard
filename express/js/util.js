@@ -174,7 +174,7 @@ const info = [
         id:"message",
         title:"Custom Messages",
         content:`Need to remind yourself or a family member of an important event?  Maybe you just want to leave a thoughtful message? You can show a message in a couple of 
-        different locations on your Greenscreen`
+        different locations on your Greenscreen<img src="/img/info/Message.gif">`
     },
     {
         id:"msg-placement",
@@ -185,32 +185,32 @@ const info = [
     {
         id:"about-cals",
         title:"Calendars",
-        content:`Show animated gif of cals`
+        content:`Add your own calendars and define a color for each.  By clicking on calendar appointments you can get a detailed view in a modal window.  Additionally, you can click a calendar day and view all appointments for the day. <img src="/img/info/Calendar.gif">`
     },
     {
         id:"about-datetime",
         title:"Date and Time",
-        content:`Show animated gif of dates`
+        content:`Configure the format of the date and time.  You can configure the time zone, time format, show/hide seconds, and change the format of the date <img src="/img/info/Clock.gif">`
     },
     {
         id:"about-weather",
         title:"Weather",
-        content:`Show animated gif of dates`
+        content:`Choose a weather location to present current conditions and a weather forecast.  By clicking on the current temperature, you can view a live weather map.<img src="/img/info/Weather.gif">`
     },
     {
         id:"about-bgs",
         title:"Backgrounds",
-        content:`Show animated gif of dates`
+        content:`Add a custom background, full-screen or on the sidebar.  You can select a variety of sources including stock images from the internet, Bing Wallpapers images, an iCloud shared album, or upload your own pictures (separate device like a phone/tablet required)<img src="/img/info/Background.gif"> You can change the image at anytime by clicking the Greenscreen menu (Tools -> Change Image)`
     },
     {
         id:"about-news",
         title:"Newsfeed",
-        content:`Show animated gif of news`
+        content:`Rotate through different news articles.  Greenscreen comes configured with sources including Associated Press, CNN, Fox News, and others.  Additionally, you can enter your own custom RSS feeds to display. <img src="/img/info/News.gif">`
     },
     {
         id:"about-others",
-        title:"Extra",
-        content:`Show animated gif of extras`
+        title:"Other Widgets",
+        content:`Additional widgets can be added to Greenscreen, including a Word of the Day and a custom countdown clock. <img src="/img/info/Extras.gif"> We plan on adding new widgets in the future!  `
     },
      {
         id:"weatherdeets",
