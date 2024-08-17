@@ -2,5 +2,6 @@
   "version": "20240817",  
   "version-friendly": "Aug 17, 2024",
   "notes":"Adding shownew endpoint",
-  "shownew":true
+  "shownew":true,
+  "shownewpath":"settings"
 }}  

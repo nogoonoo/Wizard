@@ -106,15 +106,20 @@ app.get('/checkfornewmodal', function(req,res){
   const shownewVersionInfo = fs.readFileSync(path.join(__dirname+'/shownew.json'),'utf8');
   let shownewVersionJSON = JSON.parse(shownewVersionInfo);
 
-  if((wizardVersionJSON.about.version > shownewVersionJSON.shownew.version) && wizardVersionJSON.about.shownew){
+  if(((wizardVersionJSON.about.version > shownewVersionJSON.shownew.version) && wizardVersionJSON.about.shownew)){
     console.log('New version and shownew=true');
     console.log(wizardVersionJSON.about.shownew);
     returnObject = new Object();
     returnObject.version = wizardVersionJSON.about.version;
-    returnObject.path = shownewVersionJSON.shownew.path;
+    returnObject.path = wizardVersionJSON.about.shownewpath;
+  }
+  else if(shownewVersionJSON.shownew.version<1){
+    returnObject = new Object();
+    returnObject.version = wizardVersionJSON.about.version;
+    returnObject.path = 'settings';
   }
   else
-  console.log('Something is not write')
+    console.log('Dont show shownew');
 
   /*if version.json:version > shownew.json AND version.json:shownew = true
     return a new object {path, version}
