@@ -3,3 +3,4 @@
 env/config.js
 /temp/*
 scripts/updatecron.sh
+shownew.json

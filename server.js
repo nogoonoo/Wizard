@@ -86,6 +86,81 @@ app.get('/postsetup', function(req,res){
   exec('./scripts/postsetup.sh', console.log);
   res.redirect('/step4');
 });
+app.get('/checkfornewmodal', function(req,res){
+  /*
+  Gets current wizard version number
+  Calls into wizard API.  Wizard API reads showwhatsnew.json
+  If current wizard versionnumber > shownew.json version
+  AND version.json:showNewScreen:true
+  THEN 
+  show modal
+  write wizard version.json version to showwhatsnew.version
+*/
+
+  //read version.json
+  const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'),'utf8');
+  let wizardVersionJSON = JSON.parse(wizardVersionInfo);
+  let returnObject = null;
+
+  //read shownew.json
+  const shownewVersionInfo = fs.readFileSync(path.join(__dirname+'/shownew.json'),'utf8');
+  let shownewVersionJSON = JSON.parse(shownewVersionInfo);
+
+  if((wizardVersionJSON.about.version > shownewVersionJSON.shownew.version) && wizardVersionJSON.about.shownew){
+    console.log('New version and shownew=true');
+    console.log(wizardVersionJSON.about.shownew);
+    returnObject = new Object();
+    returnObject.version = wizardVersionJSON.about.version;
+    returnObject.path = shownewVersionJSON.shownew.path;
+  }
+  else
+  console.log('Something is not write')
+
+  /*if version.json:version > shownew.json AND version.json:shownew = true
+    return a new object {path, version}
+  else
+    return null
+
+  In modalHelper
+    if object is returned
+      openmodal of path
+      do POST to /clearnewmodal
+  */
+res.send(returnObject);
+});
+
+app.get('/clearnewmodal', function(req,res){
+  /*read version.json, read shownew.json, write version.json to shownew.json*/
+  let retVal = false;
+ try{
+  const wizardVersionInfo = fs.readFileSync(path.join(__dirname+'/version.json'),'utf8');
+  let wizardVersionJSON = JSON.parse(wizardVersionInfo);
+ 
+  const shownewVersionInfo = fs.readFileSync(path.join(__dirname+'/shownew.json'),'utf8');
+  let shownewVersionJSON = JSON.parse(shownewVersionInfo);
+  shownewVersionJSON.shownew.version = wizardVersionJSON.about.version;
+  const data = JSON.stringify(shownewVersionJSON);
+
+// writing the JSON string content to a file
+  fs.writeFile(path.join(__dirname+'/shownew.json'), data, (error) => {
+    // throwing the error
+    // in case of a writing problem
+    if (error) {
+      // logging the error
+      console.error(error);
+
+      throw error;
+    }
+    
+  });
+  retVal = true;
+  }
+ catch(err){}
+ finally{
+  res.send(retVal);
+ }
+});
+
 app.get('/checkupdate', function(req,res){
   let returnVal = new Object();
   returnVal.status = "current"

@@ -1,5 +1,6 @@
 {"about": {  
-  "version": "20240809",  
-  "version-friendly": "Aug 9, 2024",
-  "notes":"Added IP retry to server"
+  "version": "20240817",  
+  "version-friendly": "Aug 17, 2024",
+  "notes":"Adding shownew endpoint",
+  "shownew":true
 }}  
