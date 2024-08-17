@@ -76,6 +76,9 @@ app.get('/step4', function(req,res){
 app.get('/settings', function(req,res){
   res.sendFile(path.join(__dirname+'/express/wizardhome.html'));
 });
+app.get('/firstload', function(req,res){
+  res.sendFile(path.join(__dirname+'/express/firstload.html'));
+});
 app.get('/lookingfornetworks', function(req,res){
   res.sendFile(path.join(__dirname+'/express/lookingfornetworks.html'));
 });
@@ -106,17 +109,17 @@ app.get('/checkfornewmodal', function(req,res){
   const shownewVersionInfo = fs.readFileSync(path.join(__dirname+'/shownew.json'),'utf8');
   let shownewVersionJSON = JSON.parse(shownewVersionInfo);
 
-  if(((wizardVersionJSON.about.version > shownewVersionJSON.shownew.version) && wizardVersionJSON.about.shownew)){
-    console.log('New version and shownew=true');
-    console.log(wizardVersionJSON.about.shownew);
+  if(shownewVersionJSON.shownew.version<1){
+    returnObject = new Object();
+    returnObject.version = wizardVersionJSON.about.version;
+    returnObject.path = 'firstload';
+  }
+  else if(((wizardVersionJSON.about.version > shownewVersionJSON.shownew.version) && wizardVersionJSON.about.shownew)){
+    //console.log('New version and shownew=true');
+    //console.log(wizardVersionJSON.about.shownew);
     returnObject = new Object();
     returnObject.version = wizardVersionJSON.about.version;
     returnObject.path = wizardVersionJSON.about.shownewpath;
-  }
-  else if(shownewVersionJSON.shownew.version<1){
-    returnObject = new Object();
-    returnObject.version = wizardVersionJSON.about.version;
-    returnObject.path = 'settings';
   }
   else
     console.log('Dont show shownew');
