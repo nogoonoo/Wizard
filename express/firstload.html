@@ -56,7 +56,7 @@ label.fieldName svg {
     margin:7px;
 }
 .gallery-cell.cell2 {
-    padding-left: 60px;
+    padding: 0 80px 0 80px;
 }
 .icon {
     /* width: 50px; */
@@ -85,18 +85,17 @@ label.fieldName {
     border-radius: 10px;
     background: var(--green);
     padding: 5px;
-    text-align: right;
+    text-align: center;
     cursor: pointer;
-
 }
 img#example1 {
     width:70%
 }
 img#example2 {
-    width:70%
+    width:50%
 }
 .QRcontent {
-    width: 50%;
+    width: 60%;
     text-align: center;
     margin: auto;
 }
@@ -125,7 +124,7 @@ span#qrParent-1 img{
 }
 @media (max-width:1600px) {
 label.fieldName {
-    font-size: .9em;
+    font-size: 1.3em;
 }
 }
 @media (max-width:480px) {
@@ -179,81 +178,88 @@ div.content {
   /* background-color: var(--middark);*/
   color:var(--midwhite);
 }
-
+h2 {
+    text-align: center;
+}
+span.closeInstructions{
+    text-align: center;
+    font-size:1.5em;
+    padding-top: 30px !important;
+    display: block;
+    color: white;
+}
+.intro {
+    display: block;
+    text-align: center;
+    font-size: 1.2em;
+}
 </style>
 <body>
 	<div class="content">
-<h2>Greenscreen Display Settings</h2>
+<h2>Welcome to your new Greenscreen Display!</h2>
 
 <div class="gallery js-flickity" data-flickity-options='{ "wrapAround": true,"autoPlay": 15000 }'>
  
-  <div class="gallery-cell cell2">Welcome to the Greenscreen Display Settings page.  From here, you can customize your Greenscreen in several ways:<br/><br/>
+  <div class="gallery-cell cell2"><div class="intro">Welcome to the Greenscreen Display Settings page.  From here, you can customize your Greenscreen in several ways:</div><br/><br/>
     <div class="entry" onclick="navigate('calendar')">
         <div class="icon">
             <svg width="44px" height="44px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF"><path d="M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 10V6C3 4.89543 3.89543 4 5 4H7" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7 2V6" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M21 10V6C21 4.89543 20.1046 4 19 4H18.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
         <label class="fieldName">Add your personal calendars</label>
-        <span class="desc">You can integrate your Google, Office 365, or iCloud calendar (or other 'iCal' format) to Greenscreen.  With Greenscreen's touch capabilities, you can view appointment details</span>
+        <span class="desc">You can integrate your Google, Office 365, or iCloud calendar (or other 'iCal' format) to Greenscreen.  With Greenscreen's touch capabilities, you can view appointment details or view details for the entire day.</span>
     </div>
-    <!--<div class="entry">
-        <div class="icon">
-            <svg width="44px" height="44px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF"><path d="M12 6L12 12L18 12" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        </div>
-        <label class="fieldName">Format the time and date</label>
-        <span class="desc">Add your text here </span>
-    </div>-->
     <div class="entry" onclick="navigate('weather')">
         <div class="icon">
             <svg width="44px" height="44px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF"><path d="M12 4C6 4 6 8 6 10C4.33333 10 1 11 1 15C1 19 4.33333 20 6 20H18C19.6667 20 23 19 23 15C23 11 19.6667 10 18 10C18 8 18 4 12 4Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"></path></svg>
         </div>
         <label class="fieldName">Your local weather forcast</label>
-        <span class="desc">Powered by weather.gov, you can see conditions for your location and customize your forecast.</span>
+        <span class="desc">Powered by weather.gov, you can see conditions for your location and customize your forecast. You can also view a live weather map.</span>
     </div>
     <div class="entry" onclick="navigate('background')">
         <div class="icon">
             <svg width="44px" height="44px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#FFFFFF"><path d="M21 3.6V20.4C21 20.7314 20.7314 21 20.4 21H3.6C3.26863 21 3 20.7314 3 20.4V3.6C3 3.26863 3.26863 3 3.6 3H20.4C20.7314 3 21 3.26863 21 3.6Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M3 16L10 13L21 18" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16 10C14.8954 10 14 9.10457 14 8C14 6.89543 14.8954 6 16 6C17.1046 6 18 6.89543 18 8C18 9.10457 17.1046 10 16 10Z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
         </div>
         <label class="fieldName">Customize your background images</label>
-        <span class="desc">Greenscreen has access to stock background images.  Or, you can upload pictures to your Greenscreen, or even connect an iCloud shared album.  </span>
+        <span class="desc">Greenscreen allow you to add images from different sources: stock background images, iCloud shared albums, Bing wallpapers, or images directly uploaded via your personal device to Greenscreen.  </span>
     </div>
     <div class="entry" onclick="navigate('news')">
         <div class="icon">
             <svg fill="#FFFFFF" height="44px" width="44px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 442 442" xml:space="preserve" stroke="#FFFFFF"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M171,336H70c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.523,0,10-4.477,10-10S176.523,336,171,336z"></path> <path d="M322,336H221c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.522,0,10-4.477,10-10S327.522,336,322,336z"></path> <path d="M322,86H70c-5.523,0-10,4.477-10,10s4.477,10,10,10h252c5.522,0,10-4.477,10-10S327.522,86,322,86z"></path> <path d="M322,136H221c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.522,0,10-4.477,10-10S327.522,136,322,136z"></path> <path d="M322,186H221c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.522,0,10-4.477,10-10S327.522,186,322,186z"></path> <path d="M322,236H221c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.522,0,10-4.477,10-10S327.522,236,322,236z"></path> <path d="M322,286H221c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.522,0,10-4.477,10-10S327.522,286,322,286z"></path> <path d="M171,286H70c-5.523,0-10,4.477-10,10s4.477,10,10,10h101c5.523,0,10-4.477,10-10S176.523,286,171,286z"></path> <path d="M171,136H70c-5.523,0-10,4.477-10,10v101c0,5.523,4.477,10,10,10h101c5.523,0,10-4.477,10-10V146 C181,140.477,176.523,136,171,136z M161,237H80v-81h81V237z"></path> <path d="M422,76h-30V46c0-11.028-8.972-20-20-20H20C8.972,26,0,34.972,0,46v320c0,27.57,22.43,50,50,50h342c27.57,0,50-22.43,50-50 V96C442,84.972,433.028,76,422,76z M422,366c0,16.542-13.458,30-30,30H50c-16.542,0-30-13.458-30-30V46h352v305 c0,13.785,11.215,25,25,25c5.522,0,10-4.477,10-10s-4.478-10-10-10c-2.757,0-5-2.243-5-5V96h30V366z"></path> </g> </g></svg>
         </div>
         <label class="fieldName">Add your favorite news sources</label>
-        <span class="desc">Greenscreen's news ticker features lets you view both pre-configured news feeds from AP, the New York Times, and other sources.  Additionally, you can add your own RSS feeds to Greenscreen</span>
+        <span class="desc">Greenscreen's news ticker features lets you view both pre-configured news feeds from AP, the New York Times, and other sources.  Additionally, you can add your own RSS feeds to Greenscreen.  Clicking on a news article lets you read it in a modal window.</span>
     </div>
     <div class="entry" onclick="navigate('extras')">
         <div class="icon">
            <svg height="44px" width="44px" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <rect width="6" height="6" rx="1" transform="matrix(1 0 0 -1 14 10)" stroke="#ffffff" stroke-linecap="round"></rect> <path d="M10 14H14C14.9428 14 15.4142 14 15.7071 14.2929C16 14.5858 16 15.0572 16 16V18C16 18.9428 16 19.4142 15.7071 19.7071C15.4142 20 14.9428 20 14 20H10V14Z" stroke="#ffffff" stroke-linecap="round"></path> <path d="M10 10C10 9.05719 10 8.58579 9.70711 8.29289C9.41421 8 8.94281 8 8 8H6C5.05719 8 4.58579 8 4.29289 8.29289C4 8.58579 4 9.05719 4 10V14H10V10Z" stroke="#ffffff" stroke-linecap="round"></path> <path d="M10 20H6C5.05719 20 4.58579 20 4.29289 19.7071C4 19.4142 4 18.9428 4 18V14H10V20Z" stroke="#ffffff" stroke-linecap="round"></path> </g></svg>
            </div> 
-           <label class="fieldName">Add different widgets</label>
-        <span class="desc">Greenscreen comes with a "Date Countdown" and a "Word of the Day" from the Merriam Webster's dictionary</span>
+           <label class="fieldName">Add fun widgets and more!</label>
+        <span class="desc">Greenscreen comes with a "Date Countdown" and a "Word of the Day" from the Merriam Webster's dictionary.  Want a new widget?  Let us know and maybe it will show up in a future update.</span>
     </div>
     <div class="entry" onclick="navigate('message')">
         <div class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="44px" height="44px" viewBox="0 0 512 512" fill="#FFFFFF"><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
         </div>
         <label class="fieldName">Add a custom message</label>
-        <span class="desc">You can add a custom message in the sidebar or center of your Greenscreen</span>
+        <span class="desc">You can add a custom message in the sidebar or center of your Greenscreen.</span>
     </div>
     
     
 
   </div>
-  <div class="gallery-cell cell1">Greenscreen features are divided into sections of the screen: <br/><br/>
+  <div class="gallery-cell cell1"><div class="intro">Your Greenscreen display's features are divided into different sections of the screen: </div><br/><br/>
     <!--<img id="example" class="example-img visible" src="/img/info/screenExample1.jpg">-->
 <img id="example1" class="example-img visible" src="/img/info/screenExample1-overlay.jpg"><br/><br/> 
-All these features are configured via the Greenscreen Display Settings. 
+All these features are configured via the Greenscreen Display Settings by clicking on the bottom-right of your screen
   </div>
-  <div class="gallery-cell cell3">You can access additional features and settings via the button in the bottom-right of Greenscreen: <br/><br/>
+  <div class="gallery-cell cell3"><div class="intro">You can access settings and additional features via the button in the bottom-right of Greenscreen:</div> <br/><br/>
     <img id="example2" class="example-img visible" src="/img/info/buttonDemo.gif"><br/> 
   <br/>From the slide-out menu, you can change the background image, set a timer, reboot Greenscreen, or access the configuration wizard. <br/>
   Greenscreen settings can be accessed via laptop, smart phone, or tablet by scanning the QR Code in the slide-out menu.  Note that <i>the device must be on the same network as Greenscreen.</i>
 </div>
 <div class="gallery-cell cell4">
     <div class="QRcontent">
-        You can access Greenscreens configuration wizard at any time by scanning the QR code found in 2 places:<br/><br/>
+        <div class="intro">You can access Greenscreens configuration wizard at any time by scanning the QR code found in 2 places:</div><br/><br/>
         1 - The top-right corner of any Configuration page<br/>
         2 - In the slide-out menu of your Greenscreen display<br/>
         
@@ -263,7 +269,10 @@ All these features are configured via the Greenscreen Display Settings.
     </div>
 </div>
 </div>
-<button type="button" id="refreshbutton" class="" onclick="openMM(this)">Open Greenscreen</button>
+</div>
+<span class="closeInstructions">Click outside this window to close</span>
+
+<!--<button type="button" id="refreshbutton" class="" onclick="openMM(this)">Open Greenscreen</button>-->
 
 	<script>
 
@@ -282,24 +291,7 @@ All these features are configured via the Greenscreen Display Settings.
         }
     </script>
    
-    <div class="modal micromodal-slide" id="info-modal" aria-hidden="true">
-        <div class="modal__overlay" tabindex="-1" data-micromodal-close>
-          <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
-            <header class="modal__header">
-              <h2 class="modal__title" id="info-modal-title">
-                Remove Images
-              </h2>
-              <button class="modal__close" aria-label="Close modal" data-micromodal-close></button>
-            </header>
-            <main class="modal__content" id="info-modal-content">
-              CONTENT GOES HERE
-            </main>
-            <footer class="modal__footer">
-              <button class="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>
-            </footer>
-          </div>
-        </div>
-    </div>
+
 <script>
 
     setTimeout(function(){showQRBig()},2000)
