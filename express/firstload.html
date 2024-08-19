@@ -48,6 +48,9 @@ img.example-img {
   text-align: center;
   line-height: 500px;
 }
+.gallery-cell.cell2 {
+    padding: 0 80px 0 80px;
+}
 .cell1, .cell3, .cell4{
     text-align:center;
 }
@@ -55,9 +58,7 @@ label.fieldName svg {
     vertical-align: middle;
     margin:7px;
 }
-.gallery-cell.cell2 {
-    padding: 0 80px 0 80px;
-}
+
 .icon {
     /* width: 50px; */
     display: inline;
@@ -260,20 +261,20 @@ All these features are configured via the Greenscreen Display Settings by clicki
   </div>
   <div class="gallery-cell cell3"><div class="intro">You can access settings and additional features via the button in the bottom-right of Greenscreen:</div> <br/><br/>
     <img id="example2" class="example-img visible" src="/img/info/buttonDemo.gif"><br/> 
-  <br/>From the slide-out menu, you can change the background image, set a timer, reboot Greenscreen, or access the configuration wizard. <br/>
+  <br/>From the slide-out menu, you can change the background image, set a timer, reboot Greenscreen, or access the configuration wizard. <br/><br/>
   Greenscreen settings can be accessed via laptop, smart phone, or tablet by scanning the QR Code in the slide-out menu.  Note that <i>the device must be on the same network as Greenscreen.</i>
 </div>
-<div class="gallery-cell cell4">
+<!--<div class="gallery-cell cell4">
     <div class="QRcontent">
-        <div class="intro">You can access Greenscreens configuration wizard at any time by scanning the QR code found in 2 places:</div><br/><br/>
-        1 - The top-right corner of any Configuration page<br/>
-        2 - In the slide-out menu of your Greenscreen display<br/>
+        <div class="intro">You can access Greenscreens settings by scanning the QR code found in 2 places:</div><br/><br/>
+        1 - The top-right corner of any settings page (Open menu -> 'Click Customize')<br/>
+        2 - In the Greenscreen menu at the bottom of the menu options<br/>
         
         <br/><br/>
-        <span class="qrCode hidden" id="qrParent-1"></span>
-        <br/><br/>Certain settings (like uploading background images) can only be accessed on personal devices.  Also, copy/paste and entering text may be easier on a personal device than by inputting text using the on-screen keyboard.
+        <span class="qrCode" id="qrParent-1"></span>
+        <br/><br/>Certain settings (like uploading background images) can only be accessed on personal devices.  Entering text and URLs may be easier on a personal device than by inputting text using the on-screen keyboard.
     </div>
-</div>
+</div>-->
 </div>
 </div>
 <span class="closeInstructions">Click outside this window to close</span>
@@ -300,7 +301,7 @@ All these features are configured via the Greenscreen Display Settings by clicki
 
 <script>
 
-    setTimeout(function(){showQRBig()},2000)
+    //setTimeout(function(){showQRBig()},2000)
 
 	</script>
           
