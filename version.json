@@ -2,6 +2,6 @@
   "version": "20240820",  
   "version-friendly": "Aug 20, 2024",
   "notes":"Turned shownew off",
-  "shownew":false,
-  "shownewpath":"settings"
+  "shownew":true,
+  "shownewpath":"weather"
 }}  
