@@ -1,7 +1,7 @@
 {"about": {  
-  "version": "20240820.1",  
+  "version": "20240820.2",  
   "version-friendly": "Aug 20, 2024",
   "notes":"Turned shownew off",
-  "shownew":true,
-  "shownewpath":"weather"
+  "shownew":false,
+  "shownewpath":"settings"
 }}  
