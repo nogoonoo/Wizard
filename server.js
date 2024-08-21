@@ -591,17 +591,27 @@ function writeWakeCronJob(req){
   //console.log(req.body);
   try{
     for(var key in req.body) {
-      if(key.toLowerCase().startsWith('starttime')){
+      if(key.toLowerCase()=='starttime'){
         let start = req.body[key];
         console.log(start);
         start_hour = start.substring(0,start.indexOf(":"));
-        start_minute = start.substring(start.indexOf(":")+1);
+        let hour = parseInt(start_hour);
+        start_minute = start.substring(start.indexOf(":")+1,start.indexOf(' '));
+        if(start.indexOf("PM")>-1 && hour<12){
+          hour = hour + 12;
+          start_hour = hour + "";
+        }
       }
       if(key.toLowerCase()=='endtime'){
         let end = req.body[key];
         console.log(end);
         end_hour = end.substring(0,end.indexOf(":"));
-        end_minute = end.substring(end.indexOf(":")+1);
+        let hour = parseInt(end_hour);
+        end_minute = end.substring(end.indexOf(":")+1,end.indexOf(' '));
+        if(end.indexOf("PM")>-1 && hour<12){
+          hour = hour + 12;
+          end_hour = hour + "";
+        }
       }
     }
     let full_snippet = `#!/bin/bash 

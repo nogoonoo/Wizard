@@ -4,23 +4,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/timepicki.css">
 <style type="text/css">
-    div.time span {
+    div.timey span {
     display: inline-block;
     width: 160px;
 }
-div.time {
+/*div.time {
     padding: 5px;
-}
+}*/
 input[type="time"]{
     width:110px
 }
+.timepicker_wrap {
+    width: 300px;
+}
 
-
+input#startTime,input#endTime{
+        width:120px;
+    }
 </style>
 <script src="/js/nav.js"></script>
 <script src="/js/util.js"></script>
 <script src="/js/micromodal.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/timepicki.js"></script>
+
 
 <body>
     <div class="menu-container" onclick="toggleMenu(this)">
@@ -35,8 +44,8 @@ input[type="time"]{
 <form action="/advanced" method="post" onsubmit="disableSave();">
     <label class="fieldName info">Power Options<span data-info="sys-power"></span></label>
     <div class="formField">
-        <div class="time start"><span>Turn screen on daily at</span><input type="time" id="startTime" value="07:00" onchange="showHideSave()" name="starttime"></div>
-        <div class="time end"><span>Turn screen off daily at</span><input type="time" id="endTime" value="22:00" onchange="showHideSave()" name="endtime"></div>
+        <div class="timey start"><span>Turn screen on daily at</span><input type="text" id="startTime" value="07:00" onclick="showHideSave()" name="starttime" class="time_element"></div>
+        <div class="timey end"><span>Turn screen off daily at</span><input type="text" id="endTime" value="22:00" onclick="showHideSave()" name="endtime" class="time_element"></div>
     </div>
     <!--<label class="fieldName">Reset Options</label>
     <div class="formField">
@@ -422,6 +431,11 @@ function updateStatus(status){
                 }*/
         })                  
     }
+
+  $(document).ready(function(){
+    $("#startTime").timepicki();
+    $("#endTime").timepicki();
+  });
 
 	loadNav();
     init();
