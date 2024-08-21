@@ -30,11 +30,13 @@ label.fieldName {
     display: block;
 }
 .timepicker_wrap {
-    width: 300px;
+    width: 265px;
 }
 
 input#startTime,input#endTime{
         width:120px;
+        margin-left:10px;
+        border-radius: 5px;
     }
     </style>
 <div class="content full">
@@ -76,8 +78,8 @@ input#startTime,input#endTime{
 		</div>-->
     <label class="fieldName">When should your Greenscreen turn on and off every day?</label>
     <div class="formField">
-        <div class="timey start"><span>Turn screen on daily at</span><input type="text" id="startTime" value="07:00" onclick="showHideSave()" name="starttime" class="time_element"></div>
-        <div class="timey end"><span>Turn screen off daily at</span><input type="text" id="endTime" value="22:00" onclick="showHideSave()" name="endtime" class="time_element"></div>
+        <div class="timey start"><span>Turn screen on daily at</span><input type="text" id="startTime" value="80:00 AM" onclick="showHideSave()" name="starttime" class="time_element" data-timepicki-tim="08" data-timepicki-mini="00" data-timepicki-meri="AM"></div>
+        <div class="timey end"><span>Turn screen off daily at</span><input type="text" id="endTime" value="10:00 PM" onclick="showHideSave()" name="endtime" class="time_element" data-timepicki-tim="10" data-timepicki-mini="00" data-timepicki-meri="PM"></div>
     </div>
     <br/>
     <button type="submit" id="savebutton" class="setup">Save and Continue ></button>
