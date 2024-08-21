@@ -161,7 +161,7 @@ input#startTime,input#endTime{
                 hour = hour - 12;
             }
 
-            if(hour>9)
+            if(hour<10)
                 hour = "0"+hour;
             else
                 hour = ""+hour;
@@ -178,7 +178,7 @@ input#startTime,input#endTime{
                 hour = hour - 12;
             }
             
-            if(hour>9)
+            if(hour<10)
                 hour = "0"+hour;
             else
                 hour = ""+hour;
