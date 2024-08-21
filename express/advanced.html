@@ -165,8 +165,12 @@ input#startTime,input#endTime{
                 hour = "0"+hour;
             else
                 hour = ""+hour;
+
             $('#startTime').timepicki({start_time: [hour, minute, ampm]});
-            //document.getElementById('startTime').value = myData.onTime;
+            document.getElementById('startTime').setAttribute("data-timepicki-tim",hour);
+            document.getElementById('startTime').setAttribute("data-timepicki-mini",minute);
+            document.getElementById('startTime').setAttribute("data-timepicki-meri",ampm);
+            document.getElementById('startTime').value = hour +":"+ minute+" "+ampm;
         }
         if(myData.offTime.length>0){
             let time = myData.offTime; //16:23 or 09:09
@@ -183,6 +187,10 @@ input#startTime,input#endTime{
             else
                 hour = ""+hour;
             $('#endTime').timepicki({start_time: [hour, minute, ampm]});
+            document.getElementById('endTime').setAttribute("data-timepicki-tim",hour);
+            document.getElementById('endTime').setAttribute("data-timepicki-mini",minute);
+            document.getElementById('endTime').setAttribute("data-timepicki-meri",ampm);
+            document.getElementById('endTime').value = hour +":"+ minute+" "+ampm;
             //document.getElementById('endTime').value = myData.offTime;
         }
         
